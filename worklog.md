@@ -120,3 +120,24 @@ Stage Summary:
 - Turso database connected with seed data
 - Mobile-first responsive design throughout
 - All micro-interactions and animations implemented
+
+---
+Task ID: 8
+Agent: Main Agent
+Task: Fix Vercel deployment error - client-side exception
+
+Work Log:
+- Diagnosed issue: Zustand persist stores (auth, cart) accessing localStorage during SSR on Vercel
+- Navigation stores accessing window.location during SSR causing hydration mismatch
+- Fixed auth.ts: Added skipHydration: true to persist middleware config
+- Fixed cart.ts: Added skipHydration: true to persist middleware config
+- Created HydrationGate component using useSyncExternalStore for SSR-safe hydration detection
+- Updated layout.tsx to wrap children with HydrationGate
+- Removed output: "standalone" from next.config.ts (not needed for Vercel)
+- ESLint: zero errors
+
+Stage Summary:
+- Fixed SSR hydration crash by implementing skipHydration + HydrationGate pattern
+- Server renders loading spinner, client rehydrates Zustand stores then renders app
+- No more "client-side exception has occurred" error on Vercel
+- User must add TURSO_URL and TURSO_AUTH_TOKEN env vars in Vercel dashboard

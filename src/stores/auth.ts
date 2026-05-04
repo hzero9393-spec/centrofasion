@@ -47,6 +47,9 @@ export const useAuth = create<AuthState>()(
       isCustomerLoggedIn: () => get().customer !== null,
       isAdminLoggedIn: () => get().admin !== null,
     }),
-    { name: 'clothfasion-auth' }
+    {
+      name: 'clothfasion-auth',
+      skipHydration: true,
+    }
   )
 );
