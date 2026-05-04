@@ -17,9 +17,52 @@ interface NavigationState {
   replace: (page: Page, params?: Record<string, string>) => void;
 }
 
+// Parse page from URL query params on init
+function getPageFromURL(): Page {
+  if (typeof window === 'undefined') return 'home';
+  const params = new URLSearchParams(window.location.search);
+  const page = params.get('page');
+  if (page && isValidPage(page)) return page as Page;
+  return 'home';
+}
+
+function getParamsFromURL(): Record<string, string> {
+  if (typeof window === 'undefined') return {};
+  const params = new URLSearchParams(window.location.search);
+  const result: Record<string, string> = {};
+  params.forEach((value, key) => {
+    if (key !== 'page') result[key] = value;
+  });
+  return result;
+}
+
+function isValidPage(page: string): boolean {
+  const validPages: string[] = [
+    'home', 'shop', 'product', 'cart', 'checkout', 'login', 'signup', 'profile',
+    'order-success', 'admin-login', 'admin-dashboard', 'admin-products', 'admin-categories',
+    'admin-customers', 'admin-orders', 'admin-returns', 'admin-reports',
+    'admin-invoice', 'admin-profile', 'admin-settings', 'admin-customer-detail',
+    'admin-order-detail',
+  ];
+  return validPages.includes(page);
+}
+
+// Update URL without reload
+function updateURL(page: Page, params: Record<string, string>) {
+  if (typeof window === 'undefined') return;
+  const url = new URL(window.location.pathname, window.location.origin);
+  if (page !== 'home') {
+    url.searchParams.set('page', page);
+  }
+  Object.entries(params).forEach(([key, value]) => {
+    url.searchParams.set(key, value);
+  });
+  window.history.pushState({}, '', url.toString());
+}
+
 export const useNavigation = create<NavigationState>((set, get) => ({
-  currentPage: 'home',
-  pageParams: {},
+  currentPage: getPageFromURL(),
+  pageParams: getParamsFromURL(),
   previousPages: [],
   navigate: (page, params = {}) => {
     const { currentPage, pageParams, previousPages } = get();
@@ -28,6 +71,7 @@ export const useNavigation = create<NavigationState>((set, get) => ({
       currentPage: page,
       pageParams: params,
     });
+    updateURL(page, params);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
   goBack: () => {
@@ -39,11 +83,13 @@ export const useNavigation = create<NavigationState>((set, get) => ({
         currentPage: last.page,
         pageParams: last.params,
       });
+      updateURL(last.page, last.params);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   },
   replace: (page, params = {}) => {
     set({ currentPage: page, pageParams: params });
+    updateURL(page, params);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
 }));
