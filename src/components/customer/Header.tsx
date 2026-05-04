@@ -466,15 +466,13 @@ export default function Header() {
                 )}
 
                 <Separator className="my-2 bg-[#E4E7EC]" />
-                <button
-                  onClick={() => {
-                    navigate('admin-login');
-                    setMobileOpen(false);
-                  }}
+                <a
+                  href="/admin"
+                  onClick={() => setMobileOpen(false)}
                   className="flex items-center px-3 py-2.5 rounded-lg text-xs text-[#5A6B7F] hover:bg-[#F5F7FA]"
                 >
                   Admin Panel
-                </button>
+                </a>
               </nav>
             </SheetContent>
           </Sheet>

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useNavigation } from '@/stores/navigation';
+import { useAdminNavigation } from '@/stores/adminNavigation';
 import { toast } from 'sonner';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -33,7 +33,7 @@ const PERIODS = [
 ];
 
 export default function AdminOrders() {
-  const { navigate } = useNavigation();
+  const { navigate } = useAdminNavigation();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState('all');
@@ -159,14 +159,14 @@ export default function AdminOrders() {
                   <TableRow
                     key={o.id}
                     className={`admin-row cursor-pointer ${i % 2 === 1 ? 'bg-gray-50/50' : ''}`}
-                    onClick={() => navigate('admin-order-detail', { id: o.id })}
+                    onClick={() => navigate('order-detail', { id: o.id })}
                   >
                     <TableCell>
                       <span className="font-medium text-[#FF5722]">{o.order_number || o.id?.slice(0, 8)}</span>
                     </TableCell>
                     <TableCell
                       className="hidden md:table-cell font-medium text-[#1F2A3A] cursor-pointer hover:text-[#FF5722]"
-                      onClick={(e) => { e.stopPropagation(); navigate('admin-customer-detail', { id: o.customer_id }); }}
+                      onClick={(e) => { e.stopPropagation(); navigate('customer-detail', { id: o.customer_id }); }}
                     >
                       {o.customer_name || 'Unknown'}
                     </TableCell>

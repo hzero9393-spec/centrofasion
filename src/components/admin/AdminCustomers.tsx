@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useNavigation } from '@/stores/navigation';
+import { useAdminNavigation } from '@/stores/adminNavigation';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -27,7 +27,7 @@ const initials = (first: string, last: string) =>
   `${(first || '').charAt(0)}${(last || '').charAt(0)}`.toUpperCase() || '?';
 
 export default function AdminCustomers() {
-  const { navigate } = useNavigation();
+  const { navigate } = useAdminNavigation();
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
@@ -95,7 +95,7 @@ export default function AdminCustomers() {
                     <TableRow
                       key={c.id}
                       className={`admin-row cursor-pointer ${i % 2 === 1 ? 'bg-gray-50/50' : ''}`}
-                      onClick={() => navigate('admin-customer-detail', { id: c.id })}
+                      onClick={() => navigate('customer-detail', { id: c.id })}
                     >
                       <TableCell>
                         <div className="flex items-center gap-3">
@@ -114,7 +114,7 @@ export default function AdminCustomers() {
                         <Badge className={vb.class}>{vb.label}</Badge>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => { e.stopPropagation(); navigate('admin-customer-detail', { id: c.id }); }}>
+                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => { e.stopPropagation(); navigate('customer-detail', { id: c.id }); }}>
                           <Eye className="h-4 w-4 text-[#5A6B7F]" />
                         </Button>
                       </TableCell>

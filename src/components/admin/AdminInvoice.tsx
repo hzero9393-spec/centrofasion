@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useNavigation } from '@/stores/navigation';
+import { useAdminNavigation } from '@/stores/adminNavigation';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -19,7 +19,7 @@ interface OrderData {
 }
 
 export default function AdminInvoice() {
-  const { pageParams, goBack } = useNavigation();
+  const { pageParams, goBack } = useAdminNavigation();
   const orderId = pageParams.id;
   const [data, setData] = useState<OrderData | null>(null);
   const [shop, setShop] = useState<ShopInfo | null>(null);

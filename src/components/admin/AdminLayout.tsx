@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useNavigation } from '@/stores/navigation';
+import { useAdminNavigation, AdminPage } from '@/stores/adminNavigation';
 import { useAuth } from '@/stores/auth';
 import {
   LayoutDashboard, Package, Grid3X3, Users, ShoppingBag,
@@ -11,38 +11,38 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
-const navItems = [
-  { id: 'admin-dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'admin-products', label: 'Products', icon: Package },
-  { id: 'admin-categories', label: 'Category', icon: Grid3X3 },
-  { id: 'admin-customers', label: 'Customer', icon: Users },
-  { id: 'admin-orders', label: 'Orders', icon: ShoppingBag },
-  { id: 'admin-returns', label: 'Return Orders', icon: RotateCcw },
-  { id: 'admin-reports', label: 'Reports', icon: BarChart3 },
-  { id: 'admin-invoice', label: 'Invoice', icon: FileText },
-  { id: 'admin-profile', label: 'My Profile', icon: UserCog },
-  { id: 'admin-settings', label: 'Settings', icon: Settings },
+const navItems: { id: AdminPage; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'products', label: 'Products', icon: Package },
+  { id: 'categories', label: 'Category', icon: Grid3X3 },
+  { id: 'customers', label: 'Customer', icon: Users },
+  { id: 'orders', label: 'Orders', icon: ShoppingBag },
+  { id: 'returns', label: 'Return Orders', icon: RotateCcw },
+  { id: 'reports', label: 'Reports', icon: BarChart3 },
+  { id: 'invoice', label: 'Invoice', icon: FileText },
+  { id: 'profile', label: 'My Profile', icon: UserCog },
+  { id: 'settings', label: 'Settings', icon: Settings },
 ];
 
 const pageTitles: Record<string, string> = {
-  'admin-dashboard': 'Dashboard',
-  'admin-products': 'Products',
-  'admin-categories': 'Categories',
-  'admin-customers': 'Customers',
-  'admin-customer-detail': 'Customer Details',
-  'admin-orders': 'Orders',
-  'admin-order-detail': 'Order Details',
-  'admin-returns': 'Return Orders',
-  'admin-reports': 'Reports',
-  'admin-invoice': 'Invoice',
-  'admin-profile': 'My Profile',
-  'admin-settings': 'Settings',
+  'dashboard': 'Dashboard',
+  'products': 'Products',
+  'categories': 'Categories',
+  'customers': 'Customers',
+  'customer-detail': 'Customer Details',
+  'orders': 'Orders',
+  'order-detail': 'Order Details',
+  'returns': 'Return Orders',
+  'reports': 'Reports',
+  'invoice': 'Invoice',
+  'profile': 'My Profile',
+  'settings': 'Settings',
 };
 
 function SidebarNav({ collapsed, onNavigate, currentPage }: {
   collapsed: boolean;
-  onNavigate: (id: string) => void;
-  currentPage: string;
+  onNavigate: (id: AdminPage) => void;
+  currentPage: AdminPage;
 }) {
   return (
     <nav className="flex-1 py-4 px-2 space-y-1 overflow-y-auto">
@@ -72,19 +72,20 @@ function SidebarNav({ collapsed, onNavigate, currentPage }: {
 }
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const { currentPage, navigate } = useNavigation();
+  const { currentPage, navigate } = useAdminNavigation();
   const { admin, logoutAdmin } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const handleNavigate = (page: string) => {
-    navigate(page as any);
+  const handleNavigate = (page: AdminPage) => {
+    navigate(page);
     setMobileOpen(false);
   };
 
   const handleLogout = () => {
     logoutAdmin();
-    navigate('admin-login');
+    // Redirect to admin login page via hard navigation
+    window.location.href = '/admin';
   };
 
   const title = pageTitles[currentPage] || 'Dashboard';
@@ -183,7 +184,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={() => handleNavigate('admin-profile')}>
+                <DropdownMenuItem onClick={() => handleNavigate('profile')}>
                   <UserIcon className="mr-2 h-4 w-4" />
                   Profile
                 </DropdownMenuItem>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useAuth } from '@/stores/auth';
-import { useNavigation } from '@/stores/navigation';
+import { useAdminNavigation } from '@/stores/adminNavigation';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -10,11 +10,10 @@ import { LogOut, Settings } from 'lucide-react';
 
 export default function AdminSettings() {
   const { logoutAdmin } = useAuth();
-  const { navigate } = useNavigation();
 
   const handleLogout = () => {
     logoutAdmin();
-    navigate('admin-login');
+    window.location.href = '/admin';
   };
 
   return (

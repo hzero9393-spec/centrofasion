@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useNavigation } from '@/stores/navigation';
+import { useAdminNavigation } from '@/stores/adminNavigation';
 import { toast } from 'sonner';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -30,7 +30,7 @@ interface OrderData {
 const STATUS_OPTIONS = ['Pending', 'Confirmed', 'Packing', 'Shipping', 'Delivered', 'Cancelled'];
 
 export default function AdminOrderDetail() {
-  const { pageParams, goBack, navigate } = useNavigation();
+  const { pageParams, goBack, navigate } = useAdminNavigation();
   const orderId = pageParams.id;
   const [data, setData] = useState<OrderData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -209,7 +209,7 @@ export default function AdminOrderDetail() {
             <Button onClick={handleStatusChange} disabled={!newStatus} className="bg-[#FF5722] hover:bg-[#E64A19] text-white">
               Update Status
             </Button>
-            <Button variant="outline" className="gap-2" onClick={() => navigate('admin-invoice', { id: o.id })}>
+            <Button variant="outline" className="gap-2" onClick={() => navigate('invoice', { id: o.id })}>
               <Printer className="h-4 w-4" /> Print Invoice
             </Button>
             {o.status !== 'Cancelled' && o.status !== 'Delivered' && (

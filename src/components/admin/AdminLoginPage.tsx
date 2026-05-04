@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useNavigation } from '@/stores/navigation';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/stores/auth';
 import { toast } from 'sonner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -11,18 +11,12 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp
 import { Loader2, Lock, ShieldCheck } from 'lucide-react';
 
 export default function AdminLoginPage() {
-  const { navigate } = useNavigation();
-  const { loginAdmin, isAdminLoggedIn } = useAuth();
+  const router = useRouter();
+  const { loginAdmin } = useAuth();
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
-
-  React.useEffect(() => {
-    if (isAdminLoggedIn()) {
-      navigate('admin-dashboard');
-    }
-  }, [isAdminLoggedIn, navigate]);
 
   const handlePasswordLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +38,7 @@ export default function AdminLoginPage() {
       }
       loginAdmin(data.admin);
       toast.success('Welcome back!');
-      navigate('admin-dashboard');
+      router.push('/admin');
     } catch {
       toast.error('Login failed. Please try again.');
     } finally {
@@ -72,7 +66,7 @@ export default function AdminLoginPage() {
       }
       loginAdmin(data.admin);
       toast.success('Welcome back!');
-      navigate('admin-dashboard');
+      router.push('/admin');
     } catch {
       toast.error('Verification failed. Please try again.');
     } finally {
@@ -181,6 +175,13 @@ export default function AdminLoginPage() {
               Demo credentials: <span className="font-medium text-[#1F2A3A]">admin</span> / <span className="font-medium text-[#1F2A3A]">admin123</span>
             </p>
           </div>
+        </div>
+
+        {/* Back to store link */}
+        <div className="text-center mt-6">
+          <a href="/" className="text-sm text-[#CBD5E1] hover:text-white transition-colors">
+            &larr; Back to Store
+          </a>
         </div>
       </div>
     </div>

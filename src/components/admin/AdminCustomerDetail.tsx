@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useNavigation, useAuth } from '@/stores/navigation';
+import { useAdminNavigation } from '@/stores/adminNavigation';
+import { useAuth } from '@/stores/auth';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -20,7 +21,7 @@ interface CustomerData {
 }
 
 export default function AdminCustomerDetail() {
-  const { pageParams, goBack, navigate } = useNavigation();
+  const { pageParams, goBack, navigate } = useAdminNavigation();
   const customerId = pageParams.id;
   const [data, setData] = useState<CustomerData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -146,7 +147,7 @@ export default function AdminCustomerDetail() {
                     <TableRow
                       key={o.id}
                       className={`admin-row cursor-pointer ${i % 2 === 1 ? 'bg-gray-50/50' : ''}`}
-                      onClick={() => navigate('admin-order-detail', { id: o.id })}
+                      onClick={() => navigate('order-detail', { id: o.id })}
                     >
                       <TableCell>
                         <span className="font-medium text-[#FF5722]">{o.order_number || o.id?.slice(0, 8)}</span>
