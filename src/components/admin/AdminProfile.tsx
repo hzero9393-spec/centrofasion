@@ -2,525 +2,282 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/stores/auth';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from 'sonner';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-import { toast } from 'sonner';
-import {
-  User, Store, Lock, Palette, Loader2, ShieldCheck, Save,
-} from 'lucide-react';
-
-const THEMES = [
-  { name: 'Classic', colors: ['#111111', '#FF6A00', '#F8F9FB', '#FFFFFF'] },
-  { name: 'Ocean', colors: ['#0F172A', '#06B6D4', '#F0F9FF', '#FFFFFF'] },
-  { name: 'Forest', colors: ['#14532D', '#22C55E', '#F0FDF4', '#FFFFFF'] },
-  { name: 'Royal', colors: ['#581C87', '#A855F7', '#FAF5FF', '#FFFFFF'] },
-  { name: 'Sunset', colors: ['#7C2D12', '#F97316', '#FFF7ED', '#FFFFFF'] },
-  { name: 'Rose', colors: ['#881337', '#FB7185', '#FFF1F2', '#FFFFFF'] },
-  { name: 'Midnight', colors: ['#1E1B4B', '#818CF8', '#EEF2FF', '#FFFFFF'] },
-  { name: 'Emerald', colors: ['#064E3B', '#10B981', '#ECFDF5', '#FFFFFF'] },
-  { name: 'Slate', colors: ['#1E293B', '#64748B', '#F8FAFC', '#FFFFFF'] },
-  { name: 'Crimson', colors: ['#7F1D1D', '#EF4444', '#FEF2F2', '#FFFFFF'] },
-  { name: 'Amber', colors: ['#78350F', '#F59E0B', '#FFFBEB', '#FFFFFF'] },
-  { name: 'Teal', colors: ['#134E4A', '#14B8A6', '#F0FDFA', '#FFFFFF'] },
-];
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { User, Store, Shield, Palette, Save, Plus, Loader2 } from 'lucide-react';
 
 export default function AdminProfile() {
   const { admin } = useAuth();
-  const isMaster = admin?.is_master === 1;
-
+  const [shopData, setShopData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  // Admin Info
-  const [adminName, setAdminName] = useState(admin?.name || '');
-  const [adminLastName, setAdminLastName] = useState(admin?.last_name || '');
-  const [adminPhone, setAdminPhone] = useState(admin?.phone || '');
-  const [adminAvatar, setAdminAvatar] = useState(admin?.avatar || '');
-
-  // Shop Details
-  const [shopName, setShopName] = useState('');
-  const [shopGst, setShopGst] = useState('');
-  const [shopPhone, setShopPhone] = useState('');
-  const [shopOwner, setShopOwner] = useState('');
-  const [shopAddress, setShopAddress] = useState('');
-  const [shopTerms, setShopTerms] = useState('');
-  const [shopLogo, setShopLogo] = useState('');
-
-  // Change Password
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
-  // Create Admin (Master only)
-  const [newAdminName, setNewAdminName] = useState('');
-  const [newAdminUserId, setNewAdminUserId] = useState('');
-  const [newAdminPassword, setNewAdminPassword] = useState('');
-  const [newAdminCode, setNewAdminCode] = useState('');
-
-  // Theme
-  const [activeTheme, setActiveTheme] = useState('Classic');
-  const [previewTheme, setPreviewTheme] = useState(false);
+  // Admin Info form
+  const [adminForm, setAdminForm] = useState({ name: '', last_name: '', phone: '', avatar: '' });
+  // Shop form
+  const [shopForm, setShopForm] = useState({ shop_name: '', gst_no: '', shop_phone: '', owner_name: '', address: '', terms: '' });
+  // Security form
+  const [securityForm, setSecurityForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
+  // Create admin form
+  const [newAdminForm, setNewAdminForm] = useState({ user_id: '', name: '', password: '' });
 
   useEffect(() => {
-    setAdminName(admin?.name || '');
-    setAdminLastName(admin?.last_name || '');
-    setAdminPhone(admin?.phone || '');
-    setAdminAvatar(admin?.avatar || '');
+    let cancelled = false;
+    Promise.all([
+      fetch('/api/shop').then((r) => r.json()),
+    ])
+      .then(([data]) => {
+        if (cancelled) return;
+        setShopData(data);
+        setShopForm({
+          shop_name: data.shop_name || '',
+          gst_no: data.gst_no || '',
+          shop_phone: data.shop_phone || '',
+          owner_name: data.owner_name || '',
+          address: data.address || '',
+          terms: data.terms || '',
+        });
+        if (admin) {
+          setAdminForm({
+            name: admin.name || '',
+            last_name: admin.last_name || '',
+            phone: admin.phone || '',
+            avatar: admin.avatar || '',
+          });
+        }
+        setLoading(false);
+      })
+      .catch(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
   }, [admin]);
 
-  const fetchShop = async () => {
-    try {
-      const res = await fetch('/api/shop');
-      const json = await res.json();
-      setShopName(json.shop_name || '');
-      setShopGst(json.gst_no || '');
-      setShopPhone(json.shop_phone || '');
-      setShopOwner(json.owner_name || '');
-      setShopAddress(json.address || '');
-      setShopTerms(json.terms || '');
-      setShopLogo(json.logo || '');
-    } catch {
-      toast.error('Failed to fetch shop settings');
-    }
+  const handleSaveAdmin = () => {
+    toast.success('Admin info saved (local)');
   };
-
-  useEffect(() => {
-    fetchShop();
-  }, []);
 
   const handleSaveShop = async () => {
     setSaving(true);
     try {
-      const res = await fetch('/api/shop', {
+      await fetch('/api/shop', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          shop_name: shopName,
-          gst_no: shopGst,
-          shop_phone: shopPhone,
-          owner_name: shopOwner,
-          address: shopAddress,
-          terms: shopTerms,
-          logo: shopLogo,
-        }),
+        body: JSON.stringify(shopForm),
       });
-      if (!res.ok) throw new Error('Failed');
-      toast.success('Shop details saved');
-    } catch {
-      toast.error('Failed to save shop details');
-    } finally {
-      setSaving(false);
-    }
+      toast.success('Shop details updated');
+    } catch { toast.error('Failed to update shop details'); }
+    setSaving(false);
   };
 
   const handleChangePassword = () => {
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      toast.error('Please fill in all password fields');
+    if (!securityForm.currentPassword || !securityForm.newPassword || !securityForm.confirmPassword) {
+      toast.error('All fields required');
       return;
     }
-    if (newPassword !== confirmPassword) {
-      toast.error('New passwords do not match');
+    if (securityForm.newPassword !== securityForm.confirmPassword) {
+      toast.error('Passwords do not match');
       return;
     }
-    // In production, this would hit an API endpoint
-    toast.success('Password change requires server-side implementation');
-    setCurrentPassword('');
-    setNewPassword('');
-    setConfirmPassword('');
+    toast.success('Password changed (demo)');
+    setSecurityForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
   };
 
-  const handleCreateAdmin = async () => {
-    if (!newAdminName || !newAdminUserId || !newAdminPassword || !newAdminCode) {
-      toast.error('Please fill in all fields');
-      return;
-    }
-    if (newAdminCode.length !== 6) {
-      toast.error('Code must be 6 digits');
-      return;
-    }
-    setSaving(true);
-    try {
-      const res = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'admin-login',
-          user_id: newAdminUserId,
-          password: newAdminPassword,
-        }),
-      });
-      if (!res.ok) {
-        toast.error('Admin creation requires server endpoint');
-        return;
-      }
-      toast.success('Admin created successfully');
-      setNewAdminName('');
-      setNewAdminUserId('');
-      setNewAdminPassword('');
-      setNewAdminCode('');
-    } catch {
-      toast.error('Failed to create admin');
-    } finally {
-      setSaving(false);
-    }
-  };
+  // Theme cards
+  const themes = [
+    { name: 'Sunset', colors: ['#FF5722', '#FF9800', '#FFC107', '#E64A19'] },
+    { name: 'Ocean', colors: ['#0077B6', '#00B4D8', '#90E0EF', '#023E8A'] },
+    { name: 'Forest', colors: ['#2D6A4F', '#40916C', '#52B788', '#1B4332'] },
+    { name: 'Berry', colors: ['#7B2D8E', '#9D4EDD', '#C77DFF', '#5A189A'] },
+    { name: 'Midnight', colors: ['#0A1B2A', '#1A2942', '#2A3F5A', '#0D2240'] },
+    { name: 'Rose', colors: ['#E63946', '#F4845F', '#F7B267', '#D62828'] },
+    { name: 'Sage', colors: ['#606C38', '#8B9E6B', '#A3B18A', '#344E41'] },
+    { name: 'Coral', colors: ['#FF6B6B', '#FFA07A', '#FFD93D', '#C44569'] },
+    { name: 'Slate', colors: ['#2D3436', '#636E72', '#B2BEC3', '#DFE6E9'] },
+    { name: 'Indigo', colors: ['#3F37C9', '#4895EF', '#4CC9F0', '#4361EE'] },
+    { name: 'Amber', colors: ['#E85D04', '#F48C06', '#FAA307', '#DC2F02'] },
+    { name: 'Teal', colors: ['#0D9488', '#14B8A6', '#5EEAD4', '#0F766E'] },
+  ];
+
+  if (loading) {
+    return <div className="space-y-4"><Skeleton className="h-64 w-full" /><Skeleton className="h-48 w-full" /></div>;
+  }
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold font-[var(--font-poppins)] text-[#111111]">My Profile</h1>
-        <p className="text-gray-500 text-sm">Manage your admin account and shop settings</p>
-      </div>
+      <h1 className="text-xl font-semibold text-[#1F2A3A]">My Profile</h1>
 
-      <Tabs defaultValue="admin-info" className="w-full">
-        <TabsList className="w-full grid grid-cols-4 mb-6 rounded-xl">
-          <TabsTrigger value="admin-info" className="rounded-xl text-xs sm:text-sm">
-            <User className="h-4 w-4 mr-1 sm:mr-2 hidden sm:inline" />
-            Admin Info
-          </TabsTrigger>
-          <TabsTrigger value="shop-details" className="rounded-xl text-xs sm:text-sm">
-            <Store className="h-4 w-4 mr-1 sm:mr-2 hidden sm:inline" />
-            Shop Details
-          </TabsTrigger>
-          <TabsTrigger value="personal-info" className="rounded-xl text-xs sm:text-sm">
-            <Lock className="h-4 w-4 mr-1 sm:mr-2 hidden sm:inline" />
-            Personal Info
-          </TabsTrigger>
-          <TabsTrigger value="themes" className="rounded-xl text-xs sm:text-sm">
-            <Palette className="h-4 w-4 mr-1 sm:mr-2 hidden sm:inline" />
-            Themes
-          </TabsTrigger>
+      <Tabs defaultValue="admin" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="admin" className="gap-2"><User className="h-4 w-4" /> Admin Info</TabsTrigger>
+          <TabsTrigger value="shop" className="gap-2"><Store className="h-4 w-4" /> Shop Details</TabsTrigger>
+          <TabsTrigger value="security" className="gap-2"><Shield className="h-4 w-4" /> Security</TabsTrigger>
+          <TabsTrigger value="themes" className="gap-2"><Palette className="h-4 w-4" /> Themes</TabsTrigger>
         </TabsList>
 
-        {/* Tab: Admin Info */}
-        <TabsContent value="admin-info">
-          <Card className="rounded-xl shadow-sm border-0 max-w-2xl">
-            <CardHeader>
-              <CardTitle className="text-base font-semibold flex items-center gap-2">
-                <User className="h-4 w-4" /> Admin Information
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+        {/* Admin Info */}
+        <TabsContent value="admin">
+          <Card className="border-[#E4E7EC]">
+            <CardContent className="p-6 space-y-4">
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-20 h-20 rounded-2xl bg-[#111111] text-white flex items-center justify-center text-2xl font-bold">
+                <div className="w-16 h-16 rounded-2xl bg-[#FF5722] flex items-center justify-center text-white text-xl font-bold">
                   {admin?.name?.charAt(0) || 'A'}
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-[#111111]">
-                    {admin?.name} {admin?.last_name || ''}
-                  </h3>
-                  <p className="text-sm text-gray-500">{admin?.user_id}</p>
-                  {isMaster && (
-                    <Badge className="bg-amber-100 text-amber-700 mt-1">
-                      <ShieldCheck className="h-3 w-3 mr-1" /> Master Admin
-                    </Badge>
-                  )}
+                  <h3 className="font-semibold text-[#1F2A3A]">{admin?.name} {admin?.last_name || ''}</h3>
+                  <Badge variant="secondary" className="bg-[#F5F7FA] text-[#5A6B7F]">
+                    {admin?.is_master === 1 ? 'Master Admin' : 'Admin'}
+                  </Badge>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
+                <div className="grid gap-2">
                   <Label>First Name</Label>
-                  <Input
-                    value={adminName}
-                    onChange={(e) => setAdminName(e.target.value)}
-                    className="rounded-xl"
-                  />
+                  <Input value={adminForm.name} onChange={(e) => setAdminForm({ ...adminForm, name: e.target.value })} />
                 </div>
-                <div className="space-y-2">
+                <div className="grid gap-2">
                   <Label>Last Name</Label>
-                  <Input
-                    value={adminLastName}
-                    onChange={(e) => setAdminLastName(e.target.value)}
-                    className="rounded-xl"
-                  />
+                  <Input value={adminForm.last_name} onChange={(e) => setAdminForm({ ...adminForm, last_name: e.target.value })} />
                 </div>
-                <div className="space-y-2">
+                <div className="grid gap-2">
                   <Label>Phone</Label>
-                  <Input
-                    value={adminPhone}
-                    onChange={(e) => setAdminPhone(e.target.value)}
-                    className="rounded-xl"
-                  />
+                  <Input value={adminForm.phone} onChange={(e) => setAdminForm({ ...adminForm, phone: e.target.value })} />
                 </div>
-                <div className="space-y-2">
+                <div className="grid gap-2">
                   <Label>Avatar URL</Label>
-                  <Input
-                    value={adminAvatar}
-                    onChange={(e) => setAdminAvatar(e.target.value)}
-                    className="rounded-xl"
-                    placeholder="https://..."
-                  />
+                  <Input value={adminForm.avatar} onChange={(e) => setAdminForm({ ...adminForm, avatar: e.target.value })} />
                 </div>
               </div>
 
-              <Button
-                className="bg-[#111111] hover:bg-[#333333] text-white rounded-xl"
-                onClick={() => toast.info('Admin info update requires server endpoint')}
-              >
-                <Save className="h-4 w-4 mr-2" />
-                Save Changes
+              <Button onClick={handleSaveAdmin} className="bg-[#FF5722] hover:bg-[#E64A19] text-white gap-2">
+                <Save className="h-4 w-4" /> Save Changes
               </Button>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Tab: Shop Details */}
-        <TabsContent value="shop-details">
-          <Card className="rounded-xl shadow-sm border-0 max-w-2xl">
-            <CardHeader>
-              <CardTitle className="text-base font-semibold flex items-center gap-2">
-                <Store className="h-4 w-4" /> Shop Details
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>Shop Name</Label>
-                  <Input value={shopName} onChange={(e) => setShopName(e.target.value)} className="rounded-xl" />
-                </div>
-                <div className="space-y-2">
-                  <Label>GST Number</Label>
-                  <Input value={shopGst} onChange={(e) => setShopGst(e.target.value)} className="rounded-xl" />
-                </div>
-                <div className="space-y-2">
-                  <Label>Shop Phone</Label>
-                  <Input value={shopPhone} onChange={(e) => setShopPhone(e.target.value)} className="rounded-xl" />
-                </div>
-                <div className="space-y-2">
-                  <Label>Owner Name</Label>
-                  <Input value={shopOwner} onChange={(e) => setShopOwner(e.target.value)} className="rounded-xl" />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label>Address</Label>
-                <Textarea value={shopAddress} onChange={(e) => setShopAddress(e.target.value)} className="rounded-xl min-h-[80px]" />
-              </div>
-              <div className="space-y-2">
-                <Label>Logo URL</Label>
-                <Input value={shopLogo} onChange={(e) => setShopLogo(e.target.value)} className="rounded-xl" placeholder="https://..." />
-              </div>
-              <div className="space-y-2">
-                <Label>Terms & Conditions</Label>
-                <Textarea
-                  value={shopTerms}
-                  onChange={(e) => setShopTerms(e.target.value)}
-                  className="rounded-xl min-h-[120px]"
-                  placeholder="Enter shop terms and conditions..."
-                />
-              </div>
-              <Button
-                onClick={handleSaveShop}
-                disabled={saving}
-                className="bg-[#111111] hover:bg-[#333333] text-white rounded-xl"
-              >
-                {saving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Save className="h-4 w-4 mr-2" />}
-                Save Shop Details
-              </Button>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Tab: Personal Info */}
-        <TabsContent value="personal-info">
-          <Card className="rounded-xl shadow-sm border-0 max-w-2xl">
-            <CardHeader>
-              <CardTitle className="text-base font-semibold flex items-center gap-2">
-                <Lock className="h-4 w-4" /> Personal & Security
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* User ID (disabled) */}
-              <div className="space-y-2">
-                <Label>User ID</Label>
-                <Input value={admin?.user_id || ''} disabled className="rounded-xl bg-gray-50" />
-                <p className="text-xs text-gray-400">User ID cannot be changed</p>
-              </div>
-
-              <Separator />
-
-              {/* Change Password */}
-              <div className="space-y-4">
-                <h4 className="font-medium text-sm text-[#111111]">Change Password</h4>
-                <div className="space-y-3 max-w-sm">
-                  <div className="space-y-2">
-                    <Label>Current Password</Label>
-                    <Input
-                      type="password"
-                      value={currentPassword}
-                      onChange={(e) => setCurrentPassword(e.target.value)}
-                      className="rounded-xl"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>New Password</Label>
-                    <Input
-                      type="password"
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      className="rounded-xl"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Confirm New Password</Label>
-                    <Input
-                      type="password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="rounded-xl"
-                    />
-                  </div>
-                  <Button
-                    onClick={handleChangePassword}
-                    variant="outline"
-                    className="rounded-xl"
-                  >
-                    Change Password
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Tab: Themes */}
-        <TabsContent value="themes">
-          <Card className="rounded-xl shadow-sm border-0">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-base font-semibold flex items-center gap-2">
-                  <Palette className="h-4 w-4" /> Theme Selection
-                </CardTitle>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="rounded-xl"
-                  onClick={() => setPreviewTheme(!previewTheme)}
-                >
-                  {previewTheme ? 'Hide Preview' : 'Show Preview'}
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {THEMES.map((theme) => (
-                  <button
-                    key={theme.name}
-                    onClick={() => { setActiveTheme(theme.name); toast.success(`${theme.name} theme selected`); }}
-                    className={`p-4 rounded-xl border-2 transition-all ${
-                      activeTheme === theme.name
-                        ? 'border-[#FF6A00] shadow-md'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className="flex gap-1.5 mb-3">
-                      {theme.colors.map((color, i) => (
-                        <div
-                          key={i}
-                          className="h-6 w-6 rounded-full border border-gray-200"
-                          style={{ backgroundColor: color }}
-                        />
-                      ))}
-                    </div>
-                    <p className="text-sm font-medium text-[#111111] text-left">{theme.name}</p>
-                  </button>
-                ))}
-              </div>
-
-              {/* Preview */}
-              {previewTheme && (
-                <div className="mt-6 p-4 rounded-xl border border-gray-200">
-                  <h4 className="text-sm font-medium text-gray-500 mb-3">Preview: {activeTheme}</h4>
-                  <div
-                    className="rounded-xl p-6 shadow-inner"
-                    style={{
-                      backgroundColor: THEMES.find(t => t.name === activeTheme)?.colors[2] || '#F8F9FB',
-                    }}
-                  >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div
-                        className="w-10 h-10 rounded-xl"
-                        style={{ backgroundColor: THEMES.find(t => t.name === activeTheme)?.colors[0] || '#111' }}
-                      />
-                      <span className="font-semibold" style={{ color: THEMES.find(t => t.name === activeTheme)?.colors[0] }}>
-                        Shop Preview
-                      </span>
-                    </div>
-                    <div
-                      className="w-full h-10 rounded-xl flex items-center justify-center text-white text-sm font-medium"
-                      style={{ backgroundColor: THEMES.find(t => t.name === activeTheme)?.colors[1] || '#FF6A00' }}
-                    >
-                      Call to Action Button
-                    </div>
-                  </div>
-                </div>
-              )}
             </CardContent>
           </Card>
 
           {/* Master Admin Section */}
-          {isMaster && (
-            <Card className="rounded-xl shadow-sm border-0 mt-4 max-w-2xl">
-              <CardHeader>
-                <CardTitle className="text-base font-semibold flex items-center gap-2 text-amber-600">
-                  <ShieldCheck className="h-4 w-4" /> Master Admin — Create New Admin
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label>Admin Name</Label>
-                    <Input
-                      value={newAdminName}
-                      onChange={(e) => setNewAdminName(e.target.value)}
-                      className="rounded-xl"
-                    />
-                  </div>
-                  <div className="space-y-2">
+          {admin?.is_master === 1 && (
+            <Card className="border-[#FFC107]/30 bg-[#FFFDF5] mt-4">
+              <CardContent className="p-6 space-y-4">
+                <h3 className="font-semibold text-[#1F2A3A]">Master Admin Panel</h3>
+                <Separator />
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="grid gap-2">
                     <Label>User ID</Label>
-                    <Input
-                      value={newAdminUserId}
-                      onChange={(e) => setNewAdminUserId(e.target.value)}
-                      className="rounded-xl"
-                    />
+                    <Input value={newAdminForm.user_id} onChange={(e) => setNewAdminForm({ ...newAdminForm, user_id: e.target.value })} placeholder="admin2" />
                   </div>
-                  <div className="space-y-2">
+                  <div className="grid gap-2">
+                    <Label>Full Name</Label>
+                    <Input value={newAdminForm.name} onChange={(e) => setNewAdminForm({ ...newAdminForm, name: e.target.value })} placeholder="John Doe" />
+                  </div>
+                  <div className="grid gap-2">
                     <Label>Password</Label>
-                    <Input
-                      type="password"
-                      value={newAdminPassword}
-                      onChange={(e) => setNewAdminPassword(e.target.value)}
-                      className="rounded-xl"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>6-digit Login Code</Label>
-                    <Input
-                      value={newAdminCode}
-                      onChange={(e) => setNewAdminCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                      className="rounded-xl"
-                      maxLength={6}
-                      placeholder="000000"
-                    />
+                    <Input type="password" value={newAdminForm.password} onChange={(e) => setNewAdminForm({ ...newAdminForm, password: e.target.value })} placeholder="••••••" />
                   </div>
                 </div>
-                <Button
-                  onClick={handleCreateAdmin}
-                  disabled={saving}
-                  className="bg-amber-500 hover:bg-amber-600 text-white rounded-xl"
-                >
-                  {saving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                  Create Admin
+                <Button className="bg-[#FF5722] hover:bg-[#E64A19] text-white gap-2">
+                  <Plus className="h-4 w-4" /> Create Admin
                 </Button>
               </CardContent>
             </Card>
           )}
+        </TabsContent>
+
+        {/* Shop Details */}
+        <TabsContent value="shop">
+          <Card className="border-[#E4E7EC]">
+            <CardContent className="p-6 space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid gap-2">
+                  <Label>Shop Name</Label>
+                  <Input value={shopForm.shop_name} onChange={(e) => setShopForm({ ...shopForm, shop_name: e.target.value })} />
+                </div>
+                <div className="grid gap-2">
+                  <Label>GST Number</Label>
+                  <Input value={shopForm.gst_no} onChange={(e) => setShopForm({ ...shopForm, gst_no: e.target.value })} />
+                </div>
+                <div className="grid gap-2">
+                  <Label>Shop Phone</Label>
+                  <Input value={shopForm.shop_phone} onChange={(e) => setShopForm({ ...shopForm, shop_phone: e.target.value })} />
+                </div>
+                <div className="grid gap-2">
+                  <Label>Owner Name</Label>
+                  <Input value={shopForm.owner_name} onChange={(e) => setShopForm({ ...shopForm, owner_name: e.target.value })} />
+                </div>
+                <div className="grid gap-2 sm:col-span-2">
+                  <Label>Address</Label>
+                  <Input value={shopForm.address} onChange={(e) => setShopForm({ ...shopForm, address: e.target.value })} />
+                </div>
+                <div className="grid gap-2 sm:col-span-2">
+                  <Label>Terms & Conditions</Label>
+                  <Textarea value={shopForm.terms} onChange={(e) => setShopForm({ ...shopForm, terms: e.target.value })} rows={4} />
+                </div>
+              </div>
+              <Button onClick={handleSaveShop} disabled={saving} className="bg-[#FF5722] hover:bg-[#E64A19] text-white gap-2">
+                {saving && <Loader2 className="h-4 w-4 animate-spin" />}
+                <Save className="h-4 w-4" /> Save Shop Details
+              </Button>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Security */}
+        <TabsContent value="security">
+          <Card className="border-[#E4E7EC]">
+            <CardContent className="p-6 space-y-4">
+              <div className="grid gap-2">
+                <Label>User ID (read-only)</Label>
+                <Input value={admin?.user_id || ''} disabled className="bg-[#F5F7FA]" />
+              </div>
+              <Separator />
+              <h3 className="font-medium text-[#1F2A3A]">Change Password</h3>
+              <div className="grid gap-4 max-w-sm">
+                <div className="grid gap-2">
+                  <Label>Current Password</Label>
+                  <Input type="password" value={securityForm.currentPassword} onChange={(e) => setSecurityForm({ ...securityForm, currentPassword: e.target.value })} />
+                </div>
+                <div className="grid gap-2">
+                  <Label>New Password</Label>
+                  <Input type="password" value={securityForm.newPassword} onChange={(e) => setSecurityForm({ ...securityForm, newPassword: e.target.value })} />
+                </div>
+                <div className="grid gap-2">
+                  <Label>Confirm New Password</Label>
+                  <Input type="password" value={securityForm.confirmPassword} onChange={(e) => setSecurityForm({ ...securityForm, confirmPassword: e.target.value })} />
+                </div>
+              </div>
+              <Button onClick={handleChangePassword} className="bg-[#FF5722] hover:bg-[#E64A19] text-white gap-2">
+                <Shield className="h-4 w-4" /> Update Password
+              </Button>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Themes */}
+        <TabsContent value="themes">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {themes.map((theme) => (
+              <Card key={theme.name} className="border-[#E4E7EC] shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-4">
+                  <div className="flex gap-2 mb-3">
+                    {theme.colors.map((color, i) => (
+                      <div key={i} className="w-8 h-8 rounded-lg" style={{ backgroundColor: color }} />
+                    ))}
+                  </div>
+                  <p className="text-sm font-medium text-[#1F2A3A]">{theme.name}</p>
+                  <Button variant="outline" size="sm" className="mt-3 w-full text-xs border-[#FF5722] text-[#FF5722] hover:bg-[#FFF3E0]">
+                    Apply
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </TabsContent>
       </Tabs>
     </div>

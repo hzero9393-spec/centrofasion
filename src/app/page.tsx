@@ -10,7 +10,8 @@ import HomePage from '@/components/customer/HomePage';
 import ShopPage from '@/components/customer/ShopPage';
 import ProductDetailPage from '@/components/customer/ProductDetailPage';
 import CartPage from '@/components/customer/CartPage';
-import { LoginPage, SignupPage } from '@/components/customer/AuthPages';
+import CheckoutPage from '@/components/customer/CheckoutPage';
+import { AuthModal, LoginPage } from '@/components/customer/AuthPages';
 import ProfilePage from '@/components/customer/ProfilePage';
 import AdminLoginPage from '@/components/admin/AdminLoginPage';
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -27,7 +28,6 @@ import AdminInvoice from '@/components/admin/AdminInvoice';
 import AdminProfile from '@/components/admin/AdminProfile';
 import AdminSettings from '@/components/admin/AdminSettings';
 
-// Admin page components map
 const adminPages: Record<string, React.ComponentType> = {
   'admin-dashboard': AdminDashboard,
   'admin-products': AdminProducts,
@@ -47,7 +47,14 @@ const isAdminPage = (page: string) => page.startsWith('admin-') && page !== 'adm
 
 export default function Home() {
   const { currentPage } = useNavigation();
-  const { isAdminLoggedIn } = useAuth();
+  const { isAdminLoggedIn, isCustomerLoggedIn } = useAuth();
+  const isAuthPage = currentPage === 'login' || currentPage === 'signup';
+  const authOpen = isAuthPage && !isCustomerLoggedIn();
+
+  // Close auth modal and navigate away
+  const handleAuthClose = (_open: boolean) => {
+    // When modal closes, stay on current page
+  };
 
   const renderCustomerPage = () => {
     switch (currentPage) {
@@ -59,12 +66,16 @@ export default function Home() {
         return <ProductDetailPage />;
       case 'cart':
         return <CartPage />;
-      case 'login':
-        return <LoginPage />;
-      case 'signup':
-        return <SignupPage />;
+      case 'checkout':
+        return <CheckoutPage />;
+      case 'order-success':
+        return <CheckoutPage />;
       case 'profile':
         return <ProfilePage />;
+      case 'login':
+      case 'signup':
+        // Show auth modal overlay on top of current page
+        return <HomePage />;
       default:
         return <HomePage />;
     }
@@ -101,13 +112,14 @@ export default function Home() {
 
   // Customer-facing pages
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8F9FB]">
+    <div className="min-h-screen flex flex-col bg-[#F5F7FA]">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 pb-16 md:pb-0">
         {renderCustomerPage()}
       </main>
       <Footer />
       <MobileNav />
+      <AuthModal open={authOpen} onOpenChange={handleAuthClose} />
     </div>
   );
 }

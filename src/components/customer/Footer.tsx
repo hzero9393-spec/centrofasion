@@ -2,41 +2,65 @@
 
 import React from 'react';
 import { useNavigation } from '@/stores/navigation';
-import { Separator } from '@/components/ui/separator';
+import { Instagram, Facebook, Twitter, CreditCard, Truck } from 'lucide-react';
 
 export default function Footer() {
   const { navigate } = useNavigation();
 
   const shopLinks = [
-    { label: 'All Products', action: () => navigate('shop') },
+    { label: 'Home', action: () => navigate('home') },
     { label: 'Men', action: () => navigate('shop', { category: 'men' }) },
     { label: 'Women', action: () => navigate('shop', { category: 'women' }) },
     { label: 'Kids', action: () => navigate('shop', { category: 'kids' }) },
     { label: 'Accessories', action: () => navigate('shop', { category: 'accessories' }) },
   ];
 
-  const serviceLinks = [
+  const supportLinks = [
+    { label: 'FAQ', action: () => {} },
+    { label: 'Returns & Exchange', action: () => {} },
     { label: 'Contact Us', action: () => {} },
-    { label: 'FAQs', action: () => {} },
-    { label: 'Shipping Policy', action: () => {} },
-    { label: 'Return Policy', action: () => {} },
-    { label: 'Size Guide', action: () => {} },
+    { label: 'Track Order', action: () => {} },
   ];
 
-  const aboutLinks = [
-    { label: 'About Us', action: () => {} },
-    { label: 'Careers', action: () => {} },
+  const policyLinks = [
     { label: 'Privacy Policy', action: () => {} },
     { label: 'Terms of Service', action: () => {} },
+    { label: 'Shipping Policy', action: () => {} },
   ];
 
   return (
-    <footer className="bg-[#111] text-white mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-          {/* Shop */}
+    <footer className="bg-[#0A1B2A] text-white mt-auto">
+      <div className="max-w-[1280px] mx-auto px-4 py-10 md:py-14">
+        {/* 5-Column Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-6">
+          {/* Column 1: Logo + Tagline */}
+          <div className="col-span-2 md:col-span-3 lg:col-span-1 mb-4 lg:mb-0">
+            <button
+              onClick={() => navigate('home')}
+              className="text-xl font-bold text-white tracking-tight"
+            >
+              Cloth<span className="text-[#FF5722]">Fasion</span>
+            </button>
+            <p className="text-sm text-white/50 mt-3 leading-relaxed max-w-[260px]">
+              Your one-stop destination for premium fashion. Trending styles, quality fabrics, and unbeatable prices.
+            </p>
+            {/* Social Icons */}
+            <div className="flex items-center gap-2.5 mt-5">
+              <a href="#" className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#FF5722] flex items-center justify-center transition-colors" aria-label="Instagram">
+                <Instagram className="size-4" />
+              </a>
+              <a href="#" className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#FF5722] flex items-center justify-center transition-colors" aria-label="Facebook">
+                <Facebook className="size-4" />
+              </a>
+              <a href="#" className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#FF5722] flex items-center justify-center transition-colors" aria-label="Twitter">
+                <Twitter className="size-4" />
+              </a>
+            </div>
+          </div>
+
+          {/* Column 2: Shop */}
           <div>
-            <h4 className="font-[family-name:var(--font-poppins)] text-sm font-semibold uppercase tracking-wider mb-4 text-[#FF6A00]">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white/80 mb-4">
               Shop
             </h4>
             <ul className="space-y-2.5">
@@ -44,7 +68,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <button
                     onClick={link.action}
-                    className="text-sm text-gray-400 hover:text-white transition-colors"
+                    className="text-sm text-white/50 hover:text-white transition-colors"
                   >
                     {link.label}
                   </button>
@@ -53,17 +77,17 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Customer Service */}
+          {/* Column 3: Support */}
           <div>
-            <h4 className="font-[family-name:var(--font-poppins)] text-sm font-semibold uppercase tracking-wider mb-4 text-[#FF6A00]">
-              Customer Service
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white/80 mb-4">
+              Support
             </h4>
             <ul className="space-y-2.5">
-              {serviceLinks.map((link) => (
+              {supportLinks.map((link) => (
                 <li key={link.label}>
                   <button
                     onClick={link.action}
-                    className="text-sm text-gray-400 hover:text-white transition-colors"
+                    className="text-sm text-white/50 hover:text-white transition-colors"
                   >
                     {link.label}
                   </button>
@@ -72,61 +96,42 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* About */}
+          {/* Column 4: Policies */}
           <div>
-            <h4 className="font-[family-name:var(--font-poppins)] text-sm font-semibold uppercase tracking-wider mb-4 text-[#FF6A00]">
-              About
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white/80 mb-4">
+              Policies
             </h4>
             <ul className="space-y-2.5">
-              {aboutLinks.map((link) => (
+              {policyLinks.map((link) => (
                 <li key={link.label}>
                   <button
                     onClick={link.action}
-                    className="text-sm text-gray-400 hover:text-white transition-colors"
+                    className="text-sm text-white/50 hover:text-white transition-colors"
                   >
                     {link.label}
                   </button>
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* Connect */}
-          <div>
-            <h4 className="font-[family-name:var(--font-poppins)] text-sm font-semibold uppercase tracking-wider mb-4 text-[#FF6A00]">
-              Connect
-            </h4>
-            <div className="flex gap-3 mb-6">
-              {['Instagram', 'Facebook', 'Twitter', 'YouTube'].map((social) => (
-                <button
-                  key={social}
-                  className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#FF6A00] flex items-center justify-center transition-colors"
-                  aria-label={social}
-                >
-                  <span className="text-xs font-bold">
-                    {social[0]}
-                  </span>
-                </button>
-              ))}
-            </div>
-            <div className="text-sm text-gray-400">
-              <p>support@clothfasion.com</p>
-              <p className="mt-1">+91 98765 43210</p>
-            </div>
           </div>
         </div>
+      </div>
 
-        <Separator className="my-8 bg-white/10" />
-
-        {/* Bottom bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-gray-500">
-            &copy; 2024 ClothFasion. All rights reserved.
+      {/* Bottom bar */}
+      <div className="border-t border-white/10">
+        <div className="max-w-[1280px] mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-white/40">
+            © 2024 ClothFasion. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <span className="font-[family-name:var(--font-poppins)] text-lg font-bold tracking-tight">
-              Cloth<span className="text-[#FF6A00]">Fasion</span>
-            </span>
+            <div className="flex items-center gap-2 text-white/40">
+              <CreditCard className="size-4" />
+              <span className="text-xs">Secure Payments</span>
+            </div>
+            <div className="flex items-center gap-2 text-white/40">
+              <Truck className="size-4" />
+              <span className="text-xs">Fast Delivery</span>
+            </div>
           </div>
         </div>
       </div>

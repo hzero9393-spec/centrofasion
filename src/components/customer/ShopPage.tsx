@@ -5,9 +5,8 @@ import { useNavigation } from '@/stores/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Slider } from '@/components/ui/slider';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   Select,
   SelectContent,
@@ -22,50 +21,57 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { SlidersHorizontal, X, ChevronDown, Loader2 } from 'lucide-react';
-import ProductCard, { type Product } from './ProductCard';
+import {
+  SlidersHorizontal,
+  X,
+  LayoutGrid,
+  List,
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react';
+import ProductCard from './ProductCard';
+import type { Product, Category } from './SharedTypes';
 
-const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '28', '30', '32', '34', '36'];
+const SIZES = ['S', 'M', 'L', 'XL', 'XXL', 'Free Size'];
 const COLORS = [
-  { name: 'Black', hex: '#111111' },
+  { name: 'Black', hex: '#000000' },
   { name: 'White', hex: '#FFFFFF' },
-  { name: 'Red', hex: '#EF4444' },
+  { name: 'Red', hex: '#DC3545' },
   { name: 'Blue', hex: '#3B82F6' },
-  { name: 'Green', hex: '#22C55E' },
-  { name: 'Yellow', hex: '#EAB308' },
-  { name: 'Pink', hex: '#EC4899' },
-  { name: 'Purple', hex: '#A855F7' },
-  { name: 'Orange', hex: '#FF6A00' },
-  { name: 'Brown', hex: '#92400E' },
-  { name: 'Navy', hex: '#1E3A5F' },
-  { name: 'Gray', hex: '#6B7280' },
+  { name: 'Green', hex: '#28A745' },
+  { name: 'Yellow', hex: '#FFC107' },
+  { name: 'Purple', hex: '#9C27B0' },
+  { name: 'Orange', hex: '#FF5722' },
 ];
-
+const DISCOUNT_RANGES = ['10%+', '20%+', '40%+', '50%+'];
 const SORT_OPTIONS = [
-  { value: 'newest', label: 'Recommended' },
+  { value: 'recommended', label: 'Recommended' },
   { value: 'newest', label: 'Newest' },
   { value: 'price-low', label: 'Price: Low to High' },
   { value: 'price-high', label: 'Price: High to Low' },
-  { value: 'name', label: 'Name: A-Z' },
+  { value: 'popularity', label: 'Popularity' },
 ];
 
 export default function ShopPage() {
   const { navigate, pageParams } = useNavigation();
   const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<{ id: string; name: string; slug: string; product_count: number }[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
 
-  const [sortBy, setSortBy] = useState(pageParams.sort || 'newest');
+  const [sortBy, setSortBy] = useState(pageParams.sort || 'recommended');
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     pageParams.category ? [pageParams.category] : []
   );
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<number[]>([0, 10000]);
+  const [selectedDiscounts, setSelectedDiscounts] = useState<string[]>([]);
+  const [priceMin, setPriceMin] = useState(0);
+  const [priceMax, setPriceMax] = useState(50000);
   const [searchQuery, setSearchQuery] = useState(pageParams.search || '');
   const [page, setPage] = useState(1);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filterOpen, setFilterOpen] = useState(false);
   const limit = 12;
 
@@ -73,32 +79,42 @@ export default function ShopPage() {
     setLoading(true);
     try {
       const params = new URLSearchParams();
-      params.set('sort', sortBy);
+      params.set('sort', sortBy === 'recommended' ? 'newest' : sortBy);
       params.set('page', String(page));
       params.set('limit', String(limit));
       if (searchQuery) params.set('search', searchQuery);
       selectedCategories.forEach((c) => params.append('category', c));
-      
+
       const res = await fetch(`/api/products?${params.toString()}`);
       const data = await res.json();
-      
-      let filtered = data.products || [];
-      
-      // Client-side filtering for sizes, colors, price
+
+      let filtered: Product[] = data.products || [];
+
+      // Client-side filtering
       if (selectedSizes.length > 0) {
-        filtered = filtered.filter((p: Product) =>
+        filtered = filtered.filter((p) =>
           selectedSizes.some((s) => p.sizes.includes(s))
         );
       }
       if (selectedColors.length > 0) {
-        filtered = filtered.filter((p: Product) =>
+        filtered = filtered.filter((p) =>
           selectedColors.some((c) =>
             p.colors.map((pc) => pc.toLowerCase()).includes(c.toLowerCase())
           )
         );
       }
+      if (selectedDiscounts.length > 0) {
+        filtered = filtered.filter((p) => {
+          if (!p.wholesale_price || p.wholesale_price <= p.price) return false;
+          const disc = Math.round(((p.wholesale_price - p.price) / p.wholesale_price) * 100);
+          return selectedDiscounts.some((d) => {
+            const min = parseInt(d);
+            return disc >= min;
+          });
+        });
+      }
       filtered = filtered.filter(
-        (p: Product) => p.price >= priceRange[0] && p.price <= priceRange[1]
+        (p) => p.price >= priceMin && p.price <= priceMax
       );
 
       setProducts(filtered);
@@ -109,7 +125,7 @@ export default function ShopPage() {
     } finally {
       setLoading(false);
     }
-  }, [sortBy, page, searchQuery, selectedCategories, selectedSizes, selectedColors, priceRange]);
+  }, [sortBy, page, searchQuery, selectedCategories, selectedSizes, selectedColors, selectedDiscounts, priceMin, priceMax]);
 
   useEffect(() => {
     fetchProducts();
@@ -120,7 +136,7 @@ export default function ShopPage() {
       try {
         const res = await fetch('/api/categories');
         const data = await res.json();
-        setCategories(data);
+        setCategories(Array.isArray(data) ? data : data.categories || []);
       } catch {}
     }
     fetchCategories();
@@ -147,11 +163,20 @@ export default function ShopPage() {
     setPage(1);
   };
 
+  const toggleDiscount = (d: string) => {
+    setSelectedDiscounts((prev) =>
+      prev.includes(d) ? prev.filter((x) => x !== d) : [...prev, d]
+    );
+    setPage(1);
+  };
+
   const clearFilters = () => {
     setSelectedCategories([]);
     setSelectedSizes([]);
     setSelectedColors([]);
-    setPriceRange([0, 10000]);
+    setSelectedDiscounts([]);
+    setPriceMin(0);
+    setPriceMax(50000);
     setSearchQuery('');
     setPage(1);
   };
@@ -160,64 +185,87 @@ export default function ShopPage() {
     selectedCategories.length +
     selectedSizes.length +
     selectedColors.length +
-    (priceRange[0] > 0 || priceRange[1] < 10000 ? 1 : 0);
+    selectedDiscounts.length +
+    (priceMin > 0 || priceMax < 50000 ? 1 : 0);
+
+  const startItem = (page - 1) * limit + 1;
+  const endItem = Math.min(page * limit, products.length > 0 ? total : 0);
 
   const FilterContent = () => (
-    <div className="space-y-6">
-      {/* Categories */}
-      <div>
-        <h4 className="text-sm font-semibold text-[#111] mb-3">Category</h4>
-        <div className="space-y-2">
+    <div className="space-y-0">
+      {/* Category */}
+      <div className="filter-section">
+        <h4 className="font-bold text-sm text-cf-text mb-3">Category</h4>
+        <div className="space-y-2.5">
           {categories.map((cat) => (
-            <label
-              key={cat.id}
-              className="flex items-center gap-3 cursor-pointer group"
-            >
+            <label key={cat.id} className="flex items-center gap-3 cursor-pointer group">
               <Checkbox
                 checked={selectedCategories.includes(cat.slug)}
                 onCheckedChange={() => toggleCategory(cat.slug)}
-                className="rounded-md data-[state=checked]:bg-[#FF6A00] data-[state=checked]:border-[#FF6A00]"
+                className="rounded data-[state=checked]:bg-[#FF5722] data-[state=checked]:border-[#FF5722]"
               />
-              <span className="text-sm text-gray-600 group-hover:text-[#111]">
+              <span className="text-sm text-[#5A6B7F] group-hover:text-cf-text flex-1">
                 {cat.name}
               </span>
-              <span className="text-xs text-gray-400 ml-auto">
-                {cat.product_count}
-              </span>
+              <span className="text-xs text-[#5A6B7F]/60">({cat.product_count})</span>
             </label>
           ))}
         </div>
       </div>
 
       {/* Price Range */}
-      <div>
-        <h4 className="text-sm font-semibold text-[#111] mb-3">Price Range</h4>
-        <Slider
-          value={priceRange}
-          onValueChange={setPriceRange}
+      <div className="filter-section">
+        <h4 className="font-bold text-sm text-cf-text mb-3">Price Range</h4>
+        <div className="flex items-center gap-2 mb-3">
+          <Input
+            type="number"
+            placeholder="Min"
+            value={priceMin || ''}
+            onChange={(e) => { setPriceMin(parseInt(e.target.value) || 0); setPage(1); }}
+            className="h-9 text-sm rounded-lg w-full"
+            min={0}
+            max={50000}
+            step={500}
+          />
+          <span className="text-[#5A6B7F] text-sm">to</span>
+          <Input
+            type="number"
+            placeholder="Max"
+            value={priceMax || ''}
+            onChange={(e) => { setPriceMax(parseInt(e.target.value) || 50000); setPage(1); }}
+            className="h-9 text-sm rounded-lg w-full"
+            min={0}
+            max={50000}
+            step={500}
+          />
+        </div>
+        <input
+          type="range"
           min={0}
-          max={10000}
-          step={100}
-          className="mb-2"
+          max={50000}
+          step={500}
+          value={priceMax}
+          onChange={(e) => { setPriceMax(parseInt(e.target.value)); setPage(1); }}
+          className="w-full h-1.5 rounded-full appearance-none bg-[#E4E7EC] accent-[#FF5722]"
         />
-        <div className="flex items-center justify-between text-sm text-gray-600">
-          <span>₹{priceRange[0].toLocaleString('en-IN')}</span>
-          <span>₹{priceRange[1].toLocaleString('en-IN')}</span>
+        <div className="flex justify-between text-xs text-[#5A6B7F] mt-1">
+          <span>₹0</span>
+          <span>₹50,000</span>
         </div>
       </div>
 
-      {/* Sizes */}
-      <div>
-        <h4 className="text-sm font-semibold text-[#111] mb-3">Size</h4>
+      {/* Size */}
+      <div className="filter-section">
+        <h4 className="font-bold text-sm text-cf-text mb-3">Size</h4>
         <div className="flex flex-wrap gap-2">
           {SIZES.map((size) => (
             <button
               key={size}
               onClick={() => toggleSize(size)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-medium border transition-all ${
                 selectedSizes.includes(size)
-                  ? 'bg-[#111] text-white border-[#111]'
-                  : 'bg-white text-gray-600 border-gray-200 hover:border-[#111]'
+                  ? 'bg-[#FF5722] text-white border-[#FF5722]'
+                  : 'bg-white text-[#5A6B7F] border-[#E4E7EC] hover:border-[#5A6B7F]'
               }`}
             >
               {size}
@@ -226,10 +274,10 @@ export default function ShopPage() {
         </div>
       </div>
 
-      {/* Colors */}
-      <div>
-        <h4 className="text-sm font-semibold text-[#111] mb-3">Color</h4>
-        <div className="flex flex-wrap gap-2">
+      {/* Colour */}
+      <div className="filter-section">
+        <h4 className="font-bold text-sm text-cf-text mb-3">Colour</h4>
+        <div className="flex flex-wrap gap-3">
           {COLORS.map((color) => (
             <button
               key={color.name}
@@ -237,24 +285,40 @@ export default function ShopPage() {
               title={color.name}
               className={`w-8 h-8 rounded-full border-2 transition-all ${
                 selectedColors.includes(color.name)
-                  ? 'border-[#FF6A00] scale-110 ring-2 ring-[#FF6A00]/30'
-                  : 'border-gray-200 hover:border-gray-400'
-              }`}
+                  ? 'border-[#FF5722] scale-110 ring-2 ring-[#FF5722]/30'
+                  : 'border-[#E4E7EC] hover:border-[#5A6B7F]'
+              } ${color.name === 'White' ? 'shadow-sm' : ''}`}
               style={{ backgroundColor: color.hex }}
             />
           ))}
         </div>
       </div>
 
-      {/* Clear */}
+      {/* Discount */}
+      <div className="filter-section">
+        <h4 className="font-bold text-sm text-cf-text mb-3">Discount</h4>
+        <div className="space-y-2.5">
+          {DISCOUNT_RANGES.map((d) => (
+            <label key={d} className="flex items-center gap-3 cursor-pointer group">
+              <Checkbox
+                checked={selectedDiscounts.includes(d)}
+                onCheckedChange={() => toggleDiscount(d)}
+                className="rounded data-[state=checked]:bg-[#FF5722] data-[state=checked]:border-[#FF5722]"
+              />
+              <span className="text-sm text-[#5A6B7F] group-hover:text-cf-text">{d} off</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Clear All */}
       {activeFilterCount > 0 && (
-        <Button
-          variant="ghost"
+        <button
           onClick={clearFilters}
-          className="text-[#FF6A00] text-sm w-full"
+          className="text-sm text-[#DC3545] font-medium hover:underline mt-2"
         >
           Clear All Filters
-        </Button>
+        </button>
       )}
     </div>
   );
@@ -267,11 +331,11 @@ export default function ShopPage() {
           {/* Mobile filter button */}
           <Dialog open={filterOpen} onOpenChange={setFilterOpen}>
             <DialogTrigger asChild>
-              <Button variant="outline" className="md:hidden h-10 rounded-xl">
+              <Button variant="outline" className="lg:hidden h-10 rounded-lg border-[#E4E7EC]">
                 <SlidersHorizontal className="size-4 mr-2" />
                 Filters
                 {activeFilterCount > 0 && (
-                  <Badge className="ml-2 bg-[#FF6A00] text-white text-[10px] h-5 min-w-5 px-1.5 rounded-full">
+                  <Badge className="ml-2 bg-[#FF5722] text-white text-[10px] h-5 min-w-5 px-1.5 rounded-full">
                     {activeFilterCount}
                   </Badge>
                 )}
@@ -279,54 +343,30 @@ export default function ShopPage() {
             </DialogTrigger>
             <DialogContent className="max-w-sm max-h-[85vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle className="font-[family-name:var(--font-poppins)]">
-                  Filters
-                </DialogTitle>
+                <DialogTitle className="font-bold text-lg">Filters</DialogTitle>
               </DialogHeader>
               <FilterContent />
             </DialogContent>
           </Dialog>
 
           <div>
-            <h1 className="font-[family-name:var(--font-poppins)] text-xl font-bold text-[#111]">
+            <h1 className="text-xl font-bold text-cf-text">
               {searchQuery ? `Results for "${searchQuery}"` : 'Shop'}
             </h1>
-            <p className="text-sm text-gray-500">
-              {loading ? 'Loading...' : `${total} products found`}
-            </p>
+            {!loading && (
+              <p className="text-sm text-[#5A6B7F]">
+                Showing {startItem}–{endItem} of {total} results
+              </p>
+            )}
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          {/* Search input */}
-          <div className="relative hidden sm:block">
-            <Input
-              type="text"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setPage(1);
-              }}
-              className="w-48 h-10 bg-white rounded-xl text-sm"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => {
-                  setSearchQuery('');
-                  setPage(1);
-                }}
-                className="absolute right-3 top-1/2 -translate-y-1/2"
-              >
-                <X className="size-3.5 text-gray-400" />
-              </button>
-            )}
-          </div>
-
           {/* Sort */}
           <Select value={sortBy} onValueChange={(v) => { setSortBy(v); setPage(1); }}>
-            <SelectTrigger className="w-44 h-10 rounded-xl">
-              <SelectValue placeholder="Sort by" />
+            <SelectTrigger className="w-[180px] h-10 rounded-lg border-[#E4E7EC] text-sm">
+              <span className="text-[#5A6B7F] text-xs mr-1">Sort by</span>
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {SORT_OPTIONS.map((opt) => (
@@ -336,64 +376,71 @@ export default function ShopPage() {
               ))}
             </SelectContent>
           </Select>
+
+          {/* View toggle */}
+          <div className="hidden sm:flex items-center border border-[#E4E7EC] rounded-lg overflow-hidden">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`p-2 transition-colors ${viewMode === 'grid' ? 'bg-[#FF5722] text-white' : 'bg-white text-[#5A6B7F] hover:bg-gray-50'}`}
+            >
+              <LayoutGrid className="size-4" />
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={`p-2 transition-colors ${viewMode === 'list' ? 'bg-[#FF5722] text-white' : 'bg-white text-[#5A6B7F] hover:bg-gray-50'}`}
+            >
+              <List className="size-4" />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Active filters */}
+      {/* Active filters pills */}
       {activeFilterCount > 0 && (
         <div className="flex flex-wrap items-center gap-2 mb-4">
-          <span className="text-xs text-gray-500">Active filters:</span>
+          <span className="text-xs text-[#5A6B7F]">Active filters:</span>
           {selectedCategories.map((cat) => (
-            <Badge
-              key={cat}
-              variant="secondary"
-              className="text-xs gap-1 pr-1"
-            >
+            <Badge key={cat} variant="secondary" className="text-xs gap-1 pr-1 bg-white border border-[#E4E7EC]">
               {cat}
-              <button onClick={() => toggleCategory(cat)}>
-                <X className="size-3" />
-              </button>
+              <button onClick={() => toggleCategory(cat)}><X className="size-3" /></button>
             </Badge>
           ))}
           {selectedSizes.map((s) => (
-            <Badge
-              key={s}
-              variant="secondary"
-              className="text-xs gap-1 pr-1"
-            >
+            <Badge key={s} variant="secondary" className="text-xs gap-1 pr-1 bg-white border border-[#E4E7EC]">
               Size: {s}
-              <button onClick={() => toggleSize(s)}>
-                <X className="size-3" />
-              </button>
+              <button onClick={() => toggleSize(s)}><X className="size-3" /></button>
             </Badge>
           ))}
           {selectedColors.map((c) => (
-            <Badge
-              key={c}
-              variant="secondary"
-              className="text-xs gap-1 pr-1"
-            >
+            <Badge key={c} variant="secondary" className="text-xs gap-1 pr-1 bg-white border border-[#E4E7EC]">
               {c}
-              <button onClick={() => toggleColor(c)}>
-                <X className="size-3" />
-              </button>
+              <button onClick={() => toggleColor(c)}><X className="size-3" /></button>
             </Badge>
           ))}
+          {selectedDiscounts.map((d) => (
+            <Badge key={d} variant="secondary" className="text-xs gap-1 pr-1 bg-white border border-[#E4E7EC]">
+              {d} off
+              <button onClick={() => toggleDiscount(d)}><X className="size-3" /></button>
+            </Badge>
+          ))}
+          {(priceMin > 0 || priceMax < 50000) && (
+            <Badge variant="secondary" className="text-xs gap-1 pr-1 bg-white border border-[#E4E7EC]">
+              ₹{priceMin.toLocaleString('en-IN')} - ₹{priceMax.toLocaleString('en-IN')}
+              <button onClick={() => { setPriceMin(0); setPriceMax(50000); }}><X className="size-3" /></button>
+            </Badge>
+          )}
         </div>
       )}
 
       <div className="flex gap-8">
         {/* Desktop sidebar */}
-        <aside className="hidden md:block w-56 shrink-0">
-          <div className="sticky top-24 bg-white rounded-xl p-5 border border-border/50 shadow-sm">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold text-[#111]">Filters</h3>
+        <aside className="hidden lg:block w-[280px] shrink-0">
+          <div className="sticky top-24 bg-white rounded-xl border border-[#E4E7EC] shadow-sm p-5">
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="font-bold text-lg text-cf-text">Filters</h3>
               {activeFilterCount > 0 && (
-                <button
-                  onClick={clearFilters}
-                  className="text-xs text-[#FF6A00] hover:underline"
-                >
-                  Clear all
+                <button onClick={clearFilters} className="text-sm text-[#DC3545] font-medium hover:underline">
+                  Clear All
                 </button>
               )}
             </div>
@@ -401,97 +448,134 @@ export default function ShopPage() {
           </div>
         </aside>
 
-        {/* Product grid */}
-        <div className="flex-1">
-          {/* Mobile search */}
-          <div className="relative sm:hidden mb-4">
-            <Input
-              type="text"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setPage(1);
-              }}
-              className="h-10 bg-white rounded-xl text-sm"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => {
-                  setSearchQuery('');
-                  setPage(1);
-                }}
-                className="absolute right-3 top-1/2 -translate-y-1/2"
-              >
-                <X className="size-3.5 text-gray-400" />
-              </button>
-            )}
-          </div>
-
+        {/* Product grid/list area */}
+        <div className="flex-1 min-w-0">
           {loading ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i}>
-                  <Skeleton className="aspect-square rounded-xl mb-3" />
-                  <Skeleton className="h-4 w-3/4 mb-2" />
-                  <Skeleton className="h-5 w-1/2" />
-                </div>
-              ))}
-            </div>
+            viewMode === 'grid' ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div key={i}>
+                    <Skeleton className="aspect-[3/4] rounded-xl mb-3" />
+                    <Skeleton className="h-4 w-3/4 mb-2" />
+                    <Skeleton className="h-5 w-1/2" />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="flex gap-4">
+                    <Skeleton className="w-32 h-32 rounded-xl shrink-0" />
+                    <div className="flex-1 space-y-2">
+                      <Skeleton className="h-4 w-2/3" />
+                      <Skeleton className="h-5 w-1/3" />
+                      <Skeleton className="h-3 w-1/2" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )
           ) : products.length === 0 ? (
             <div className="text-center py-16">
               <div className="text-5xl mb-4">🔍</div>
-              <h3 className="font-[family-name:var(--font-poppins)] text-lg font-semibold text-gray-900 mb-2">
-                No products found
-              </h3>
-              <p className="text-sm text-gray-500 mb-4">
-                Try adjusting your filters or search query.
-              </p>
-              <Button variant="outline" onClick={clearFilters} className="rounded-xl">
+              <h3 className="text-lg font-bold text-cf-text mb-2">No products found</h3>
+              <p className="text-sm text-[#5A6B7F] mb-4">Try adjusting your filters or search query.</p>
+              <Button variant="outline" onClick={clearFilters} className="rounded-lg border-[#E4E7EC]">
                 Clear Filters
               </Button>
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
+              {viewMode === 'grid' ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {products.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {products.map((product) => (
+                    <div
+                      key={product.id}
+                      onClick={() => navigate('product', { id: product.id })}
+                      className="product-card flex gap-4 bg-white rounded-xl border border-[#E4E7EC] p-4 cursor-pointer"
+                    >
+                      <div className="shrink-0 w-32 h-32 md:w-40 md:h-40 rounded-xl overflow-hidden bg-gray-100">
+                        <img
+                          src={product.images[0] || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=300&fit=crop'}
+                          alt={product.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0 flex flex-col justify-center">
+                        <h3 className="text-sm font-semibold text-cf-text line-clamp-2 mb-1">{product.name}</h3>
+                        {product.category_name && (
+                          <p className="text-xs text-[#5A6B7F] mb-2">{product.category_name}</p>
+                        )}
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-base font-bold text-cf-text">₹{product.price.toLocaleString('en-IN')}</span>
+                          {product.wholesale_price && product.wholesale_price > product.price && (
+                            <>
+                              <span className="text-sm text-[#5A6B7F] line-through">₹{product.wholesale_price.toLocaleString('en-IN')}</span>
+                              <span className="discount-tag">
+                                {Math.round(((product.wholesale_price - product.price) / product.wholesale_price) * 100)}% off
+                              </span>
+                            </>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {product.sizes.slice(0, 4).map((s) => (
+                            <span key={s} className="text-[10px] border border-[#E4E7EC] rounded px-1.5 py-0.5 text-[#5A6B7F]">{s}</span>
+                          ))}
+                          {product.sizes.length > 4 && <span className="text-[10px] text-[#5A6B7F]">+{product.sizes.length - 4}</span>}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="flex items-center justify-center gap-2 mt-8">
+                <div className="flex items-center justify-center gap-1.5 mt-8">
                   <Button
                     variant="outline"
                     size="sm"
                     disabled={page <= 1}
                     onClick={() => setPage(page - 1)}
-                    className="rounded-xl"
+                    className="rounded-lg h-9 border-[#E4E7EC]"
                   >
-                    Previous
+                    <ChevronLeft className="size-4" />
                   </Button>
-                  {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => i + 1).map(
-                    (p) => (
+                  {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                    let pageNum = i + 1;
+                    if (totalPages > 5 && page > 3) pageNum = page - 2 + i;
+                    if (pageNum < 1) pageNum = 1;
+                    if (pageNum > totalPages) pageNum = totalPages;
+                    return (
                       <Button
-                        key={p}
-                        variant={page === p ? 'default' : 'outline'}
+                        key={pageNum}
+                        variant={page === pageNum ? 'default' : 'outline'}
                         size="sm"
-                        onClick={() => setPage(p)}
-                        className={`rounded-xl ${page === p ? 'bg-[#111]' : ''}`}
+                        onClick={() => setPage(pageNum)}
+                        className={`rounded-lg h-9 w-9 p-0 ${page === pageNum ? 'bg-[#FF5722] text-white hover:bg-[#FF5722]' : 'border-[#E4E7EC]'}`}
                       >
-                        {p}
+                        {pageNum}
                       </Button>
-                    )
+                    );
+                  })}
+                  {totalPages > 5 && page < totalPages - 2 && (
+                    <span className="text-[#5A6B7F] text-sm px-1">...</span>
                   )}
                   <Button
                     variant="outline"
                     size="sm"
                     disabled={page >= totalPages}
                     onClick={() => setPage(page + 1)}
-                    className="rounded-xl"
+                    className="rounded-lg h-9 border-[#E4E7EC]"
                   >
                     Next
+                    <ChevronRight className="size-4 ml-1" />
                   </Button>
                 </div>
               )}

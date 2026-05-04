@@ -5,25 +5,9 @@ import { useNavigation } from '@/stores/navigation';
 import { useCart } from '@/stores/cart';
 import { useAuth } from '@/stores/auth';
 import { toast } from 'sonner';
-import { Heart, ShoppingBag } from 'lucide-react';
+import { Heart, ShoppingBag, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-export interface Product {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  price: number;
-  wholesale_price: number | null;
-  stock: number;
-  sizes: string[];
-  colors: string[];
-  images: string[];
-  category_id: string;
-  category_name: string;
-  featured: boolean;
-  created_at?: string;
-}
+import type { Product } from './SharedTypes';
 
 interface ProductCardProps {
   product: Product;
@@ -34,7 +18,6 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
   const { customer, isCustomerLoggedIn } = useAuth();
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
 
   useEffect(() => {
@@ -100,126 +83,120 @@ export default function ProductCard({ product }: ProductCardProps) {
     navigate('product', { id: product.id });
   };
 
-  const colorMap: Record<string, string> = {
-    black: '#111111',
-    white: '#FFFFFF',
-    red: '#EF4444',
-    blue: '#3B82F6',
-    green: '#22C55E',
-    yellow: '#EAB308',
-    pink: '#EC4899',
-    purple: '#A855F7',
-    orange: '#FF6A00',
-    brown: '#92400E',
-    gray: '#6B7280',
-    navy: '#1E3A5F',
-    beige: '#D4C5A9',
-    cream: '#FFFDD0',
-    maroon: '#800000',
-    olive: '#808000',
-    teal: '#14B8A6',
-    coral: '#FF7F50',
-    gold: '#FFD700',
-    silver: '#C0C0C0',
-  };
+  const discount = product.wholesale_price && product.wholesale_price > product.price
+    ? Math.round(((product.wholesale_price - product.price) / product.wholesale_price) * 100)
+    : null;
+
+  const secondImage = product.images[1] || product.images[0] || '';
 
   return (
     <div
-      className="product-card group cursor-pointer bg-white rounded-xl overflow-hidden shadow-sm border border-border/50"
+      className="product-card group cursor-pointer bg-white rounded-xl overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300"
       onClick={handleClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Image */}
-      <div className="relative aspect-square bg-gray-100 overflow-hidden">
+      {/* Image Section */}
+      <div className="relative aspect-square bg-[#F5F7FA] overflow-hidden">
+        {/* Loading skeleton */}
         {!imgLoaded && (
-          <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+          <div className="absolute inset-0 skeleton-shimmer" />
         )}
+
+        {/* First image (always visible) */}
         <img
           src={product.images[0] || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=400&fit=crop'}
           alt={product.name}
           className={cn(
-            'product-image w-full h-full object-cover transition-transform duration-500',
+            'product-img absolute inset-0 w-full h-full object-cover',
             imgLoaded ? 'opacity-100' : 'opacity-0'
           )}
           onLoad={() => setImgLoaded(true)}
         />
 
+        {/* Second image on hover (desktop only) */}
+        {secondImage && (
+          <img
+            src={secondImage}
+            alt={product.name}
+            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          />
+        )}
+
+        {/* Discount badge */}
+        {discount && discount > 0 && (
+          <span className="absolute top-3 left-3 z-10 bg-[#28A745] text-white text-[11px] font-bold px-2 py-0.5 rounded-[4px]">
+            {discount}% OFF
+          </span>
+        )}
+
         {/* Wishlist button */}
         <button
           onClick={toggleWishlist}
-          className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm transition-all hover:scale-110"
+          className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm hover:scale-110 transition-transform"
+          aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
         >
           <Heart
             className={cn(
               'size-4 transition-colors',
               isWishlisted
-                ? 'fill-red-500 text-red-500'
-                : 'text-gray-600'
+                ? 'fill-[#DC3545] text-[#DC3545]'
+                : 'text-[#5A6B7F] hover:text-[#DC3545]'
             )}
           />
         </button>
 
-        {/* Category tag */}
-        {product.category_name && (
-          <span className="absolute top-3 left-3 z-10 bg-white/90 backdrop-blur-sm text-[10px] font-semibold uppercase tracking-wider text-gray-700 px-2.5 py-1 rounded-full">
-            {product.category_name}
-          </span>
-        )}
-
         {/* Quick Add button */}
-        <div
-          className={cn(
-            'absolute bottom-3 left-3 right-3 z-10 transition-all duration-300',
-            isHovered
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-0 translate-y-2 pointer-events-none'
-          )}
-        >
+        <div className="quick-actions absolute bottom-3 left-3 right-3 z-10">
           <button
             onClick={handleQuickAdd}
-            className="w-full bg-[#111] hover:bg-[#FF6A00] text-white text-sm font-medium py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2"
+            className="w-full bg-[#0A1B2A] hover:bg-[#142B3E] text-white text-xs font-semibold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-lg"
           >
-            <ShoppingBag className="size-4" />
+            <ShoppingBag className="size-3.5" />
             Quick Add
           </button>
         </div>
       </div>
 
-      {/* Info */}
-      <div className="p-4">
-        <h3 className="text-sm font-medium text-gray-900 line-clamp-1 mb-1">
+      {/* Info Section */}
+      <div className="p-3">
+        {/* Brand / Category */}
+        {product.category_name && (
+          <p className="text-[11px] text-[#5A6B7F] uppercase tracking-wide font-medium mb-1">
+            {product.category_name}
+          </p>
+        )}
+
+        {/* Product Name */}
+        <h3 className="text-sm font-medium text-[#1F2A3A] line-clamp-2 mb-2 leading-snug min-h-[2.5rem]">
           {product.name}
         </h3>
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-base font-bold text-[#111]">
+
+        {/* Price Row */}
+        <div className="flex items-center gap-2 flex-wrap mb-1.5">
+          <span className="text-base font-bold text-[#1F2A3A]">
             ₹{product.price.toLocaleString('en-IN')}
           </span>
-          {product.wholesale_price && product.wholesale_price < product.price && (
-            <span className="text-xs text-gray-400 line-through">
-              ₹{product.wholesale_price.toLocaleString('en-IN')}
-            </span>
+          {product.wholesale_price && product.wholesale_price > product.price && (
+            <>
+              <span className="text-sm text-[#5A6B7F] line-through">
+                ₹{product.wholesale_price.toLocaleString('en-IN')}
+              </span>
+              {discount && discount > 0 && (
+                <span className="discount-tag text-[10px]">
+                  {discount}% off
+                </span>
+              )}
+            </>
           )}
         </div>
-        {product.colors.length > 0 && (
-          <div className="flex items-center gap-1">
-            {product.colors.slice(0, 4).map((color) => (
-              <span
-                key={color}
-                className="w-3.5 h-3.5 rounded-full border border-gray-200"
-                style={{
-                  backgroundColor: colorMap[color.toLowerCase()] || color,
-                }}
-                title={color}
-              />
-            ))}
-            {product.colors.length > 4 && (
-              <span className="text-[10px] text-gray-400 ml-1">
-                +{product.colors.length - 4}
-              </span>
-            )}
+
+        {/* Rating */}
+        <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0.5 bg-[#28A745] text-white text-[10px] font-bold px-1.5 py-0.5 rounded-[4px]">
+            <Star className="size-2.5 fill-white" />
+            <span>4.2</span>
           </div>
-        )}
+          <span className="text-[11px] text-[#5A6B7F]">(1.2k)</span>
+        </div>
       </div>
     </div>
   );

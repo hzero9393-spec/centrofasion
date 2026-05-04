@@ -1,323 +1,242 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useNavigation, type Page } from '@/stores/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { useNavigation } from '@/stores/navigation';
+import { toast } from 'sonner';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow
+} from '@/components/ui/table';
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue
 } from '@/components/ui/select';
 import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
-} from '@/components/ui/table';
-import { toast } from 'sonner';
-import { ArrowLeft, Phone, MapPin, Calendar, CreditCard, FileText, Truck, Package } from 'lucide-react';
-import Image from 'next/image';
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter
+} from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { ArrowLeft, Printer, X, Package } from 'lucide-react';
 
-interface OrderInfo {
-  id: string;
-  order_number: string;
-  customer_id: string;
-  status: string;
-  total: number;
-  address: string;
-  pincode: string;
-  payment_method: string;
-  notes: string;
-  created_at: string;
-  updated_at: string;
+interface OrderData {
+  order: { id: string; order_number: string; customer_id: string; status: string; total: string; address: string; pincode: string; payment_method: string; created_at: string; updated_at: string };
+  items: { id: string; product_name: string; product_image: string; size: string; color: string; quantity: string; price: string }[];
+  customer: { first_name: string; last_name: string; mobile: string; address: string; pincode: string } | null;
 }
 
-interface OrderItem {
-  id: string;
-  product_name: string;
-  product_image: string;
-  size: string;
-  color: string;
-  quantity: number;
-  price: number;
-}
-
-interface CustomerInfo {
-  id: string;
-  first_name: string;
-  last_name: string;
-  mobile: string;
-  address: string;
-  pincode: string;
-}
-
-const fmt = (n: number) => `₹${n.toLocaleString('en-IN')}`;
-
-const statusColor = (status: string) => {
-  const s = status?.toLowerCase() || '';
-  if (s === 'delivered') return 'bg-green-100 text-green-700';
-  if (s === 'pending') return 'bg-yellow-100 text-yellow-700';
-  if (s === 'cancelled') return 'bg-red-100 text-red-700';
-  if (s === 'confirmed') return 'bg-blue-100 text-blue-700';
-  if (s === 'packing') return 'bg-purple-100 text-purple-700';
-  if (s === 'shipping') return 'bg-orange-100 text-orange-700';
-  return 'bg-gray-100 text-gray-700';
-};
-
-const statusFlow = ['Pending', 'Confirmed', 'Packing', 'Shipping', 'Delivered'];
+const STATUS_OPTIONS = ['Pending', 'Confirmed', 'Packing', 'Shipping', 'Delivered', 'Cancelled'];
 
 export default function AdminOrderDetail() {
-  const { pageParams, navigate } = useNavigation();
+  const { pageParams, goBack, navigate } = useNavigation();
   const orderId = pageParams.id;
-
-  const [order, setOrder] = useState<OrderInfo | null>(null);
-  const [items, setItems] = useState<OrderItem[]>([]);
-  const [customer, setCustomer] = useState<CustomerInfo | null>(null);
+  const [data, setData] = useState<OrderData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [newStatus, setNewStatus] = useState('');
+  const [cancelOpen, setCancelOpen] = useState(false);
+  const [cancelReason, setCancelReason] = useState('');
 
   useEffect(() => {
     if (!orderId) return;
-    const fetchOrder = async () => {
-      try {
-        const res = await fetch(`/api/orders/${orderId}?order_id=${orderId}`);
-        const json = await res.json();
-        setOrder(json.order);
-        setItems(json.items || []);
-        setCustomer(json.customer);
-      } catch {
-        toast.error('Failed to fetch order');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchOrder();
+    fetch(`/api/orders/${orderId}?order_id=${orderId}`)
+      .then((r) => r.json())
+      .then((d) => { setData(d); setLoading(false); })
+      .catch(() => setLoading(false));
   }, [orderId]);
 
-  const handleStatusUpdate = async (newStatus: string) => {
-    if (!order) return;
+  const handleStatusChange = async () => {
+    if (!newStatus || !data) return;
     try {
-      const res = await fetch('/api/orders', {
+      await fetch('/api/orders', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: order.id, status: newStatus }),
+        body: JSON.stringify({ id: data.order.id, status: newStatus }),
       });
-      if (!res.ok) throw new Error('Failed');
-      toast.success(`Status updated to ${newStatus}`);
-      setOrder({ ...order, status: newStatus });
-    } catch {
-      toast.error('Failed to update status');
-    }
+      toast.success(`Order status updated to ${newStatus}`);
+      setData({ ...data, order: { ...data.order, status: newStatus } });
+      setNewStatus('');
+    } catch { toast.error('Failed to update status'); }
   };
 
-  if (loading) {
-    return (
-      <div className="space-y-4">
-        <Skeleton className="h-10 w-32" />
-        <Skeleton className="h-48 rounded-xl" />
-        <Skeleton className="h-72 rounded-xl" />
-      </div>
-    );
-  }
+  const handleCancel = async () => {
+    if (!data) return;
+    try {
+      await fetch('/api/orders', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: data.order.id, status: 'Cancelled' }),
+      });
+      toast.success('Order cancelled');
+      setData({ ...data, order: { ...data.order, status: 'Cancelled' } });
+      setCancelOpen(false);
+    } catch { toast.error('Failed to cancel order'); }
+  };
 
-  if (!order) {
-    return (
-      <div className="text-center py-16 text-gray-400">
-        <Package className="h-12 w-12 mx-auto mb-3 opacity-30" />
-        <p>Order not found</p>
-      </div>
-    );
-  }
+  if (loading) return <div className="space-y-4"><Skeleton className="h-40 w-full" /><Skeleton className="h-64 w-full" /></div>;
+  if (!data) return <Card className="border-[#E4E7EC]"><CardContent className="py-16 text-center text-[#5A6B7F]">Order not found</CardContent></Card>;
+
+  const o = data.order;
+  const items = data.items || [];
+  const c = data.customer;
+  const subtotal = items.reduce((sum, item) => sum + Number(item.price) * Number(item.quantity), 0);
+  const discount = subtotal - Number(o.total);
+  const shipping = 0;
 
   return (
     <div className="space-y-6">
-      {/* Back + Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <Button
-          variant="ghost"
-          onClick={() => navigate('admin-orders')}
-          className="rounded-xl text-gray-600"
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Orders
-        </Button>
-        <div className="flex gap-2">
-          <Select value={order.status} onValueChange={handleStatusUpdate}>
-            <SelectTrigger className="w-44 rounded-xl">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {statusFlow.map((s) => (
-                <SelectItem key={s} value={s}>{s}</SelectItem>
-              ))}
-              <SelectItem value="Cancelled" className="text-red-500">Cancelled</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button
-            variant="outline"
-            className="rounded-xl"
-            onClick={() => navigate('admin-invoice' as Page, { id: order.id })}
-          >
-            <FileText className="h-4 w-4 mr-2" />
-            Invoice
-          </Button>
-        </div>
-      </div>
+      {/* Back */}
+      <Button variant="ghost" onClick={goBack} className="gap-2 text-[#5A6B7F]">
+        <ArrowLeft className="h-4 w-4" /> Back to Orders
+      </Button>
 
-      {/* Order Info + Customer */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Order Info */}
-        <Card className="rounded-xl shadow-sm border-0">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base font-semibold flex items-center gap-2">
-              <Package className="h-4 w-4" />
-              Order Information
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-500">Order Number</span>
-              <span className="text-sm font-semibold text-[#FF6A00]">{String(order.order_number)}</span>
-            </div>
-            <Separator />
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-500">Date</span>
-              <span className="text-sm text-gray-700">
-                {new Date(order.created_at).toLocaleDateString('en-IN', {
-                  day: 'numeric', month: 'long', year: 'numeric',
-                })}
-              </span>
-            </div>
-            <Separator />
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-500">Status</span>
-              <Badge variant="secondary" className={statusColor(order.status)}>
-                {order.status}
-              </Badge>
-            </div>
-            <Separator />
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-500">Payment</span>
-              <span className="text-sm text-gray-700 flex items-center gap-1">
-                <CreditCard className="h-3.5 w-3.5" /> {String(order.payment_method || 'COD')}
-              </span>
-            </div>
-            {order.notes && (
-              <>
-                <Separator />
-                <div>
-                  <span className="text-sm text-gray-500">Notes</span>
-                  <p className="text-sm text-gray-700 mt-1">{String(order.notes)}</p>
-                </div>
-              </>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Customer Info */}
-        <Card className="rounded-xl shadow-sm border-0">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base font-semibold flex items-center gap-2">
-              <Truck className="h-4 w-4" />
-              Delivery Info
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {customer && (
-              <>
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Customer</span>
-                  <button
-                    className="text-sm font-medium text-[#FF6A00] hover:underline text-right"
-                    onClick={() => navigate('admin-customer-detail', { id: order.customer_id })}
-                  >
-                    {String(customer.first_name)} {String(customer.last_name || '')}
-                  </button>
-                </div>
-                <Separator />
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-500">Mobile</span>
-                  <span className="text-sm text-gray-700 flex items-center gap-1">
-                    <Phone className="h-3.5 w-3.5" /> {String(customer.mobile)}
-                  </span>
-                </div>
-              </>
-            )}
-            <Separator />
+      {/* Order Info Bar */}
+      <Card className="border-[#E4E7EC]">
+        <CardContent className="p-5">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
-              <span className="text-sm text-gray-500">Address</span>
-              <p className="text-sm text-gray-700 mt-1">
-                {String(order.address || 'N/A')}
-                {order.pincode && ` — ${String(order.pincode)}`}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Order Items */}
-      <Card className="rounded-xl shadow-sm border-0 overflow-hidden">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-base font-semibold">Order Items</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-16">Image</TableHead>
-                <TableHead>Product</TableHead>
-                <TableHead>Size</TableHead>
-                <TableHead>Color</TableHead>
-                <TableHead className="text-right">Qty</TableHead>
-                <TableHead className="text-right">Price</TableHead>
-                <TableHead className="text-right">Total</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {items.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>
-                    <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100">
-                      {item.product_image && (
-                        <Image
-                          src={item.product_image}
-                          alt={item.product_name}
-                          width={40}
-                          height={40}
-                          className="w-full h-full object-cover"
-                        />
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell className="font-medium text-sm">{String(item.product_name)}</TableCell>
-                  <TableCell className="text-sm text-gray-600">{String(item.size || '—')}</TableCell>
-                  <TableCell className="text-sm text-gray-600">{String(item.color || '—')}</TableCell>
-                  <TableCell className="text-right text-sm">{Number(item.quantity)}</TableCell>
-                  <TableCell className="text-right text-sm">{fmt(Number(item.price))}</TableCell>
-                  <TableCell className="text-right font-medium text-sm">
-                    {fmt(Number(item.price) * Number(item.quantity))}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-
-          {/* Total Breakdown */}
-          <div className="mt-4 pt-4 border-t space-y-2 max-w-xs ml-auto">
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Subtotal</span>
-              <span className="text-[#111111]">{fmt(order.total)}</span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Shipping</span>
-              <span className="text-green-600 font-medium">Free</span>
-            </div>
-            <Separator />
-            <div className="flex justify-between text-base font-bold">
-              <span>Total</span>
-              <span className="text-[#FF6A00]">{fmt(order.total)}</span>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-lg font-semibold text-[#1F2A3A]">Order #{o.order_number || o.id?.slice(0, 8)}</h2>
+                <Badge className={`badge-${o.status?.toLowerCase()}`}>{o.status || 'Pending'}</Badge>
+              </div>
+              <div className="flex items-center gap-3 mt-1 text-sm text-[#5A6B7F]">
+                <span>{o.created_at ? new Date(o.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }) : ''}</span>
+                <span>•</span>
+                <span>{o.payment_method || 'COD'}</span>
+              </div>
             </div>
           </div>
         </CardContent>
       </Card>
+
+      {/* Two Columns */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* Customer Info */}
+        <Card className="border-[#E4E7EC]">
+          <CardContent className="p-5">
+            <h3 className="text-sm font-medium text-[#5A6B7F] mb-3">Customer Information</h3>
+            <div className="space-y-2">
+              <p className="font-medium text-[#1F2A3A]">{c?.first_name} {c?.last_name || ''}</p>
+              {c?.mobile && <p className="text-sm text-[#5A6B7F]">{c.mobile}</p>}
+              {(o.address || c?.address) && <p className="text-sm text-[#5A6B7F]">{o.address || c?.address}</p>}
+              {(o.pincode || c?.pincode) && <p className="text-sm text-[#5A6B7F]">{o.pincode || c?.pincode}</p>}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Items */}
+        <Card className="border-[#E4E7EC]">
+          <CardContent className="p-5">
+            <h3 className="text-sm font-medium text-[#5A6B7F] mb-3">Order Items ({items.length})</h3>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-[#F5F7FA] hover:bg-[#F5F7FA]">
+                    <TableHead className="font-medium text-xs">Item</TableHead>
+                    <TableHead className="font-medium text-xs text-right">Qty</TableHead>
+                    <TableHead className="font-medium text-xs text-right">Total</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {items.map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-[#F5F7FA] overflow-hidden flex-shrink-0">
+                            {item.product_image ? (
+                              <img src={item.product_image} alt="" className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center"><Package className="h-4 w-4 text-[#CBD5E1]" /></div>
+                            )}
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-sm font-medium text-[#1F2A3A] truncate max-w-[140px]">{item.product_name}</p>
+                            <p className="text-xs text-[#5A6B7F]">{item.size} / {item.color}</p>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-right text-sm">{item.quantity}</TableCell>
+                      <TableCell className="text-right text-sm font-medium">₹{(Number(item.price) * Number(item.quantity)).toLocaleString('en-IN')}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Total Breakdown */}
+      <Card className="border-[#E4E7EC]">
+        <CardContent className="p-5">
+          <div className="max-w-xs ml-auto space-y-2">
+            <div className="flex justify-between text-sm">
+              <span className="text-[#5A6B7F]">Subtotal</span>
+              <span className="text-[#1F2A3A]">₹{subtotal.toLocaleString('en-IN')}</span>
+            </div>
+            {discount > 0 && (
+              <div className="flex justify-between text-sm">
+                <span className="text-[#28A745]">Discount</span>
+                <span className="text-[#28A745]">-₹{discount.toLocaleString('en-IN')}</span>
+              </div>
+            )}
+            <div className="flex justify-between text-sm">
+              <span className="text-[#5A6B7F]">Shipping</span>
+              <span className="text-[#28A745]">FREE</span>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
+              <span className="font-semibold text-[#1F2A3A]">Grand Total</span>
+              <span className="text-xl font-bold text-[#1F2A3A]">₹{Number(o.total).toLocaleString('en-IN')}</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Actions */}
+      <Card className="border-[#E4E7EC]">
+        <CardContent className="p-5">
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Select value={newStatus} onValueChange={setNewStatus}>
+              <SelectTrigger className="w-full sm:w-[200px]">
+                <SelectValue placeholder="Update Status" />
+              </SelectTrigger>
+              <SelectContent>
+                {STATUS_OPTIONS.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+              </SelectContent>
+            </Select>
+            <Button onClick={handleStatusChange} disabled={!newStatus} className="bg-[#FF5722] hover:bg-[#E64A19] text-white">
+              Update Status
+            </Button>
+            <Button variant="outline" className="gap-2" onClick={() => navigate('admin-invoice', { id: o.id })}>
+              <Printer className="h-4 w-4" /> Print Invoice
+            </Button>
+            {o.status !== 'Cancelled' && o.status !== 'Delivered' && (
+              <Button variant="outline" className="border-[#DC3545] text-[#DC3545] hover:bg-[#FFEBEE] gap-2 ml-auto" onClick={() => setCancelOpen(true)}>
+                <X className="h-4 w-4" /> Cancel Order
+              </Button>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Cancel Dialog */}
+      <Dialog open={cancelOpen} onOpenChange={setCancelOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Cancel Order</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-2">
+            <Label>Cancellation Reason</Label>
+            <Textarea value={cancelReason} onChange={(e) => setCancelReason(e.target.value)} placeholder="Reason for cancellation..." rows={3} />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setCancelOpen(false)}>Keep Order</Button>
+            <Button className="bg-[#DC3545] hover:bg-[#C82333] text-white" onClick={handleCancel}>Cancel Order</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

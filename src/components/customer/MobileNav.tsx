@@ -3,7 +3,7 @@
 import React from 'react';
 import { useNavigation } from '@/stores/navigation';
 import { useCart } from '@/stores/cart';
-import { Home, ShoppingBag, ShoppingCart, User } from 'lucide-react';
+import { House, Search, ShoppingCart, User } from 'lucide-react';
 
 export default function MobileNav() {
   const { currentPage, navigate } = useNavigation();
@@ -11,8 +11,8 @@ export default function MobileNav() {
   const cartCount = getItemCount();
 
   const tabs = [
-    { icon: Home, label: 'Home', page: 'home' as const },
-    { icon: ShoppingBag, label: 'Shop', page: 'shop' as const },
+    { icon: House, label: 'Home', page: 'home' as const },
+    { icon: Search, label: 'Shop', page: 'shop' as const },
     {
       icon: ShoppingCart,
       label: 'Cart',
@@ -23,8 +23,8 @@ export default function MobileNav() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white/95 backdrop-blur-md border-t border-border safe-area-bottom">
-      <div className="flex items-center justify-around h-16 px-2">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white border-t border-[#E4E7EC]">
+      <div className="flex items-center justify-around h-14 px-2">
         {tabs.map((tab) => {
           const isActive = currentPage === tab.page;
           const Icon = tab.icon;
@@ -33,20 +33,22 @@ export default function MobileNav() {
               key={tab.label}
               onClick={() => navigate(tab.page)}
               className={`relative flex flex-col items-center justify-center gap-0.5 w-full h-full transition-colors ${
-                isActive ? 'text-[#FF6A00]' : 'text-gray-500'
+                isActive ? 'text-[#FF5722]' : 'text-[#5A6B7F]'
               }`}
             >
               <div className="relative">
-                <Icon className="size-5" strokeWidth={isActive ? 2.5 : 2} />
+                <Icon className="size-5" strokeWidth={isActive ? 2.5 : 1.8} />
                 {tab.badge && (
-                  <span className="absolute -top-1.5 -right-2.5 bg-[#FF6A00] text-white text-[9px] font-bold h-4 min-w-4 flex items-center justify-center px-1 rounded-full">
+                  <span className="absolute -top-1.5 -right-2.5 bg-[#FF5722] text-white text-[9px] font-bold min-w-[16px] h-[16px] flex items-center justify-center px-1 rounded-full">
                     {tab.badge > 99 ? '99+' : tab.badge}
                   </span>
                 )}
               </div>
-              <span className="text-[10px] font-medium">{tab.label}</span>
+              <span className={`text-[10px] ${isActive ? 'font-semibold' : 'font-medium'}`}>
+                {tab.label}
+              </span>
               {isActive && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-[#FF6A00] rounded-full" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[3px] bg-[#FF5722] rounded-b-full" />
               )}
             </button>
           );
