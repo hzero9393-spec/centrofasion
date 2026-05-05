@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { turso } from '@/lib/turso';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const result = await turso.execute('SELECT * FROM shop_settings WHERE id = ?', ['main']);
