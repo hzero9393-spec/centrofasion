@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { turso } from '@/lib/turso';
+import { getTurso } from '@/lib/turso';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,10 +9,10 @@ export async function GET(request: Request) {
     const id = searchParams.get('id');
 
     if (id) {
-      const result = await turso.execute({ sql: 'SELECT * FROM customers WHERE id = ?', args: [id] });
+      const result = await getTurso().execute({ sql: 'SELECT * FROM customers WHERE id = ?', args: [id] });
       if (!result.rows[0]) return NextResponse.json({ error: 'Customer not found' }, { status: 404 });
       
-      const orders = await turso.execute({ sql: 'SELECT * FROM orders WHERE customer_id = ? ORDER BY created_at DESC', args: [id] });
+      const orders = await getTurso().execute({ sql: 'SELECT * FROM orders WHERE customer_id = ? ORDER BY created_at DESC', args: [id] });
       const c = result.rows[0];
       return NextResponse.json({
         customer: {
@@ -25,7 +25,7 @@ export async function GET(request: Request) {
       });
     }
 
-    const result = await turso.execute('SELECT * FROM customers ORDER BY created_at DESC');
+    const result = await getTurso().execute('SELECT * FROM customers ORDER BY created_at DESC');
     const customers = result.rows.map((row) => ({
       id: row.id,
       first_name: row.first_name,
@@ -65,7 +65,7 @@ export async function PUT(request: Request) {
     updates.push("updated_at = datetime('now')");
     params.push(id);
 
-    await turso.execute({
+    await getTurso().execute({
       sql: `UPDATE customers SET ${updates.join(', ')} WHERE id = ?`,
       args: params,
     });

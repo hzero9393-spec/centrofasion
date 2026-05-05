@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { turso } from '@/lib/turso';
+import { getTurso } from '@/lib/turso';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,11 +9,11 @@ export async function GET(request: Request) {
     const order_id = searchParams.get('order_id');
 
     if (order_id) {
-      const order = await turso.execute({ sql: 'SELECT * FROM orders WHERE id = ?', args: [order_id] });
+      const order = await getTurso().execute({ sql: 'SELECT * FROM orders WHERE id = ?', args: [order_id] });
       if (!order.rows[0]) return NextResponse.json({ error: 'Order not found' }, { status: 404 });
 
-      const items = await turso.execute({ sql: 'SELECT * FROM order_items WHERE order_id = ?', args: [order_id] });
-      const customer = await turso.execute({ sql: 'SELECT * FROM customers WHERE id = ?', args: [order.rows[0].customer_id as string] });
+      const items = await getTurso().execute({ sql: 'SELECT * FROM order_items WHERE order_id = ?', args: [order_id] });
+      const customer = await getTurso().execute({ sql: 'SELECT * FROM customers WHERE id = ?', args: [order.rows[0].customer_id as string] });
 
       return NextResponse.json({
         order: order.rows[0],

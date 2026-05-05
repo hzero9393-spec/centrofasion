@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { turso } from '@/lib/turso';
+import { getTurso } from '@/lib/turso';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,10 +22,10 @@ export async function GET(request: Request) {
     if (period === 'week') { where += ' AND o.created_at >= datetime("now", "-7 days")'; }
     if (period === 'month') { where += ' AND o.created_at >= datetime("now", "-30 days")'; }
 
-    const countResult = await turso.execute({ sql: `SELECT COUNT(*) as total FROM orders o ${where}`, args: params });
+    const countResult = await getTurso().execute({ sql: `SELECT COUNT(*) as total FROM orders o ${where}`, args: params });
     const total = Number(countResult.rows[0].total);
 
-    const result = await turso.execute({
+    const result = await getTurso().execute({
       sql: `SELECT o.*, c.first_name, c.last_name, c.mobile as customer_mobile 
             FROM orders o LEFT JOIN customers c ON o.customer_id = c.id 
             ${where} ORDER BY o.created_at DESC LIMIT ? OFFSET ?`,
@@ -62,33 +62,33 @@ export async function POST(request: Request) {
     const { randomUUID } = await import('crypto');
 
     // Generate order number
-    const countResult = await turso.execute('SELECT COUNT(*) as c FROM orders');
+    const countResult = await getTurso().execute('SELECT COUNT(*) as c FROM orders');
     const orderNumber = `CF${String(1001 + Number(countResult.rows[0].c))}`;
 
     const orderId = randomUUID();
 
-    await turso.execute({
+    await getTurso().execute({
       sql: `INSERT INTO orders (id, order_number, customer_id, status, total, address, pincode, payment_method)
             VALUES (?, ?, ?, 'Pending', ?, ?, ?, ?)`,
       args: [orderId, orderNumber, customer_id, total, address, pincode, payment_method || 'COD'],
     });
 
     for (const item of items) {
-      await turso.execute({
+      await getTurso().execute({
         sql: `INSERT INTO order_items (id, order_id, product_id, product_name, product_image, size, color, quantity, price)
               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         args: [randomUUID(), orderId, item.product_id, item.name, item.image, item.size, item.color, item.quantity, item.price],
       });
 
       // Decrease stock
-      await turso.execute({
+      await getTurso().execute({
         sql: 'UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?',
         args: [item.quantity, item.product_id, item.quantity],
       });
     }
 
     // Update customer stats
-    await turso.execute({
+    await getTurso().execute({
       sql: `UPDATE customers SET total_orders = total_orders + 1, total_spent = total_spent + ?,
             importance = CASE WHEN total_spent + ? > 10000 THEN 'High' WHEN total_spent + ? > 5000 THEN 'Medium' ELSE 'Low' END
             WHERE id = ?`,
@@ -107,7 +107,7 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { id, status } = body;
 
-    await turso.execute({
+    await getTurso().execute({
       sql: `UPDATE orders SET status = ?, updated_at = datetime('now') WHERE id = ?`,
       args: [status, id],
     });

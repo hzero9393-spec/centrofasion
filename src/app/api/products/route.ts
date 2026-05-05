@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { turso } from '@/lib/turso';
+import { getTurso } from '@/lib/turso';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,13 +34,13 @@ export async function GET(request: Request) {
     if (sort === 'price-high') orderBy = 'p.price DESC';
     if (sort === 'name') orderBy = 'p.name ASC';
 
-    const countResult = await turso.execute({
+    const countResult = await getTurso().execute({
       sql: `SELECT COUNT(*) as total FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE 1=1${where}`,
       args: params,
     });
     const total = Number(countResult.rows[0].total);
 
-    const result = await turso.execute({
+    const result = await getTurso().execute({
       sql: `SELECT p.*, c.name as category_name, c.slug as category_slug 
             FROM products p LEFT JOIN categories c ON p.category_id = c.id 
             WHERE 1=1${where} ORDER BY ${orderBy} LIMIT ? OFFSET ?`,
@@ -80,7 +80,7 @@ export async function POST(request: Request) {
     const slug = name.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
     const { randomUUID } = await import('crypto');
 
-    const result = await turso.execute({
+    const result = await getTurso().execute({
       sql: `INSERT INTO products (id, name, slug, description, price, wholesale_price, stock, sizes, colors, images, category_id, featured)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       args: [randomUUID(), name, slug, description, price, wholesale_price, stock, JSON.stringify(sizes), JSON.stringify(colors), JSON.stringify(images), category_id || null, featured ? 1 : 0],
@@ -88,7 +88,7 @@ export async function POST(request: Request) {
 
     // Update category count
     if (category_id) {
-      await turso.execute({
+      await getTurso().execute({
         sql: 'UPDATE categories SET product_count = (SELECT COUNT(*) FROM products WHERE category_id = ?) WHERE id = ?',
         args: [category_id, category_id],
       });
@@ -106,7 +106,7 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { id, name, description, price, wholesale_price, stock, sizes, colors, images, category_id, featured } = body;
 
-    await turso.execute({
+    await getTurso().execute({
       sql: `UPDATE products SET name=?, description=?, price=?, wholesale_price=?, stock=?, sizes=?, colors=?, images=?, category_id=?, featured=?, updated_at=datetime('now')
             WHERE id=?`,
       args: [name, description, price, wholesale_price, stock, JSON.stringify(sizes), JSON.stringify(colors), JSON.stringify(images), category_id || null, featured ? 1 : 0, id],
@@ -124,15 +124,15 @@ export async function DELETE(request: Request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
-    const product = await turso.execute({ sql: 'SELECT category_id FROM products WHERE id = ?', args: [id!] });
+    const product = await getTurso().execute({ sql: 'SELECT category_id FROM products WHERE id = ?', args: [id!] });
     if (product.rows[0]?.category_id) {
-      await turso.execute({
+      await getTurso().execute({
         sql: 'UPDATE categories SET product_count = (SELECT COUNT(*) FROM products WHERE category_id = ?) WHERE id = ?',
         args: [product.rows[0].category_id, product.rows[0].category_id],
       });
     }
 
-    await turso.execute({ sql: 'DELETE FROM products WHERE id = ?', args: [id!] });
+    await getTurso().execute({ sql: 'DELETE FROM products WHERE id = ?', args: [id!] });
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Products DELETE error:', error);

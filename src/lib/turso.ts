@@ -5,14 +5,15 @@ const globalForTurso = globalThis as unknown as {
 };
 
 function createTursoClient(): Client {
-  if (!process.env.TURSO_URL) {
+  const url = process.env.TURSO_URL;
+  if (!url) {
     throw new Error(
       'TURSO_URL environment variable is not set. ' +
-      'Please add TURSO_URL and TURSO_AUTH_TOKEN in your Vercel project settings → Environment Variables.'
+      'Please add TURSO_URL and TURSO_AUTH_TOKEN in your Vercel project settings.'
     );
   }
   return createClient({
-    url: process.env.TURSO_URL,
+    url,
     authToken: process.env.TURSO_AUTH_TOKEN,
   });
 }
@@ -25,16 +26,12 @@ export function getTurso(): Client {
   return globalForTurso.turso;
 }
 
-// Named export for convenience (lazy getter)
-export const turso = new Proxy({} as Client, {
-  get(_target, prop) {
-    const client = getTurso();
-    const value = (client as Record<string | symbol, unknown>)[prop];
-    if (typeof value === 'function') {
-      return value.bind(client);
-    }
-    return value;
+// Default export as lazy getter for backward compatibility
+// Uses Object.defineProperty so the getter only runs when accessed, not during module analysis
+export default Object.defineProperty({}, 'turso', {
+  get() {
+    return getTurso();
   },
-});
-
-export default turso;
+  enumerable: true,
+  configurable: true,
+}) as unknown as Client;

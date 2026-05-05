@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { turso } from '@/lib/turso';
+import { getTurso } from '@/lib/turso';
 import { randomUUID } from 'crypto';
 
 export const dynamic = 'force-dynamic';
@@ -13,7 +13,7 @@ export async function GET(request: Request) {
     const params: string[] = [];
     if (customer_id) { where = 'WHERE customer_id = ?'; params.push(customer_id); }
 
-    const result = await turso.execute({ sql: `SELECT * FROM returns ${where} ORDER BY created_at DESC`, args: params });
+    const result = await getTurso().execute({ sql: `SELECT * FROM returns ${where} ORDER BY created_at DESC`, args: params });
     const returns = result.rows.map((row) => ({
       id: row.id, order_id: row.order_id, customer_id: row.customer_id,
       product_id: row.product_id, product_name: row.product_name,
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { order_id, customer_id, product_id, product_name, reason } = body;
 
-    await turso.execute({
+    await getTurso().execute({
       sql: 'INSERT INTO returns (id, order_id, customer_id, product_id, product_name, reason, status) VALUES (?, ?, ?, ?, ?, ?, ?)',
       args: [randomUUID(), order_id, customer_id, product_id, product_name, reason, 'Pending'],
     });
@@ -48,7 +48,7 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { id, status } = body;
 
-    await turso.execute({
+    await getTurso().execute({
       sql: "UPDATE returns SET status = ?, updated_at = datetime('now') WHERE id = ?",
       args: [status, id],
     });

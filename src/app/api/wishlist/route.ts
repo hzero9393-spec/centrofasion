@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { turso } from '@/lib/turso';
+import { getTurso } from '@/lib/turso';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     if (customer_id) { where += ' AND customer_id = ?'; params.push(customer_id); }
     if (product_id) { where += ' AND product_id = ?'; params.push(product_id); }
 
-    const result = await turso.execute({ sql: `SELECT w.*, p.name, p.price, p.images FROM wishlist w LEFT JOIN products p ON w.product_id = p.id ${where}`, args: params });
+    const result = await getTurso().execute({ sql: `SELECT w.*, p.name, p.price, p.images FROM wishlist w LEFT JOIN products p ON w.product_id = p.id ${where}`, args: params });
     
     const wishlist = result.rows.map((row) => {
       const images = JSON.parse((row.images as string) || '[]');
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     const { customer_id, product_id } = body;
     const { randomUUID } = await import('crypto');
 
-    await turso.execute({
+    await getTurso().execute({
       sql: 'INSERT OR IGNORE INTO wishlist (id, customer_id, product_id) VALUES (?, ?, ?)',
       args: [randomUUID(), customer_id, product_id],
     });
@@ -56,9 +56,9 @@ export async function DELETE(request: Request) {
     const product_id = searchParams.get('product_id');
 
     if (id) {
-      await turso.execute({ sql: 'DELETE FROM wishlist WHERE id = ?', args: [id!] });
+      await getTurso().execute({ sql: 'DELETE FROM wishlist WHERE id = ?', args: [id!] });
     } else if (customer_id && product_id) {
-      await turso.execute({ sql: 'DELETE FROM wishlist WHERE customer_id = ? AND product_id = ?', args: [customer_id, product_id] });
+      await getTurso().execute({ sql: 'DELETE FROM wishlist WHERE customer_id = ? AND product_id = ?', args: [customer_id, product_id] });
     }
 
     return NextResponse.json({ success: true });

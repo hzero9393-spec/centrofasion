@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { turso } from '@/lib/turso';
+import { getTurso } from '@/lib/turso';
 import { randomUUID } from 'crypto';
 
 export const dynamic = 'force-dynamic';
@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 // Ensure email column exists (safe migration)
 async function ensureEmailColumn() {
   try {
-    await turso.execute("ALTER TABLE customers ADD COLUMN email TEXT");
+    await getTurso().execute("ALTER TABLE customers ADD COLUMN email TEXT");
     console.log('Added email column to customers table');
   } catch {
     // Column already exists, ignore
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       if (!mobile || !pin) {
         return NextResponse.json({ error: 'Mobile number and password are required' }, { status: 400 });
       }
-      const result = await turso.execute({
+      const result = await getTurso().execute({
         sql: 'SELECT * FROM customers WHERE mobile = ? AND pin = ?',
         args: [mobile, pin],
       });
@@ -54,12 +54,12 @@ export async function POST(request: Request) {
       if (!first_name || !mobile || !pin) {
         return NextResponse.json({ error: 'First name, mobile and password are required' }, { status: 400 });
       }
-      const existing = await turso.execute({ sql: 'SELECT id FROM customers WHERE mobile = ?', args: [mobile] });
+      const existing = await getTurso().execute({ sql: 'SELECT id FROM customers WHERE mobile = ?', args: [mobile] });
       if (existing.rows.length > 0) {
         return NextResponse.json({ error: 'This mobile number is already registered. Please login instead.' }, { status: 400 });
       }
       const id = randomUUID();
-      await turso.execute({
+      await getTurso().execute({
         sql: 'INSERT INTO customers (id, first_name, last_name, mobile, pin, email) VALUES (?, ?, ?, ?, ?, ?)',
         args: [id, first_name, last_name || '', mobile, pin, email || null],
       });
@@ -90,11 +90,11 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'No fields to update' }, { status: 400 });
       }
       values.push(customer_id);
-      await turso.execute({
+      await getTurso().execute({
         sql: `UPDATE customers SET ${updates.join(', ')} WHERE id = ?`,
         args: values,
       });
-      const result = await turso.execute({ sql: 'SELECT * FROM customers WHERE id = ?', args: [customer_id] });
+      const result = await getTurso().execute({ sql: 'SELECT * FROM customers WHERE id = ?', args: [customer_id] });
       const c = result.rows[0];
       return NextResponse.json({
         customer: {
@@ -106,7 +106,7 @@ export async function POST(request: Request) {
     }
 
     if (type === 'admin-login') {
-      const result = await turso.execute({
+      const result = await getTurso().execute({
         sql: 'SELECT * FROM admins WHERE (user_id = ? OR name LIKE ?) AND password = ?',
         args: [user_id, `%${user_id}%`, password],
       });
@@ -120,7 +120,7 @@ export async function POST(request: Request) {
     }
 
     if (type === 'admin-code-login') {
-      const result = await turso.execute({
+      const result = await getTurso().execute({
         sql: 'SELECT * FROM admins WHERE code = ?',
         args: [code],
       });

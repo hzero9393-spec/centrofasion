@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import { turso } from '@/lib/turso';
+import { getTurso } from '@/lib/turso';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const result = await turso.execute('SELECT * FROM categories ORDER BY name ASC');
+    const result = await getTurso().execute('SELECT * FROM categories ORDER BY name ASC');
     const categories = result.rows.map((row) => ({
       id: row.id,
       name: row.name,
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     const slug = name.toLowerCase().replace(/\s+/g, '-');
     const { randomUUID } = await import('crypto');
 
-    await turso.execute({
+    await getTurso().execute({
       sql: 'INSERT INTO categories (id, name, slug, image) VALUES (?, ?, ?, ?)',
       args: [randomUUID(), name, slug, image],
     });
@@ -43,7 +43,7 @@ export async function PUT(request: Request) {
   try {
     const body = await request.json();
     const { id, name, image } = body;
-    await turso.execute({
+    await getTurso().execute({
       sql: 'UPDATE categories SET name=?, image=?, updated_at=datetime("now") WHERE id=?',
       args: [name, image, id],
     });
@@ -58,7 +58,7 @@ export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
-    await turso.execute({ sql: 'DELETE FROM categories WHERE id = ?', args: [id!] });
+    await getTurso().execute({ sql: 'DELETE FROM categories WHERE id = ?', args: [id!] });
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Categories DELETE error:', error);
