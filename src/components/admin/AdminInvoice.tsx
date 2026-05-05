@@ -38,8 +38,12 @@ export default function AdminInvoice() {
       .catch(() => setLoading(false));
   }, [orderId]);
 
-  if (loading) return <div className="space-y-4"><Skeleton className="h-[600px] w-full max-w-3xl mx-auto" /></div>;
-  if (!data || !data.order) return <Card className="border-[#E4E7EC]"><CardContent className="py-16 text-center text-[#5A6B7F]">Order not found</CardContent></Card>;
+  if (loading) return <div className="space-y-4"><Skeleton className="h-[600px] w-full max-w-3xl mx-auto bg-white/5 rounded-2xl" /></div>;
+  if (!data || !data.order) return (
+    <Card className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl">
+      <CardContent className="py-16 text-center text-[#86868B]">Order not found</CardContent>
+    </Card>
+  );
 
   const o = data.order;
   const items = data.items || [];
@@ -56,97 +60,97 @@ export default function AdminInvoice() {
     <div className="space-y-4">
       {/* Back button - hidden in print */}
       <div className="print:hidden">
-        <Button variant="ghost" onClick={goBack} className="gap-2 text-[#5A6B7F]">
+        <Button variant="ghost" onClick={goBack} className="gap-2 text-[#86868B] hover:text-[#F5F5F7] hover:bg-white/5">
           <ArrowLeft className="h-4 w-4" /> Back
         </Button>
       </div>
 
       {/* Print button - hidden in print */}
       <div className="print:hidden flex justify-end">
-        <Button className="bg-[#FF5722] hover:bg-[#E64A19] text-white gap-2" onClick={() => window.print()}>
+        <Button className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:opacity-90 text-white gap-2 transition-opacity" onClick={() => window.print()}>
           <Printer className="h-4 w-4" /> Print Invoice
         </Button>
       </div>
 
-      {/* Invoice Card */}
-      <Card className="border-[#E4E7EC] max-w-3xl mx-auto print:border-0 print:shadow-none">
+      {/* Invoice Card - dark in display, white in print */}
+      <Card className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl max-w-3xl mx-auto print:border-0 print:shadow-none print:bg-white print:rounded-none">
         <CardContent className="p-8 print:p-0">
           {/* Header */}
-          <div className="flex justify-between items-start mb-8">
+          <div className="flex justify-between items-start mb-8 print:text-black">
             <div>
-              <h1 className="text-xl font-bold text-[#1F2A3A]">{s.shop_name || 'ClothFasion'}</h1>
-              {s.gst_no && <p className="text-sm text-[#5A6B7F]">GST: {s.gst_no}</p>}
-              <p className="text-sm text-[#5A6B7F]">{s.address || 'Store Address'}</p>
-              <p className="text-sm text-[#5A6B7F]">{s.shop_phone || '+91 XXXXXXXXXX'}</p>
+              <h1 className="text-xl font-bold text-[#F5F5F7] print:text-black">{s.shop_name || 'ClothFasion'}</h1>
+              {s.gst_no && <p className="text-sm text-[#86868B] print:text-gray-600 mt-0.5">GST: {s.gst_no}</p>}
+              <p className="text-sm text-[#86868B] print:text-gray-600">{s.address || 'Store Address'}</p>
+              <p className="text-sm text-[#86868B] print:text-gray-600">{s.shop_phone || '+91 XXXXXXXXXX'}</p>
             </div>
             <div className="text-right">
-              <h2 className="text-2xl font-bold text-[#FF5722]">INVOICE</h2>
-              <p className="text-sm text-[#5A6B7F] mt-1">#{o.order_number || o.id?.slice(0, 8)}</p>
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-[#FF5722] to-[#FF2D55] bg-clip-text text-transparent print:text-[#FF5722]">INVOICE</h2>
+              <p className="text-sm text-[#86868B] print:text-gray-600 mt-1">#{o.order_number || o.id?.slice(0, 8)}</p>
             </div>
           </div>
 
-          <Separator className="mb-6" />
+          <Separator className="mb-6 bg-white/[0.08] print:bg-gray-200" />
 
           {/* Invoice Details */}
-          <div className="grid grid-cols-2 gap-6 mb-6 text-sm">
+          <div className="grid grid-cols-2 gap-6 mb-6 text-sm print:text-black">
             <div>
-              <p className="text-[#5A6B7F] text-xs mb-1">Order Date</p>
-              <p className="font-medium">{o.created_at ? new Date(o.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }) : '—'}</p>
-              <p className="text-[#5A6B7F] text-xs mb-1 mt-3">Delivery Date</p>
-              <p className="font-medium">{deliveryDate || 'Expected in 4 days'}</p>
+              <p className="text-[10px] uppercase tracking-widest text-[#86868B] print:text-gray-500 mb-1">Order Date</p>
+              <p className="font-medium text-[#F5F5F7] print:text-black">{o.created_at ? new Date(o.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }) : '—'}</p>
+              <p className="text-[10px] uppercase tracking-widest text-[#86868B] print:text-gray-500 mb-1 mt-3">Delivery Date</p>
+              <p className="font-medium text-[#F5F5F7] print:text-black">{deliveryDate || 'Expected in 4 days'}</p>
             </div>
             <div>
-              <p className="text-[#5A6B7F] text-xs mb-1">Payment Method</p>
-              <p className="font-medium">{o.payment_method || 'COD'}</p>
+              <p className="text-[10px] uppercase tracking-widest text-[#86868B] print:text-gray-500 mb-1">Payment Method</p>
+              <p className="font-medium text-[#F5F5F7] print:text-black">{o.payment_method || 'COD'}</p>
             </div>
           </div>
 
           {/* Bill To */}
           <div className="mb-6">
-            <p className="text-xs text-[#5A6B7F] mb-2">BILL TO</p>
-            <div className="bg-[#F5F7FA] rounded-lg p-4">
-              <p className="font-semibold text-[#1F2A3A]">{c?.first_name} {c?.last_name || ''}</p>
-              {c?.mobile && <p className="text-sm text-[#5A6B7F]">{c.mobile}</p>}
-              <p className="text-sm text-[#5A6B7F]">{o.address || c?.address || '—'}</p>
-              <p className="text-sm text-[#5A6B7F]">{o.pincode || c?.pincode || ''}</p>
+            <p className="text-[10px] uppercase tracking-widest text-[#86868B] print:text-gray-500 mb-2">BILL TO</p>
+            <div className="bg-white/[0.03] rounded-xl p-4 border border-white/[0.05] print:bg-gray-50 print:border-gray-200">
+              <p className="font-semibold text-[#F5F5F7] print:text-black">{c?.first_name} {c?.last_name || ''}</p>
+              {c?.mobile && <p className="text-sm text-[#86868B] print:text-gray-600">{c.mobile}</p>}
+              <p className="text-sm text-[#86868B] print:text-gray-600">{o.address || c?.address || '—'}</p>
+              <p className="text-sm text-[#86868B] print:text-gray-600">{o.pincode || c?.pincode || ''}</p>
             </div>
           </div>
 
-          <Separator className="mb-6" />
+          <Separator className="mb-6 bg-white/[0.08] print:bg-gray-200" />
 
           {/* Items Table */}
           <div className="overflow-x-auto mb-6">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm print:text-black">
               <thead>
-                <tr className="border-b-2 border-[#1F2A3A]">
-                  <th className="text-left py-3 font-semibold">Item</th>
-                  <th className="text-center py-3 font-semibold hidden sm:table-cell">Size</th>
-                  <th className="text-center py-3 font-semibold">Qty</th>
-                  <th className="text-right py-3 font-semibold">Price</th>
-                  <th className="text-right py-3 font-semibold">Total</th>
+                <tr className="border-b-2 border-white/[0.08] print:border-gray-300">
+                  <th className="text-left py-3 font-semibold text-[#86868B] print:text-gray-600">Item</th>
+                  <th className="text-center py-3 font-semibold text-[#86868B] print:text-gray-600 hidden sm:table-cell">Size</th>
+                  <th className="text-center py-3 font-semibold text-[#86868B] print:text-gray-600">Qty</th>
+                  <th className="text-right py-3 font-semibold text-[#86868B] print:text-gray-600">Price</th>
+                  <th className="text-right py-3 font-semibold text-[#86868B] print:text-gray-600">Total</th>
                 </tr>
               </thead>
               <tbody>
                 {items.map((item) => {
                   const lineTotal = Number(item.price) * Number(item.quantity);
                   return (
-                    <tr key={item.id} className="border-b border-[#E4E7EC]">
+                    <tr key={item.id} className="border-b border-white/[0.05] print:border-gray-200 hover:bg-white/[0.02] print:hover:bg-transparent transition-colors">
                       <td className="py-3">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-[#F5F7FA] overflow-hidden flex-shrink-0">
+                          <div className="w-10 h-10 rounded-lg bg-white/5 print:bg-gray-100 overflow-hidden flex-shrink-0">
                             {item.product_image ? (
                               <img src={item.product_image} alt="" className="w-full h-full object-cover" />
                             ) : (
-                              <div className="w-full h-full flex items-center justify-center"><Package className="h-4 w-4 text-[#CBD5E1]" /></div>
+                              <div className="w-full h-full flex items-center justify-center"><Package className="h-4 w-4 text-white/20 print:text-gray-400" /></div>
                             )}
                           </div>
-                          <span className="font-medium">{item.product_name}</span>
+                          <span className="font-medium text-[#F5F5F7] print:text-black">{item.product_name}</span>
                         </div>
                       </td>
-                      <td className="text-center py-3 hidden sm:table-cell text-[#5A6B7F]">{item.size || '—'}</td>
-                      <td className="text-center py-3">{item.quantity}</td>
-                      <td className="text-right py-3">₹{Number(item.price).toLocaleString('en-IN')}</td>
-                      <td className="text-right py-3 font-medium">₹{lineTotal.toLocaleString('en-IN')}</td>
+                      <td className="text-center py-3 hidden sm:table-cell text-[#86868B] print:text-gray-600">{item.size || '—'}</td>
+                      <td className="text-center py-3 text-[#F5F5F7] print:text-black">{item.quantity}</td>
+                      <td className="text-right py-3 text-[#F5F5F7] print:text-black">₹{Number(item.price).toLocaleString('en-IN')}</td>
+                      <td className="text-right py-3 font-medium text-[#F5F5F7] print:text-black">₹{lineTotal.toLocaleString('en-IN')}</td>
                     </tr>
                   );
                 })}
@@ -156,38 +160,38 @@ export default function AdminInvoice() {
 
           {/* Totals */}
           <div className="flex justify-end">
-            <div className="w-64 space-y-2">
+            <div className="w-64 space-y-2.5 print:text-black">
               <div className="flex justify-between text-sm">
-                <span className="text-[#5A6B7F]">Subtotal</span>
-                <span>₹{subtotal.toLocaleString('en-IN')}</span>
+                <span className="text-[#86868B] print:text-gray-600">Subtotal</span>
+                <span className="text-[#F5F5F7] print:text-black">₹{subtotal.toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-[#5A6B7F]">Shipping</span>
-                <span className="text-[#28A745]">FREE</span>
+                <span className="text-[#86868B] print:text-gray-600">Shipping</span>
+                <span className="text-emerald-400 print:text-emerald-600 font-medium">FREE</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-[#5A6B7F]">Tax (5%)</span>
-                <span>₹{tax.toLocaleString('en-IN')}</span>
+                <span className="text-[#86868B] print:text-gray-600">Tax (5%)</span>
+                <span className="text-[#F5F5F7] print:text-black">₹{tax.toLocaleString('en-IN')}</span>
               </div>
-              <Separator />
-              <div className="flex justify-between text-lg font-bold">
-                <span>Grand Total</span>
-                <span className="text-[#FF5722]">₹{grandTotal.toLocaleString('en-IN')}</span>
+              <Separator className="bg-white/[0.08] print:bg-gray-200" />
+              <div className="flex justify-between text-lg font-bold pt-1">
+                <span className="text-[#F5F5F7] print:text-black">Grand Total</span>
+                <span className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] bg-clip-text text-transparent print:text-[#FF5722]">₹{grandTotal.toLocaleString('en-IN')}</span>
               </div>
             </div>
           </div>
 
-          <Separator className="my-6" />
+          <Separator className="my-6 bg-white/[0.08] print:bg-gray-200" />
 
           {/* Terms */}
           {s.terms && (
-            <div className="text-xs text-[#5A6B7F]">
-              <p className="font-semibold text-[#1F2A3A] mb-1">Terms & Conditions</p>
-              <p className="whitespace-pre-line">{s.terms}</p>
+            <div className="text-xs text-[#86868B] print:text-gray-600">
+              <p className="font-semibold text-[#F5F5F7] print:text-black mb-1">Terms & Conditions</p>
+              <p className="whitespace-pre-line leading-relaxed">{s.terms}</p>
             </div>
           )}
 
-          <div className="text-center mt-8 text-xs text-[#CBD5E1]">
+          <div className="text-center mt-8 text-xs text-white/30 print:text-gray-400">
             <p>Thank you for shopping with {s.shop_name || 'ClothFasion'}!</p>
           </div>
         </CardContent>

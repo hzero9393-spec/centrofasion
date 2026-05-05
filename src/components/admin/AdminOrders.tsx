@@ -3,9 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAdminNavigation } from '@/stores/adminNavigation';
 import { toast } from 'sonner';
-import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow
@@ -31,6 +29,19 @@ const PERIODS = [
   { label: 'This Month', value: 'month' },
   { label: 'All', value: 'all' },
 ];
+
+const statusBadge = (status: string) => {
+  const s = status?.toLowerCase() || 'pending';
+  const map: Record<string, string> = {
+    pending: 'bg-[#FFC107]/10 text-[#FFC107] border-[#FFC107]/20',
+    confirmed: 'bg-[#60A5FA]/10 text-[#60A5FA] border-[#60A5FA]/20',
+    packing: 'bg-[#C084FC]/10 text-[#C084FC] border-[#C084FC]/20',
+    shipping: 'bg-[#FF8A50]/10 text-[#FF8A50] border-[#FF8A50]/20',
+    delivered: 'bg-[#4ADE80]/10 text-[#4ADE80] border-[#4ADE80]/20',
+    cancelled: 'bg-[#F87171]/10 text-[#F87171] border-[#F87171]/20',
+  };
+  return map[s] || map.pending;
+};
 
 export default function AdminOrders() {
   const { navigate } = useAdminNavigation();
@@ -88,127 +99,156 @@ export default function AdminOrders() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <h1 className="text-xl font-semibold text-[#1F2A3A]">Orders</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <h1 className="text-2xl font-semibold text-[#F5F5F7] tracking-tight">Orders</h1>
       </div>
 
       {/* Filters */}
-      <Card className="border-[#E4E7EC]">
-        <CardContent className="p-4">
-          <div className="flex flex-col sm:flex-row gap-3">
-            {/* Period Buttons */}
-            <div className="flex gap-1 bg-[#F5F7FA] rounded-lg p-1">
-              {PERIODS.map((p) => (
-                <Button
-                  key={p.value}
-                  variant={period === p.value ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => { setPeriod(p.value); setPage(1); }}
-                  className={period === p.value ? 'bg-[#FF5722] hover:bg-[#E64A19] text-white h-8 text-xs' : 'h-8 text-xs text-[#5A6B7F]'}
-                >
-                  {p.label}
-                </Button>
-              ))}
-            </div>
-
-            {/* Status Filter */}
-            <Select value={statusFilter} onValueChange={(v) => { setStatusFilter(v); setPage(1); }}>
-              <SelectTrigger className="w-full sm:w-[180px]">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                {STATUS_OPTIONS.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
-              </SelectContent>
-            </Select>
+      <div className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl p-4">
+        <div className="flex flex-col sm:flex-row gap-3">
+          {/* Period Buttons */}
+          <div className="flex gap-1 bg-white/5 rounded-xl p-1 border border-white/[0.06]">
+            {PERIODS.map((p) => (
+              <Button
+                key={p.value}
+                variant={period === p.value ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => { setPeriod(p.value); setPage(1); }}
+                className={
+                  period === p.value
+                    ? 'bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:opacity-90 text-white h-8 text-xs rounded-lg shadow-sm'
+                    : 'h-8 text-xs text-[#86868B] hover:text-[#F5F5F7] hover:bg-white/10 rounded-lg'
+                }
+              >
+                {p.label}
+              </Button>
+            ))}
           </div>
-        </CardContent>
-      </Card>
+
+          {/* Status Filter */}
+          <Select value={statusFilter} onValueChange={(v) => { setStatusFilter(v); setPage(1); }}>
+            <SelectTrigger className="w-full sm:w-[180px] bg-white/5 border-white/10 text-[#F5F5F7] rounded-xl h-10 focus:ring-white/20">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent className="bg-[#1D1D1F] border border-white/10 rounded-xl">
+              <SelectItem value="all" className="text-[#F5F5F7] focus:bg-white/10 focus:text-[#F5F5F7]">All Status</SelectItem>
+              {STATUS_OPTIONS.map((s) => (
+                <SelectItem key={s} value={s} className="text-[#F5F5F7] focus:bg-white/10 focus:text-[#F5F5F7]">{s}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
 
       {/* Table */}
-      <Card className="border-[#E4E7EC] overflow-hidden">
+      <div className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="bg-[#F5F7FA] hover:bg-[#F5F7FA]">
-                <TableHead className="font-medium">Order ID</TableHead>
-                <TableHead className="font-medium hidden md:table-cell">Customer</TableHead>
-                <TableHead className="font-medium hidden sm:table-cell">Date</TableHead>
-                <TableHead className="font-medium text-right hidden lg:table-cell">Items</TableHead>
-                <TableHead className="font-medium text-right">Total</TableHead>
-                <TableHead className="font-medium">Status</TableHead>
-                <TableHead className="font-medium hidden sm:table-cell">Payment</TableHead>
+              <TableRow className="hover:bg-transparent border-b border-white/[0.08]">
+                <TableHead className="font-medium text-[#86868B] text-xs uppercase tracking-wider">Order ID</TableHead>
+                <TableHead className="font-medium text-[#86868B] text-xs uppercase tracking-wider hidden md:table-cell">Customer</TableHead>
+                <TableHead className="font-medium text-[#86868B] text-xs uppercase tracking-wider hidden sm:table-cell">Date</TableHead>
+                <TableHead className="font-medium text-[#86868B] text-xs uppercase tracking-wider text-right hidden lg:table-cell">Items</TableHead>
+                <TableHead className="font-medium text-[#86868B] text-xs uppercase tracking-wider text-right">Total</TableHead>
+                <TableHead className="font-medium text-[#86868B] text-xs uppercase tracking-wider">Status</TableHead>
+                <TableHead className="font-medium text-[#86868B] text-xs uppercase tracking-wider hidden sm:table-cell">Payment</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {loading ? (
                 [...Array(5)].map((_, i) => (
-                  <TableRow key={i}><TableCell colSpan={7}><Skeleton className="h-12 w-full" /></TableCell></TableRow>
+                  <TableRow key={i} className="border-b border-white/[0.04]">
+                    <TableCell colSpan={7}>
+                      <Skeleton className="h-14 w-full bg-white/5 rounded-xl" />
+                    </TableCell>
+                  </TableRow>
                 ))
               ) : orders.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center py-12 text-[#5A6B7F]">
-                    <ShoppingBag className="h-8 w-8 mx-auto mb-2 opacity-40" />
-                    <p>No orders found</p>
+                  <TableCell colSpan={7} className="text-center py-16">
+                    <ShoppingBag className="h-10 w-10 mx-auto mb-3 text-white/20" />
+                    <p className="text-[#86868B] text-sm">No orders found</p>
                   </TableCell>
                 </TableRow>
               ) : (
                 orders.map((o, i) => (
                   <TableRow
                     key={o.id}
-                    className={`admin-row cursor-pointer ${i % 2 === 1 ? 'bg-gray-50/50' : ''}`}
+                    className={`cursor-pointer border-b border-white/[0.04] hover:bg-white/5 transition-colors ${i % 2 === 1 ? 'bg-white/[0.02]' : ''}`}
                     onClick={() => navigate('order-detail', { id: o.id })}
                   >
                     <TableCell>
                       <span className="font-medium text-[#FF5722]">{o.order_number || o.id?.slice(0, 8)}</span>
                     </TableCell>
                     <TableCell
-                      className="hidden md:table-cell font-medium text-[#1F2A3A] cursor-pointer hover:text-[#FF5722]"
+                      className="hidden md:table-cell font-medium text-[#F5F5F7] cursor-pointer hover:text-[#FF5722] transition-colors"
                       onClick={(e) => { e.stopPropagation(); navigate('customer-detail', { id: o.customer_id }); }}
                     >
                       {o.customer_name || 'Unknown'}
                     </TableCell>
-                    <TableCell className="hidden sm:table-cell text-[#5A6B7F] text-sm">
+                    <TableCell className="hidden sm:table-cell text-[#86868B] text-sm">
                       {o.created_at ? new Date(o.created_at).toLocaleDateString('en-IN') : '—'}
                     </TableCell>
-                    <TableCell className="text-right hidden lg:table-cell text-[#5A6B7F]">—</TableCell>
-                    <TableCell className="text-right font-medium">₹{o.total.toLocaleString('en-IN')}</TableCell>
+                    <TableCell className="text-right hidden lg:table-cell text-[#86868B]">—</TableCell>
+                    <TableCell className="text-right font-medium text-[#F5F5F7]">₹{o.total.toLocaleString('en-IN')}</TableCell>
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-                          <Button variant="ghost" className="h-7 px-2 gap-1">
-                            <Badge className={`badge-${o.status?.toLowerCase()}`}>{o.status || 'Pending'}</Badge>
-                            <ChevronDown className="h-3 w-3 text-[#5A6B7F]" />
+                          <Button variant="ghost" className="h-7 px-2 gap-1 hover:bg-white/10">
+                            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${statusBadge(o.status)}`}>
+                              {o.status || 'Pending'}
+                            </span>
+                            <ChevronDown className="h-3 w-3 text-[#86868B]" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent>
+                        <DropdownMenuContent className="bg-[#1D1D1F] border border-white/10 rounded-xl p-1">
                           {STATUS_OPTIONS.map((s) => (
-                            <DropdownMenuItem key={s} onClick={(e) => { e.stopPropagation(); handleStatusChange(o.id, s); }}>
+                            <DropdownMenuItem
+                              key={s}
+                              onClick={(e) => { e.stopPropagation(); handleStatusChange(o.id, s); }}
+                              className="text-[#F5F5F7] focus:bg-white/10 focus:text-[#F5F5F7] rounded-lg text-sm cursor-pointer"
+                            >
+                              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium border mr-2 ${statusBadge(s)}`}>
+                                {s}
+                              </span>
                               {s}
                             </DropdownMenuItem>
                           ))}
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
-                    <TableCell className="hidden sm:table-cell text-[#5A6B7F] text-sm">{o.payment_method || 'COD'}</TableCell>
+                    <TableCell className="hidden sm:table-cell text-[#86868B] text-sm">{o.payment_method || 'COD'}</TableCell>
                   </TableRow>
                 ))
               )}
             </TableBody>
           </Table>
         </div>
-      </Card>
+      </div>
 
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2">
-          <Button variant="outline" size="icon" className="h-8 w-8" disabled={page <= 1} onClick={() => setPage(page - 1)}>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 bg-white/5 border-white/10 text-[#86868B] hover:text-[#F5F5F7] hover:bg-white/10 rounded-lg"
+            disabled={page <= 1}
+            onClick={() => setPage(page - 1)}
+          >
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <span className="text-sm text-[#5A6B7F]">Page {page} of {totalPages}</span>
-          <Button variant="outline" size="icon" className="h-8 w-8" disabled={page >= totalPages} onClick={() => setPage(page + 1)}>
+          <span className="text-sm text-[#86868B] px-2">Page {page} of {totalPages}</span>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 bg-white/5 border-white/10 text-[#86868B] hover:text-[#F5F5F7] hover:bg-white/10 rounded-lg"
+            disabled={page >= totalPages}
+            onClick={() => setPage(page + 1)}
+          >
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>

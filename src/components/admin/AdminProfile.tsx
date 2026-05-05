@@ -12,7 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { User, Store, Shield, Palette, Save, Plus, Loader2 } from 'lucide-react';
+import { User, Store, Shield, Palette, Save, Plus, Loader2, Check, Sparkles } from 'lucide-react';
 
 export default function AdminProfile() {
   const { admin } = useAuth();
@@ -89,74 +89,96 @@ export default function AdminProfile() {
     setSecurityForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
   };
 
-  // Theme cards
+  // Theme cards with glow effects
   const themes = [
-    { name: 'Sunset', colors: ['#FF5722', '#FF9800', '#FFC107', '#E64A19'] },
-    { name: 'Ocean', colors: ['#0077B6', '#00B4D8', '#90E0EF', '#023E8A'] },
-    { name: 'Forest', colors: ['#2D6A4F', '#40916C', '#52B788', '#1B4332'] },
-    { name: 'Berry', colors: ['#7B2D8E', '#9D4EDD', '#C77DFF', '#5A189A'] },
-    { name: 'Midnight', colors: ['#0A1B2A', '#1A2942', '#2A3F5A', '#0D2240'] },
-    { name: 'Rose', colors: ['#E63946', '#F4845F', '#F7B267', '#D62828'] },
-    { name: 'Sage', colors: ['#606C38', '#8B9E6B', '#A3B18A', '#344E41'] },
-    { name: 'Coral', colors: ['#FF6B6B', '#FFA07A', '#FFD93D', '#C44569'] },
-    { name: 'Slate', colors: ['#2D3436', '#636E72', '#B2BEC3', '#DFE6E9'] },
-    { name: 'Indigo', colors: ['#3F37C9', '#4895EF', '#4CC9F0', '#4361EE'] },
-    { name: 'Amber', colors: ['#E85D04', '#F48C06', '#FAA307', '#DC2F02'] },
-    { name: 'Teal', colors: ['#0D9488', '#14B8A6', '#5EEAD4', '#0F766E'] },
+    { name: 'Sunset', colors: ['#FF5722', '#FF9800', '#FFC107', '#E64A19'], glow: '#FF5722' },
+    { name: 'Ocean', colors: ['#0077B6', '#00B4D8', '#90E0EF', '#023E8A'], glow: '#0077B6' },
+    { name: 'Forest', colors: ['#2D6A4F', '#40916C', '#52B788', '#1B4332'], glow: '#2D6A4F' },
+    { name: 'Berry', colors: ['#7B2D8E', '#9D4EDD', '#C77DFF', '#5A189A'], glow: '#7B2D8E' },
+    { name: 'Midnight', colors: ['#0A1B2A', '#1A2942', '#2A3F5A', '#0D2240'], glow: '#0A1B2A' },
+    { name: 'Rose', colors: ['#E63946', '#F4845F', '#F7B267', '#D62828'], glow: '#E63946' },
+    { name: 'Sage', colors: ['#606C38', '#8B9E6B', '#A3B18A', '#344E41'], glow: '#606C38' },
+    { name: 'Coral', colors: ['#FF6B6B', '#FFA07A', '#FFD93D', '#C44569'], glow: '#FF6B6B' },
+    { name: 'Slate', colors: ['#2D3436', '#636E72', '#B2BEC3', '#DFE6E9'], glow: '#636E72' },
+    { name: 'Indigo', colors: ['#3F37C9', '#4895EF', '#4CC9F0', '#4361EE'], glow: '#3F37C9' },
+    { name: 'Amber', colors: ['#E85D04', '#F48C06', '#FAA307', '#DC2F02'], glow: '#E85D04' },
+    { name: 'Teal', colors: ['#0D9488', '#14B8A6', '#5EEAD4', '#0F766E'], glow: '#0D9488' },
   ];
 
+  const inputClass = "bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[#FF5722]/50 focus:ring-[#FF5722]/20";
+  const labelClass = "text-[#86868B] text-xs";
+
   if (loading) {
-    return <div className="space-y-4"><Skeleton className="h-64 w-full" /><Skeleton className="h-48 w-full" /></div>;
+    return (
+      <div className="space-y-4">
+        <Skeleton className="h-8 w-40 bg-white/5 rounded-xl" />
+        <Skeleton className="h-64 w-full bg-white/5 rounded-2xl" />
+        <Skeleton className="h-48 w-full bg-white/5 rounded-2xl" />
+      </div>
+    );
   }
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-semibold text-[#1F2A3A]">My Profile</h1>
+      <div>
+        <h1 className="text-2xl font-semibold text-[#F5F5F7] tracking-tight">My Profile</h1>
+        <p className="text-sm text-[#86868B] mt-1">Manage your account and preferences</p>
+      </div>
 
-      <Tabs defaultValue="admin" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="admin" className="gap-2"><User className="h-4 w-4" /> Admin Info</TabsTrigger>
-          <TabsTrigger value="shop" className="gap-2"><Store className="h-4 w-4" /> Shop Details</TabsTrigger>
-          <TabsTrigger value="security" className="gap-2"><Shield className="h-4 w-4" /> Security</TabsTrigger>
-          <TabsTrigger value="themes" className="gap-2"><Palette className="h-4 w-4" /> Themes</TabsTrigger>
+      <Tabs defaultValue="admin" className="space-y-6">
+        <TabsList className="bg-white/5 border border-white/[0.08] rounded-xl p-1">
+          <TabsTrigger value="admin" className="gap-2 rounded-lg text-[#86868B] data-[state=active]:bg-white/10 data-[state=active]:text-[#F5F5F7] data-[state=active]:shadow-sm">
+            <User className="h-4 w-4" /> Admin Info
+          </TabsTrigger>
+          <TabsTrigger value="shop" className="gap-2 rounded-lg text-[#86868B] data-[state=active]:bg-white/10 data-[state=active]:text-[#F5F5F7] data-[state=active]:shadow-sm">
+            <Store className="h-4 w-4" /> Shop Details
+          </TabsTrigger>
+          <TabsTrigger value="security" className="gap-2 rounded-lg text-[#86868B] data-[state=active]:bg-white/10 data-[state=active]:text-[#F5F5F7] data-[state=active]:shadow-sm">
+            <Shield className="h-4 w-4" /> Security
+          </TabsTrigger>
+          <TabsTrigger value="themes" className="gap-2 rounded-lg text-[#86868B] data-[state=active]:bg-white/10 data-[state=active]:text-[#F5F5F7] data-[state=active]:shadow-sm">
+            <Palette className="h-4 w-4" /> Themes
+          </TabsTrigger>
         </TabsList>
 
         {/* Admin Info */}
         <TabsContent value="admin">
-          <Card className="border-[#E4E7EC]">
-            <CardContent className="p-6 space-y-4">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-16 h-16 rounded-2xl bg-[#FF5722] flex items-center justify-center text-white text-xl font-bold">
+          <Card className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl">
+            <CardContent className="p-6 space-y-5">
+              <div className="flex items-center gap-4 mb-2">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF5722] to-[#FF2D55] flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-[#FF5722]/20">
                   {admin?.name?.charAt(0) || 'A'}
                 </div>
                 <div>
-                  <h3 className="font-semibold text-[#1F2A3A]">{admin?.name} {admin?.last_name || ''}</h3>
-                  <Badge variant="secondary" className="bg-[#F5F7FA] text-[#5A6B7F]">
+                  <h3 className="font-semibold text-[#F5F5F7] text-lg">{admin?.name} {admin?.last_name || ''}</h3>
+                  <Badge variant="secondary" className="bg-white/5 text-[#86868B] border border-white/10 mt-1">
                     {admin?.is_master === 1 ? 'Master Admin' : 'Admin'}
                   </Badge>
                 </div>
               </div>
 
+              <Separator className="bg-white/[0.05]" />
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="grid gap-2">
-                  <Label>First Name</Label>
-                  <Input value={adminForm.name} onChange={(e) => setAdminForm({ ...adminForm, name: e.target.value })} />
+                  <Label className={labelClass}>First Name</Label>
+                  <Input className={inputClass} value={adminForm.name} onChange={(e) => setAdminForm({ ...adminForm, name: e.target.value })} />
                 </div>
                 <div className="grid gap-2">
-                  <Label>Last Name</Label>
-                  <Input value={adminForm.last_name} onChange={(e) => setAdminForm({ ...adminForm, last_name: e.target.value })} />
+                  <Label className={labelClass}>Last Name</Label>
+                  <Input className={inputClass} value={adminForm.last_name} onChange={(e) => setAdminForm({ ...adminForm, last_name: e.target.value })} />
                 </div>
                 <div className="grid gap-2">
-                  <Label>Phone</Label>
-                  <Input value={adminForm.phone} onChange={(e) => setAdminForm({ ...adminForm, phone: e.target.value })} />
+                  <Label className={labelClass}>Phone</Label>
+                  <Input className={inputClass} value={adminForm.phone} onChange={(e) => setAdminForm({ ...adminForm, phone: e.target.value })} />
                 </div>
                 <div className="grid gap-2">
-                  <Label>Avatar URL</Label>
-                  <Input value={adminForm.avatar} onChange={(e) => setAdminForm({ ...adminForm, avatar: e.target.value })} />
+                  <Label className={labelClass}>Avatar URL</Label>
+                  <Input className={inputClass} value={adminForm.avatar} onChange={(e) => setAdminForm({ ...adminForm, avatar: e.target.value })} />
                 </div>
               </div>
 
-              <Button onClick={handleSaveAdmin} className="bg-[#FF5722] hover:bg-[#E64A19] text-white gap-2">
+              <Button onClick={handleSaveAdmin} className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:opacity-90 text-white gap-2 transition-opacity">
                 <Save className="h-4 w-4" /> Save Changes
               </Button>
             </CardContent>
@@ -164,25 +186,34 @@ export default function AdminProfile() {
 
           {/* Master Admin Section */}
           {admin?.is_master === 1 && (
-            <Card className="border-[#FFC107]/30 bg-[#FFFDF5] mt-4">
-              <CardContent className="p-6 space-y-4">
-                <h3 className="font-semibold text-[#1F2A3A]">Master Admin Panel</h3>
-                <Separator />
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="grid gap-2">
-                    <Label>User ID</Label>
-                    <Input value={newAdminForm.user_id} onChange={(e) => setNewAdminForm({ ...newAdminForm, user_id: e.target.value })} placeholder="admin2" />
+            <Card className="bg-[#1D1D1F] border border-yellow-500/20 rounded-2xl mt-4 relative overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500/40 to-transparent" />
+              <CardContent className="p-6 space-y-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center">
+                    <Sparkles className="h-5 w-5 text-yellow-400" />
                   </div>
-                  <div className="grid gap-2">
-                    <Label>Full Name</Label>
-                    <Input value={newAdminForm.name} onChange={(e) => setNewAdminForm({ ...newAdminForm, name: e.target.value })} placeholder="John Doe" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label>Password</Label>
-                    <Input type="password" value={newAdminForm.password} onChange={(e) => setNewAdminForm({ ...newAdminForm, password: e.target.value })} placeholder="••••••" />
+                  <div>
+                    <h3 className="font-semibold text-[#F5F5F7]">Master Admin Panel</h3>
+                    <p className="text-xs text-[#86868B]">Create and manage admin accounts</p>
                   </div>
                 </div>
-                <Button className="bg-[#FF5722] hover:bg-[#E64A19] text-white gap-2">
+                <Separator className="bg-white/[0.05]" />
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="grid gap-2">
+                    <Label className={labelClass}>User ID</Label>
+                    <Input className={inputClass} value={newAdminForm.user_id} onChange={(e) => setNewAdminForm({ ...newAdminForm, user_id: e.target.value })} placeholder="admin2" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label className={labelClass}>Full Name</Label>
+                    <Input className={inputClass} value={newAdminForm.name} onChange={(e) => setNewAdminForm({ ...newAdminForm, name: e.target.value })} placeholder="John Doe" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label className={labelClass}>Password</Label>
+                    <Input type="password" className={inputClass} value={newAdminForm.password} onChange={(e) => setNewAdminForm({ ...newAdminForm, password: e.target.value })} placeholder="••••••" />
+                  </div>
+                </div>
+                <Button className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:opacity-90 text-white gap-2 transition-opacity">
                   <Plus className="h-4 w-4" /> Create Admin
                 </Button>
               </CardContent>
@@ -192,35 +223,47 @@ export default function AdminProfile() {
 
         {/* Shop Details */}
         <TabsContent value="shop">
-          <Card className="border-[#E4E7EC]">
-            <CardContent className="p-6 space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="grid gap-2">
-                  <Label>Shop Name</Label>
-                  <Input value={shopForm.shop_name} onChange={(e) => setShopForm({ ...shopForm, shop_name: e.target.value })} />
+          <Card className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl">
+            <CardContent className="p-6 space-y-5">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+                  <Store className="h-5 w-5 text-[#86868B]" />
                 </div>
-                <div className="grid gap-2">
-                  <Label>GST Number</Label>
-                  <Input value={shopForm.gst_no} onChange={(e) => setShopForm({ ...shopForm, gst_no: e.target.value })} />
-                </div>
-                <div className="grid gap-2">
-                  <Label>Shop Phone</Label>
-                  <Input value={shopForm.shop_phone} onChange={(e) => setShopForm({ ...shopForm, shop_phone: e.target.value })} />
-                </div>
-                <div className="grid gap-2">
-                  <Label>Owner Name</Label>
-                  <Input value={shopForm.owner_name} onChange={(e) => setShopForm({ ...shopForm, owner_name: e.target.value })} />
-                </div>
-                <div className="grid gap-2 sm:col-span-2">
-                  <Label>Address</Label>
-                  <Input value={shopForm.address} onChange={(e) => setShopForm({ ...shopForm, address: e.target.value })} />
-                </div>
-                <div className="grid gap-2 sm:col-span-2">
-                  <Label>Terms & Conditions</Label>
-                  <Textarea value={shopForm.terms} onChange={(e) => setShopForm({ ...shopForm, terms: e.target.value })} rows={4} />
+                <div>
+                  <h3 className="font-semibold text-[#F5F5F7]">Shop Information</h3>
+                  <p className="text-xs text-[#86868B]">These details appear on invoices and storefront</p>
                 </div>
               </div>
-              <Button onClick={handleSaveShop} disabled={saving} className="bg-[#FF5722] hover:bg-[#E64A19] text-white gap-2">
+
+              <Separator className="bg-white/[0.05]" />
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid gap-2">
+                  <Label className={labelClass}>Shop Name</Label>
+                  <Input className={inputClass} value={shopForm.shop_name} onChange={(e) => setShopForm({ ...shopForm, shop_name: e.target.value })} />
+                </div>
+                <div className="grid gap-2">
+                  <Label className={labelClass}>GST Number</Label>
+                  <Input className={inputClass} value={shopForm.gst_no} onChange={(e) => setShopForm({ ...shopForm, gst_no: e.target.value })} />
+                </div>
+                <div className="grid gap-2">
+                  <Label className={labelClass}>Shop Phone</Label>
+                  <Input className={inputClass} value={shopForm.shop_phone} onChange={(e) => setShopForm({ ...shopForm, shop_phone: e.target.value })} />
+                </div>
+                <div className="grid gap-2">
+                  <Label className={labelClass}>Owner Name</Label>
+                  <Input className={inputClass} value={shopForm.owner_name} onChange={(e) => setShopForm({ ...shopForm, owner_name: e.target.value })} />
+                </div>
+                <div className="grid gap-2 sm:col-span-2">
+                  <Label className={labelClass}>Address</Label>
+                  <Input className={inputClass} value={shopForm.address} onChange={(e) => setShopForm({ ...shopForm, address: e.target.value })} />
+                </div>
+                <div className="grid gap-2 sm:col-span-2">
+                  <Label className={labelClass}>Terms & Conditions</Label>
+                  <Textarea className={`${inputClass} resize-none`} value={shopForm.terms} onChange={(e) => setShopForm({ ...shopForm, terms: e.target.value })} rows={4} />
+                </div>
+              </div>
+              <Button onClick={handleSaveShop} disabled={saving} className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:opacity-90 text-white gap-2 transition-opacity disabled:opacity-50">
                 {saving && <Loader2 className="h-4 w-4 animate-spin" />}
                 <Save className="h-4 w-4" /> Save Shop Details
               </Button>
@@ -230,29 +273,43 @@ export default function AdminProfile() {
 
         {/* Security */}
         <TabsContent value="security">
-          <Card className="border-[#E4E7EC]">
-            <CardContent className="p-6 space-y-4">
-              <div className="grid gap-2">
-                <Label>User ID (read-only)</Label>
-                <Input value={admin?.user_id || ''} disabled className="bg-[#F5F7FA]" />
+          <Card className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl">
+            <CardContent className="p-6 space-y-5">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+                  <Shield className="h-5 w-5 text-[#86868B]" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-[#F5F5F7]">Security Settings</h3>
+                  <p className="text-xs text-[#86868B]">Manage your account security</p>
+                </div>
               </div>
-              <Separator />
-              <h3 className="font-medium text-[#1F2A3A]">Change Password</h3>
+
+              <Separator className="bg-white/[0.05]" />
+
+              <div className="grid gap-2">
+                <Label className={labelClass}>User ID (read-only)</Label>
+                <Input value={admin?.user_id || ''} disabled className="bg-white/[0.03] border-white/[0.05] text-[#86868B] cursor-not-allowed" />
+              </div>
+
+              <Separator className="bg-white/[0.05]" />
+
+              <h3 className="font-medium text-[#F5F5F7]">Change Password</h3>
               <div className="grid gap-4 max-w-sm">
                 <div className="grid gap-2">
-                  <Label>Current Password</Label>
-                  <Input type="password" value={securityForm.currentPassword} onChange={(e) => setSecurityForm({ ...securityForm, currentPassword: e.target.value })} />
+                  <Label className={labelClass}>Current Password</Label>
+                  <Input type="password" className={inputClass} value={securityForm.currentPassword} onChange={(e) => setSecurityForm({ ...securityForm, currentPassword: e.target.value })} />
                 </div>
                 <div className="grid gap-2">
-                  <Label>New Password</Label>
-                  <Input type="password" value={securityForm.newPassword} onChange={(e) => setSecurityForm({ ...securityForm, newPassword: e.target.value })} />
+                  <Label className={labelClass}>New Password</Label>
+                  <Input type="password" className={inputClass} value={securityForm.newPassword} onChange={(e) => setSecurityForm({ ...securityForm, newPassword: e.target.value })} />
                 </div>
                 <div className="grid gap-2">
-                  <Label>Confirm New Password</Label>
-                  <Input type="password" value={securityForm.confirmPassword} onChange={(e) => setSecurityForm({ ...securityForm, confirmPassword: e.target.value })} />
+                  <Label className={labelClass}>Confirm New Password</Label>
+                  <Input type="password" className={inputClass} value={securityForm.confirmPassword} onChange={(e) => setSecurityForm({ ...securityForm, confirmPassword: e.target.value })} />
                 </div>
               </div>
-              <Button onClick={handleChangePassword} className="bg-[#FF5722] hover:bg-[#E64A19] text-white gap-2">
+              <Button onClick={handleChangePassword} className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:opacity-90 text-white gap-2 transition-opacity">
                 <Shield className="h-4 w-4" /> Update Password
               </Button>
             </CardContent>
@@ -263,15 +320,33 @@ export default function AdminProfile() {
         <TabsContent value="themes">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {themes.map((theme) => (
-              <Card key={theme.name} className="border-[#E4E7EC] shadow-sm hover:shadow-md transition-shadow">
+              <Card
+                key={theme.name}
+                className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl hover:border-white/[0.15] transition-all duration-300 group cursor-pointer hover:shadow-lg"
+                style={{ '--glow-color': theme.glow } as React.CSSProperties}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 32px ${theme.glow}15, 0 0 0 1px ${theme.glow}20`;
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow = 'none';
+                }}
+              >
                 <CardContent className="p-4">
-                  <div className="flex gap-2 mb-3">
+                  <div className="flex gap-1.5 mb-4">
                     {theme.colors.map((color, i) => (
-                      <div key={i} className="w-8 h-8 rounded-lg" style={{ backgroundColor: color }} />
+                      <div
+                        key={i}
+                        className="w-9 h-9 rounded-xl transition-transform duration-200 group-hover:scale-110 group-hover:-translate-y-0.5"
+                        style={{ backgroundColor: color }}
+                      />
                     ))}
                   </div>
-                  <p className="text-sm font-medium text-[#1F2A3A]">{theme.name}</p>
-                  <Button variant="outline" size="sm" className="mt-3 w-full text-xs border-[#FF5722] text-[#FF5722] hover:bg-[#FFF3E0]">
+                  <p className="text-sm font-medium text-[#F5F5F7] group-hover:text-white transition-colors">{theme.name}</p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mt-3 w-full text-xs bg-white/5 border-white/10 text-[#86868B] hover:bg-white/10 hover:text-white hover:border-white/20 transition-all"
+                  >
                     Apply
                   </Button>
                 </CardContent>

@@ -2,8 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAdminNavigation } from '@/stores/adminNavigation';
-import { useAuth } from '@/stores/auth';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
@@ -19,6 +17,25 @@ interface CustomerData {
   customer: { id: string; first_name: string; last_name: string; mobile: string; address: string; pincode: string; nearby_area: string; total_orders: number; total_spent: number; importance: string; created_at: string };
   orders: { id: string; order_number: string; status: string; total: string; created_at: string; items_count?: number }[];
 }
+
+const statusBadge = (status: string) => {
+  const s = status?.toLowerCase() || 'pending';
+  const map: Record<string, string> = {
+    pending: 'bg-[#FFC107]/10 text-[#FFC107] border-[#FFC107]/20',
+    confirmed: 'bg-[#60A5FA]/10 text-[#60A5FA] border-[#60A5FA]/20',
+    packing: 'bg-[#C084FC]/10 text-[#C084FC] border-[#C084FC]/20',
+    shipping: 'bg-[#FF8A50]/10 text-[#FF8A50] border-[#FF8A50]/20',
+    delivered: 'bg-[#4ADE80]/10 text-[#4ADE80] border-[#4ADE80]/20',
+    cancelled: 'bg-[#F87171]/10 text-[#F87171] border-[#F87171]/20',
+  };
+  return map[s] || map.pending;
+};
+
+const importanceBadge = (imp: string) => {
+  if (imp === 'High') return 'bg-[#4ADE80]/10 text-[#4ADE80] border border-[#4ADE80]/20';
+  if (imp === 'Medium') return 'bg-[#FBBF24]/10 text-[#FBBF24] border border-[#FBBF24]/20';
+  return 'bg-white/5 text-[#86868B] border border-white/10';
+};
 
 export default function AdminCustomerDetail() {
   const { pageParams, goBack, navigate } = useAdminNavigation();
@@ -44,130 +61,157 @@ export default function AdminCustomerDetail() {
   }));
 
   if (loading) {
-    return <div className="space-y-4"><Skeleton className="h-48 w-full" /><Skeleton className="h-64 w-full" /></div>;
+    return (
+      <div className="space-y-5">
+        <Skeleton className="h-10 w-40 bg-white/5 rounded-xl" />
+        <Skeleton className="h-48 w-full bg-white/5 rounded-2xl" />
+        <div className="grid grid-cols-3 gap-4">
+          {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-24 bg-white/5 rounded-2xl" />)}
+        </div>
+        <Skeleton className="h-64 w-full bg-white/5 rounded-2xl" />
+      </div>
+    );
   }
 
   if (!c) {
-    return <Card className="border-[#E4E7EC]"><CardContent className="py-16 text-center text-[#5A6B7F]">Customer not found</CardContent></Card>;
+    return (
+      <div className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl p-16 text-center">
+        <p className="text-[#86868B]">Customer not found</p>
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Back */}
-      <Button variant="ghost" onClick={goBack} className="gap-2 text-[#5A6B7F]">
+      <Button variant="ghost" onClick={goBack} className="gap-2 text-[#86868B] hover:text-[#F5F5F7] hover:bg-white/10 transition-colors">
         <ArrowLeft className="h-4 w-4" /> Back to Customers
       </Button>
 
       {/* Profile Card */}
-      <Card className="border-[#E4E7EC]">
-        <CardContent className="p-6">
-          <div className="flex flex-col sm:flex-row sm:items-start gap-5">
-            <div className="w-16 h-16 rounded-2xl bg-[#FF5722]/10 text-[#FF5722] flex items-center justify-center text-xl font-bold flex-shrink-0">
-              {c.first_name?.charAt(0)}{(c.last_name || '').charAt(0)}
-            </div>
-            <div className="flex-1 space-y-1">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h2 className="text-xl font-semibold text-[#1F2A3A]">{c.first_name} {c.last_name || ''}</h2>
-                <Badge className={c.importance === 'High' ? 'bg-[#E8F5E9] text-[#2E7D32]' : c.importance === 'Medium' ? 'bg-[#FFF8E1] text-[#F57F17]' : 'bg-[#F5F7FA] text-[#5A6B7F]'}>
-                  {c.importance || 'Regular'}
-                </Badge>
-              </div>
-              <p className="text-sm text-[#5A6B7F]">{c.mobile || 'No mobile'}</p>
-              {c.address && <p className="text-sm text-[#5A6B7F]">{c.address}{c.pincode ? `, ${c.pincode}` : ''}</p>}
-              <p className="text-xs text-[#CBD5E1] mt-1">Joined {c.created_at ? new Date(c.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A'}</p>
-            </div>
+      <div className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl p-6">
+        <div className="flex flex-col sm:flex-row sm:items-start gap-5">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF5722] to-[#FF2D55] text-white flex items-center justify-center text-xl font-bold flex-shrink-0">
+            {c.first_name?.charAt(0)}{(c.last_name || '').charAt(0)}
           </div>
-        </CardContent>
-      </Card>
+          <div className="flex-1 space-y-2">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <h2 className="text-xl font-semibold text-[#F5F5F7] tracking-tight">{c.first_name} {c.last_name || ''}</h2>
+              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${importanceBadge(c.importance)}`}>
+                {c.importance || 'Regular'}
+              </span>
+            </div>
+            <p className="text-sm text-[#86868B]">{c.mobile || 'No mobile'}</p>
+            {c.address && <p className="text-sm text-[#86868B]">{c.address}{c.pincode ? `, ${c.pincode}` : ''}</p>}
+            <p className="text-xs text-white/40 mt-1">
+              Joined {c.created_at ? new Date(c.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A'}
+            </p>
+          </div>
+        </div>
+      </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
-          { label: 'Total Orders', value: c.total_orders, icon: ShoppingBag, color: '#3B82F6', bg: '#E3F2FD' },
-          { label: 'Total Spent', value: `₹${c.total_spent.toLocaleString('en-IN')}`, icon: DollarSign, color: '#28A745', bg: '#E8F5E9' },
-          { label: 'Avg Order Value', value: `₹${avgOrder.toLocaleString('en-IN')}`, icon: TrendingUp, color: '#FF5722', bg: '#FFF3E0' },
+          { label: 'Total Orders', value: c.total_orders, icon: ShoppingBag, color: '#60A5FA' },
+          { label: 'Total Spent', value: `₹${c.total_spent.toLocaleString('en-IN')}`, icon: DollarSign, color: '#4ADE80' },
+          { label: 'Avg Order Value', value: `₹${avgOrder.toLocaleString('en-IN')}`, icon: TrendingUp, color: '#FF8A50' },
         ].map((s) => {
           const Icon = s.icon;
           return (
-            <Card key={s.label} className="border-[#E4E7EC]">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: s.bg }}>
-                    <Icon className="h-5 w-5" style={{ color: s.color }} />
-                  </div>
-                  <div>
-                    <p className="text-xs text-[#5A6B7F]">{s.label}</p>
-                    <p className="text-lg font-bold text-[#1F2A3A]">{s.value}</p>
-                  </div>
+            <div key={s.label} className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl p-5">
+              <div className="flex items-center gap-4">
+                <div className="w-11 h-11 rounded-xl bg-white/5 border border-white/[0.08] flex items-center justify-center">
+                  <Icon className="h-5 w-5" style={{ color: s.color }} />
                 </div>
-              </CardContent>
-            </Card>
+                <div>
+                  <p className="text-xs text-[#86868B] uppercase tracking-wider">{s.label}</p>
+                  <p className="text-xl font-bold text-[#F5F5F7] mt-0.5">{s.value}</p>
+                </div>
+              </div>
+            </div>
           );
         })}
       </div>
 
       {/* Value Chart */}
       {chartData.length > 1 && (
-        <Card className="border-[#E4E7EC]">
-          <CardContent className="p-6">
-            <h3 className="text-base font-semibold text-[#1F2A3A] mb-4">Customer Lifetime Value</h3>
-            <ResponsiveContainer width="100%" height={200}>
-              <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E4E7EC" />
-                <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#5A6B7F' }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fontSize: 12, fill: '#5A6B7F' }} axisLine={false} tickLine={false} />
-                <Tooltip formatter={(value: number) => [`₹${value.toLocaleString('en-IN')}`, 'Order Value']} />
-                <Line type="monotone" dataKey="value" stroke="#FF5722" strokeWidth={2} dot={{ r: 4, fill: '#FF5722' }} />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
+        <div className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl p-6">
+          <h3 className="text-base font-semibold text-[#F5F5F7] mb-5 tracking-tight">Customer Lifetime Value</h3>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+              <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#86868B' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 12, fill: '#86868B' }} axisLine={false} tickLine={false} />
+              <Tooltip
+                contentStyle={{ backgroundColor: '#2D2D2F', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#F5F5F7' }}
+                formatter={(value: number) => [`₹${value.toLocaleString('en-IN')}`, 'Order Value']}
+              />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="url(#accentGradient)"
+                strokeWidth={2.5}
+                dot={{ r: 4, fill: '#FF5722', stroke: '#1D1D1F', strokeWidth: 2 }}
+              />
+              <defs>
+                <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#FF5722" />
+                  <stop offset="100%" stopColor="#FF2D55" />
+                </linearGradient>
+              </defs>
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       )}
 
       {/* Order History */}
-      <Card className="border-[#E4E7EC]">
-        <CardContent className="p-6">
-          <h3 className="text-base font-semibold text-[#1F2A3A] mb-4">Order History</h3>
-          {orders.length === 0 ? (
-            <p className="text-sm text-[#5A6B7F] text-center py-8">No orders yet</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-[#F5F7FA] hover:bg-[#F5F7FA]">
-                    <TableHead className="font-medium">Order ID</TableHead>
-                    <TableHead className="font-medium hidden sm:table-cell">Date</TableHead>
-                    <TableHead className="font-medium text-right hidden sm:table-cell">Items</TableHead>
-                    <TableHead className="font-medium text-right">Total</TableHead>
-                    <TableHead className="font-medium">Status</TableHead>
+      <div className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl p-6">
+        <h3 className="text-base font-semibold text-[#F5F5F7] mb-5 tracking-tight">Order History</h3>
+        {orders.length === 0 ? (
+          <div className="text-center py-12">
+            <ShoppingBag className="h-10 w-10 mx-auto mb-3 text-white/20" />
+            <p className="text-sm text-[#86868B]">No orders yet</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="hover:bg-transparent border-b border-white/[0.08]">
+                  <TableHead className="font-medium text-[#86868B] text-xs uppercase tracking-wider">Order ID</TableHead>
+                  <TableHead className="font-medium text-[#86868B] text-xs uppercase tracking-wider hidden sm:table-cell">Date</TableHead>
+                  <TableHead className="font-medium text-[#86868B] text-xs uppercase tracking-wider text-right hidden sm:table-cell">Items</TableHead>
+                  <TableHead className="font-medium text-[#86868B] text-xs uppercase tracking-wider text-right">Total</TableHead>
+                  <TableHead className="font-medium text-[#86868B] text-xs uppercase tracking-wider">Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {orders.map((o, i) => (
+                  <TableRow
+                    key={o.id}
+                    className={`cursor-pointer border-b border-white/[0.04] hover:bg-white/5 transition-colors ${i % 2 === 1 ? 'bg-white/[0.02]' : ''}`}
+                    onClick={() => navigate('order-detail', { id: o.id })}
+                  >
+                    <TableCell>
+                      <span className="font-medium text-[#FF5722]">{o.order_number || o.id?.slice(0, 8)}</span>
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell text-[#86868B]">
+                      {o.created_at ? new Date(o.created_at).toLocaleDateString('en-IN') : '—'}
+                    </TableCell>
+                    <TableCell className="text-right hidden sm:table-cell text-[#86868B]">—</TableCell>
+                    <TableCell className="text-right font-medium text-[#F5F5F7]">₹{Number(o.total).toLocaleString('en-IN')}</TableCell>
+                    <TableCell>
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${statusBadge(o.status)}`}>
+                        {o.status || 'Pending'}
+                      </span>
+                    </TableCell>
                   </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {orders.map((o, i) => (
-                    <TableRow
-                      key={o.id}
-                      className={`admin-row cursor-pointer ${i % 2 === 1 ? 'bg-gray-50/50' : ''}`}
-                      onClick={() => navigate('order-detail', { id: o.id })}
-                    >
-                      <TableCell>
-                        <span className="font-medium text-[#FF5722]">{o.order_number || o.id?.slice(0, 8)}</span>
-                      </TableCell>
-                      <TableCell className="hidden sm:table-cell text-[#5A6B7F]">
-                        {o.created_at ? new Date(o.created_at).toLocaleDateString('en-IN') : '—'}
-                      </TableCell>
-                      <TableCell className="text-right hidden sm:table-cell text-[#5A6B7F]">—</TableCell>
-                      <TableCell className="text-right font-medium">₹{Number(o.total).toLocaleString('en-IN')}</TableCell>
-                      <TableCell>
-                        <Badge className={`badge-${o.status?.toLowerCase()}`}>{o.status || 'Pending'}</Badge>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,28 +1,27 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue
 } from '@/components/ui/select';
 import {
-  BarChart3, Users, ShoppingBag, DollarSign, Download, FileText
+  BarChart3, Users, ShoppingBag, DollarSign, Download, TrendingUp, TrendingDown
 } from 'lucide-react';
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, LineChart, Line, PieChart, Pie, Cell
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, LineChart, Line, PieChart, Pie, Cell, AreaChart, Area
 } from 'recharts';
 
 const REPORT_TYPES = [
-  { id: 'profit', title: 'Profit Report', icon: BarChart3, color: '#28A745', bg: '#E8F5E9' },
-  { id: 'customers', title: 'Customer Report', icon: Users, color: '#3B82F6', bg: '#E3F2FD' },
-  { id: 'orders', title: 'Orders Report', icon: ShoppingBag, color: '#FF5722', bg: '#FFF3E0' },
-  { id: 'revenue', title: 'Revenue Report', icon: DollarSign, color: '#7B1FA2', bg: '#F3E5F5' },
+  { id: 'profit', title: 'Profit Report', icon: BarChart3, color: '#34D399', gradient: 'from-emerald-500/20 to-emerald-500/5' },
+  { id: 'customers', title: 'Customer Report', icon: Users, color: '#60A5FA', gradient: 'from-blue-500/20 to-blue-500/5' },
+  { id: 'orders', title: 'Orders Report', icon: ShoppingBag, color: '#F97316', gradient: 'from-orange-500/20 to-orange-500/5' },
+  { id: 'revenue', title: 'Revenue Report', icon: DollarSign, color: '#A78BFA', gradient: 'from-violet-500/20 to-violet-500/5' },
 ];
 
-const PIE_COLORS = ['#FF5722', '#28A745', '#FFC107', '#DC3545', '#3B82F6', '#7B1FA2'];
+const PIE_COLORS = ['#FF5722', '#34D399', '#FBBF24', '#F87171', '#60A5FA', '#A78BFA'];
 
 // Demo data for reports
 const generateReportData = (type: string) => {
@@ -84,6 +83,30 @@ const generateReportData = (type: string) => {
   }
 };
 
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{ name: string; value: number; color: string }>;
+  label?: string;
+}
+
+function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
+  if (!active || !payload) return null;
+  return (
+    <div className="bg-[#2A2A2E] border border-white/[0.08] rounded-xl px-4 py-3 shadow-xl">
+      <p className="text-[#86868B] text-xs mb-2">{label}</p>
+      {payload.map((entry, index) => (
+        <div key={index} className="flex items-center gap-2 text-sm">
+          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
+          <span className="text-[#86868B]">{entry.name}:</span>
+          <span className="text-[#F5F5F7] font-medium">
+            {typeof entry.value === 'number' ? `₹${entry.value.toLocaleString('en-IN')}` : entry.value}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function AdminReports() {
   const [activeReport, setActiveReport] = useState<string | null>(null);
   const [dateRange, setDateRange] = useState('30days');
@@ -106,40 +129,56 @@ export default function AdminReports() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <h1 className="text-xl font-semibold text-[#1F2A3A]">Reports</h1>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold text-[#F5F5F7] tracking-tight">Reports</h1>
+          <p className="text-sm text-[#86868B] mt-1">Generate and download business analytics</p>
+        </div>
+      </div>
 
       {/* Report Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {REPORT_TYPES.map((report) => {
           const Icon = report.icon;
+          const isActive = activeReport === report.id;
           return (
-            <Card key={report.id} className="border-[#E4E7EC] shadow-sm">
+            <Card
+              key={report.id}
+              className={`bg-[#1D1D1F] rounded-2xl transition-all duration-200 ${
+                isActive
+                  ? 'border-[#FF5722]/40 shadow-lg shadow-[#FF5722]/5'
+                  : 'border border-white/[0.08] hover:border-white/[0.12]'
+              }`}
+            >
               <CardContent className="p-5">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: report.bg }}>
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${report.gradient}`}>
                     <Icon className="h-6 w-6" style={{ color: report.color }} />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-[#1F2A3A]">{report.title}</h3>
-                    <div className="mt-3 flex items-center gap-2">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-[#F5F5F7]">{report.title}</h3>
+                    <div className="mt-3 flex flex-wrap items-center gap-2">
                       <Select value={dateRange} onValueChange={setDateRange}>
-                        <SelectTrigger className="h-8 w-[140px] text-xs">
+                        <SelectTrigger className="h-8 w-[130px] text-xs bg-white/5 border-white/10 text-[#F5F5F7] focus:ring-[#FF5722]/30">
                           <SelectValue />
                         </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="7days">Last 7 days</SelectItem>
-                          <SelectItem value="30days">Last 30 days</SelectItem>
-                          <SelectItem value="90days">Last 90 days</SelectItem>
-                          <SelectItem value="year">This Year</SelectItem>
+                        <SelectContent className="bg-[#2A2A2E] border-white/[0.08]">
+                          <SelectItem value="7days" className="text-[#F5F5F7] focus:bg-white/5 focus:text-[#F5F5F7]">Last 7 days</SelectItem>
+                          <SelectItem value="30days" className="text-[#F5F5F7] focus:bg-white/5 focus:text-[#F5F5F7]">Last 30 days</SelectItem>
+                          <SelectItem value="90days" className="text-[#F5F5F7] focus:bg-white/5 focus:text-[#F5F5F7]">Last 90 days</SelectItem>
+                          <SelectItem value="year" className="text-[#F5F5F7] focus:bg-white/5 focus:text-[#F5F5F7]">This Year</SelectItem>
                         </SelectContent>
                       </Select>
                       <Button
-                        variant="outline"
                         size="sm"
-                        className="text-xs border-[#FF5722] text-[#FF5722] hover:bg-[#FFF3E0]"
+                        className={`text-xs gap-1.5 transition-all ${
+                          isActive
+                            ? 'bg-gradient-to-r from-[#FF5722] to-[#FF2D55] text-white'
+                            : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'
+                        }`}
                         onClick={() => handleGenerate(report.id)}
                       >
-                        Generate Report
+                        Generate
                       </Button>
                     </div>
                   </div>
@@ -152,78 +191,97 @@ export default function AdminReports() {
 
       {/* Report Preview */}
       {activeReport && (
-        <Card className="border-[#E4E7EC] shadow-sm" id="report-preview">
+        <Card className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl" id="report-preview">
           <CardContent className="p-6 space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-[#1F2A3A]">
-                {REPORT_TYPES.find((r) => r.id === activeReport)?.title}
-              </h3>
-              <Button variant="outline" size="sm" className="gap-2 print:hidden" onClick={handleDownload}>
+              <div className="flex items-center gap-3">
+                {(() => {
+                  const Icon = REPORT_TYPES.find((r) => r.id === activeReport)?.icon;
+                  return Icon ? <Icon className="h-5 w-5 text-[#86868B]" /> : null;
+                })()}
+                <h3 className="text-lg font-semibold text-[#F5F5F7]">
+                  {REPORT_TYPES.find((r) => r.id === activeReport)?.title}
+                </h3>
+              </div>
+              <Button variant="outline" size="sm" className="gap-2 print:hidden bg-white/5 border-white/10 text-white hover:bg-white/10 hover:text-white" onClick={handleDownload}>
                 <Download className="h-4 w-4" /> Download PDF
               </Button>
             </div>
 
             {loading ? (
-              <Skeleton className="h-72 w-full" />
+              <div className="space-y-4">
+                <Skeleton className="h-72 w-full bg-white/5 rounded-xl" />
+                <div className="grid grid-cols-3 gap-4">
+                  {[1, 2, 3].map((i) => (
+                    <Skeleton key={i} className="h-20 bg-white/5 rounded-xl" />
+                  ))}
+                </div>
+              </div>
             ) : reportData ? (
               <>
                 {/* Chart */}
                 {reportData.chartType === 'bar' && (
                   <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={reportData.chart}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E4E7EC" />
-                      <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#5A6B7F' }} axisLine={false} />
-                      <YAxis tick={{ fontSize: 12, fill: '#5A6B7F' }} axisLine={false} tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} />
-                      <Tooltip formatter={(value: number) => `₹${value.toLocaleString('en-IN')}`} />
-                      <Legend />
-                      <Bar dataKey="profit" fill="#28A745" radius={[4, 4, 0, 0]} name="Profit" />
-                      <Bar dataKey="expense" fill="#DC3545" radius={[4, 4, 0, 0]} name="Expense" />
+                    <BarChart data={reportData.chart} barCategoryGap="25%">
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                      <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#86868B' }} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fontSize: 12, fill: '#86868B' }} axisLine={false} tickLine={false} tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} />
+                      <Tooltip content={<CustomTooltip />} />
+                      <Legend wrapperStyle={{ fontSize: 12, color: '#86868B' }} />
+                      <Bar dataKey="profit" fill="#34D399" radius={[6, 6, 0, 0]} name="Profit" />
+                      <Bar dataKey="expense" fill="#F87171" radius={[6, 6, 0, 0]} name="Expense" />
                     </BarChart>
                   </ResponsiveContainer>
                 )}
                 {reportData.chartType === 'line' && (
                   <ResponsiveContainer width="100%" height={300}>
                     <LineChart data={reportData.chart}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E4E7EC" />
-                      <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#5A6B7F' }} axisLine={false} />
-                      <YAxis tick={{ fontSize: 12, fill: '#5A6B7F' }} axisLine={false} />
-                      <Tooltip />
-                      <Legend />
-                      <Line type="monotone" dataKey="new" stroke="#FF5722" strokeWidth={2} name="New Customers" />
-                      <Line type="monotone" dataKey="returning" stroke="#3B82F6" strokeWidth={2} name="Returning" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                      <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#86868B' }} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fontSize: 12, fill: '#86868B' }} axisLine={false} tickLine={false} />
+                      <Tooltip content={<CustomTooltip />} />
+                      <Legend wrapperStyle={{ fontSize: 12, color: '#86868B' }} />
+                      <Line type="monotone" dataKey="new" stroke="#FF5722" strokeWidth={2.5} dot={{ fill: '#FF5722', strokeWidth: 0, r: 4 }} name="New Customers" />
+                      <Line type="monotone" dataKey="returning" stroke="#60A5FA" strokeWidth={2.5} dot={{ fill: '#60A5FA', strokeWidth: 0, r: 4 }} name="Returning" />
                     </LineChart>
                   </ResponsiveContainer>
                 )}
                 {reportData.chartType === 'pie' && (
                   <ResponsiveContainer width="100%" height={300}>
                     <PieChart>
-                      <Pie data={reportData.chart} cx="50%" cy="50%" outerRadius={100} dataKey="value" label>
+                      <Pie data={reportData.chart} cx="50%" cy="50%" outerRadius={100} innerRadius={50} dataKey="value" stroke="none" label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
                         {reportData.chart.map((_, i) => (
                           <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
                         ))}
                       </Pie>
-                      <Tooltip />
+                      <Tooltip content={<CustomTooltip />} />
                     </PieChart>
                   </ResponsiveContainer>
                 )}
                 {reportData.chartType === 'area' && (
                   <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={reportData.chart}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E4E7EC" />
-                      <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#5A6B7F' }} axisLine={false} />
-                      <YAxis tick={{ fontSize: 12, fill: '#5A6B7F' }} axisLine={false} tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} />
-                      <Tooltip formatter={(value: number) => `₹${value.toLocaleString('en-IN')}`} />
-                      <Bar dataKey="revenue" fill="#7B1FA2" radius={[4, 4, 0, 0]} name="Revenue" />
-                    </BarChart>
+                    <AreaChart data={reportData.chart}>
+                      <defs>
+                        <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#A78BFA" stopOpacity={0.3} />
+                          <stop offset="95%" stopColor="#A78BFA" stopOpacity={0} />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                      <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#86868B' }} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fontSize: 12, fill: '#86868B' }} axisLine={false} tickLine={false} tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} />
+                      <Tooltip content={<CustomTooltip />} />
+                      <Area type="monotone" dataKey="revenue" stroke="#A78BFA" strokeWidth={2.5} fill="url(#revenueGradient)" name="Revenue" />
+                    </AreaChart>
                   </ResponsiveContainer>
                 )}
 
                 {/* Summary */}
                 <div className="grid grid-cols-3 gap-4">
                   {Object.entries(reportData.summary).map(([key, value]) => (
-                    <div key={key} className="bg-[#F5F7FA] rounded-xl p-4 text-center">
-                      <p className="text-xs text-[#5A6B7F] capitalize">{key.replace(/([A-Z])/g, ' $1')}</p>
-                      <p className="text-lg font-bold text-[#1F2A3A] mt-1">{value}</p>
+                    <div key={key} className="bg-white/[0.03] rounded-xl p-4 text-center border border-white/[0.05]">
+                      <p className="text-[10px] uppercase tracking-widest text-[#86868B]">{key.replace(/([A-Z])/g, ' $1')}</p>
+                      <p className="text-lg font-bold text-[#F5F5F7] mt-1.5">{value}</p>
                     </div>
                   ))}
                 </div>
