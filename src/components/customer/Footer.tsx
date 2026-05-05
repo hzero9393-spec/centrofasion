@@ -29,31 +29,49 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-[#0A1B2A] text-white mt-auto">
-      <div className="max-w-[1280px] mx-auto px-4 py-10 md:py-14">
-        {/* 5-Column Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-6">
-          {/* Column 1: Logo + Tagline */}
-          <div className="col-span-2 md:col-span-3 lg:col-span-1 mb-4 lg:mb-0">
+    <footer className="bg-[#1D1D1F] text-white mt-auto">
+      {/* Subtle top gradient border */}
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        {/* Grid Layout */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10">
+          {/* Column 1: Logo + Tagline + Socials */}
+          <div className="col-span-2 md:col-span-3 lg:col-span-2 mb-4 lg:mb-0">
             <button
               onClick={() => navigate('home')}
-              className="text-xl font-bold text-white tracking-tight"
+              className="text-2xl font-bold tracking-tight transition-opacity hover:opacity-80"
             >
-              Cloth<span className="text-[#FF5722]">Fasion</span>
+              <span className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] bg-clip-text text-transparent">
+                ClothFasion
+              </span>
             </button>
-            <p className="text-sm text-white/50 mt-3 leading-relaxed max-w-[260px]">
+            <p className="text-sm text-white/40 mt-3 leading-relaxed max-w-[300px]">
               Your one-stop destination for premium fashion. Trending styles, quality fabrics, and unbeatable prices.
             </p>
+
             {/* Social Icons */}
-            <div className="flex items-center gap-2.5 mt-5">
-              <a href="#" className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#FF5722] flex items-center justify-center transition-colors" aria-label="Instagram">
-                <Instagram className="size-4" />
+            <div className="flex items-center gap-3 mt-6">
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[#FF5722] hover:to-[#FF2D55] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#FF5722]/20"
+                aria-label="Instagram"
+              >
+                <Instagram className="size-[18px] text-white/60 hover:text-white transition-colors" />
               </a>
-              <a href="#" className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#FF5722] flex items-center justify-center transition-colors" aria-label="Facebook">
-                <Facebook className="size-4" />
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[#FF5722] hover:to-[#FF2D55] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#FF5722]/20"
+                aria-label="Facebook"
+              >
+                <Facebook className="size-[18px] text-white/60 hover:text-white transition-colors" />
               </a>
-              <a href="#" className="w-9 h-9 rounded-lg bg-white/10 hover:bg-[#FF5722] flex items-center justify-center transition-colors" aria-label="Twitter">
-                <Twitter className="size-4" />
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[#FF5722] hover:to-[#FF2D55] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#FF5722]/20"
+                aria-label="Twitter"
+              >
+                <Twitter className="size-[18px] text-white/60 hover:text-white transition-colors" />
               </a>
             </div>
           </div>
@@ -63,12 +81,12 @@ export default function Footer() {
             <h4 className="text-xs font-bold uppercase tracking-wider text-white/80 mb-4">
               Shop
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3">
               {shopLinks.map((link) => (
                 <li key={link.label}>
                   <button
                     onClick={link.action}
-                    className="text-sm text-white/50 hover:text-white transition-colors"
+                    className="text-sm text-white/40 hover:text-white transition-colors duration-200"
                   >
                     {link.label}
                   </button>
@@ -82,12 +100,12 @@ export default function Footer() {
             <h4 className="text-xs font-bold uppercase tracking-wider text-white/80 mb-4">
               Support
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3">
               {supportLinks.map((link) => (
                 <li key={link.label}>
                   <button
                     onClick={link.action}
-                    className="text-sm text-white/50 hover:text-white transition-colors"
+                    className="text-sm text-white/40 hover:text-white transition-colors duration-200"
                   >
                     {link.label}
                   </button>
@@ -101,12 +119,12 @@ export default function Footer() {
             <h4 className="text-xs font-bold uppercase tracking-wider text-white/80 mb-4">
               Policies
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3">
               {policyLinks.map((link) => (
                 <li key={link.label}>
                   <button
                     onClick={link.action}
-                    className="text-sm text-white/50 hover:text-white transition-colors"
+                    className="text-sm text-white/40 hover:text-white transition-colors duration-200"
                   >
                     {link.label}
                   </button>
@@ -118,17 +136,17 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-white/10">
-        <div className="max-w-[1280px] mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-white/40">
+      <div className="border-t border-white/5">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-white/30">
             © 2024 ClothFasion. All rights reserved.
           </p>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-white/40">
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2 text-white/30 hover:text-white/50 transition-colors">
               <CreditCard className="size-4" />
               <span className="text-xs">Secure Payments</span>
             </div>
-            <div className="flex items-center gap-2 text-white/40">
+            <div className="flex items-center gap-2 text-white/30 hover:text-white/50 transition-colors">
               <Truck className="size-4" />
               <span className="text-xs">Fast Delivery</span>
             </div>

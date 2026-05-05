@@ -43,85 +43,112 @@
   --color-cf-success: #28A745;
   --color-cf-warning: #FFC107;
   --color-cf-danger: #DC3545;
-  --color-cf-bg: #F5F7FA;
-  --color-cf-border: #E4E7EC;
-  --color-cf-text: #1F2A3A;
-  --color-cf-text2: #5A6B7F;
+  --color-cf-bg: #000000;
+  --color-cf-border: rgba(255, 255, 255, 0.1);
+  --color-cf-text: #F5F5F7;
+  --color-cf-text2: #86868B;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* ============================================================
+   :root — Apple.com Inspired Dark Theme
+   ============================================================ */
 :root {
-  --radius: 0.5rem;
-  --background: #F5F7FA;
-  --foreground: #1F2A3A;
-  --card: #FFFFFF;
-  --card-foreground: #1F2A3A;
-  --popover: #FFFFFF;
-  --popover-foreground: #1F2A3A;
-  --primary: #0A1B2A;
-  --primary-foreground: #FFFFFF;
-  --secondary: #F5F7FA;
-  --secondary-foreground: #1F2A3A;
-  --muted: #F5F7FA;
-  --muted-foreground: #5A6B7F;
+  --radius: 0.75rem;
+  --background: #000000;
+  --foreground: #F5F5F7;
+  --card: #1D1D1F;
+  --card-foreground: #F5F5F7;
+  --popover: #1D1D1F;
+  --popover-foreground: #F5F5F7;
+  --primary: #F5F5F7;
+  --primary-foreground: #000000;
+  --secondary: #1D1D1F;
+  --secondary-foreground: #F5F5F7;
+  --muted: #1D1D1F;
+  --muted-foreground: #86868B;
   --accent: #FF5722;
   --accent-foreground: #FFFFFF;
   --destructive: #DC3545;
-  --border: #E4E7EC;
-  --input: #E4E7EC;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.1);
   --ring: #FF5722;
   --chart-1: #FF5722;
-  --chart-2: #0A1B2A;
+  --chart-2: #F5F5F7;
   --chart-3: #28A745;
   --chart-4: #FFC107;
   --chart-5: #3B82F6;
-  --sidebar: #0A1B2A;
-  --sidebar-foreground: #CBD5E1;
+  --sidebar: #0A0A0A;
+  --sidebar-foreground: #F5F5F7;
   --sidebar-primary: #FF5722;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #1A2942;
-  --sidebar-accent-foreground: #FFFFFF;
-  --sidebar-border: #1E3A5A;
+  --sidebar-accent: #1D1D1F;
+  --sidebar-accent-foreground: #F5F5F7;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
   --sidebar-ring: #FF5722;
+
+  /* Apple 3D Design Tokens */
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-bg-dark: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: 20px;
+  --surface-hover: rgba(255, 255, 255, 0.05);
+  --accent-gradient: linear-gradient(135deg, #FF5722, #FF2D55);
+  --depth-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --depth-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+  --depth-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --depth-shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.6), 0 8px 16px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+  --glow-orange: 0 0 20px rgba(255, 87, 34, 0.4), 0 0 60px rgba(255, 87, 34, 0.15);
+  --glow-gradient: 0 0 20px rgba(255, 87, 34, 0.3), 0 0 40px rgba(255, 45, 85, 0.2);
+  --perspective: 1000px;
+  --parallax-scale: 1;
+  --parallax-rotate-x: 0deg;
+  --parallax-rotate-y: 0deg;
 }
 
+/* ============================================================
+   .dark — Slightly softer dark for variant contexts
+   ============================================================ */
 .dark {
-  --background: #0A1B2A;
-  --foreground: #E2E8F0;
-  --card: #1A2942;
-  --card-foreground: #E2E8F0;
-  --popover: #1A2942;
-  --popover-foreground: #E2E8F0;
-  --primary: #E2E8F0;
-  --primary-foreground: #0A1B2A;
-  --secondary: #1A2942;
-  --secondary-foreground: #E2E8F0;
-  --muted: #1A2942;
-  --muted-foreground: #94A3B8;
+  --background: #0A0A0A;
+  --foreground: #F5F5F7;
+  --card: #1D1D1F;
+  --card-foreground: #F5F5F7;
+  --popover: #1D1D1F;
+  --popover-foreground: #F5F5F7;
+  --primary: #F5F5F7;
+  --primary-foreground: #000000;
+  --secondary: #1D1D1F;
+  --secondary-foreground: #F5F5F7;
+  --muted: #1D1D1F;
+  --muted-foreground: #86868B;
   --accent: #FF5722;
   --accent-foreground: #FFFFFF;
   --destructive: #DC3545;
-  --border: #1E3A5A;
-  --input: #1E3A5A;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.1);
   --ring: #FF5722;
   --chart-1: #FF5722;
-  --chart-2: #E2E8F0;
+  --chart-2: #F5F5F7;
   --chart-3: #28A745;
   --chart-4: #FFC107;
   --chart-5: #3B82F6;
-  --sidebar: #0A1B2A;
-  --sidebar-foreground: #CBD5E1;
+  --sidebar: #050505;
+  --sidebar-foreground: #F5F5F7;
   --sidebar-primary: #FF5722;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #1A2942;
-  --sidebar-accent-foreground: #FFFFFF;
-  --sidebar-border: #1E3A5A;
+  --sidebar-accent: #1D1D1F;
+  --sidebar-accent-foreground: #F5F5F7;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
   --sidebar-ring: #FF5722;
 }
 
+/* ============================================================
+   Base Layer
+   ============================================================ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -129,53 +156,464 @@
   body {
     @apply bg-cf-bg text-cf-text antialiased;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 }
 
-h1, h2, h3, h4, h5, h6 {
+/* ============================================================
+   Apple-Inspired Typography
+   ============================================================ */
+h1 {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+h2 {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+h3 {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+h4, h5, h6 {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 500;
   letter-spacing: -0.01em;
+  line-height: 1.3;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 5px; height: 5px; }
+/* ============================================================
+   Custom Scrollbar — Dark Theme
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
-
-/* Product card */
-.product-card { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
-.product-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-.product-card:hover .product-img { transform: scale(1.05); }
-.product-card:hover .quick-actions { opacity: 1; transform: translateY(0); }
-.product-img { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-.quick-actions { opacity: 0; transform: translateY(8px); transition: all 0.25s ease; }
-
-/* Button interactions */
-.btn-scale { transition: all 0.15s ease; }
-.btn-scale:hover { transform: scale(0.98); }
-.btn-scale:active { transform: scale(0.96); }
-
-/* Cart icon bounce */
-@keyframes cartBounce {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.25); }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
 }
-.cart-bounce { animation: cartBounce 0.3s ease; }
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
 
-/* Skeleton shimmer */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+/* ============================================================
+   @keyframes — Animation Library
+   ============================================================ */
+
+/* Fade in and slide up */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Float gently */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateZ(0);
+  }
+  50% {
+    transform: translateY(-10px) translateZ(20px);
+  }
+}
+
+/* Scale in */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Glow pulse */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 87, 34, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 87, 34, 0.5), 0 0 60px rgba(255, 45, 85, 0.2);
+  }
+}
+
+/* Gradient glow pulse */
+@keyframes gradientGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 87, 34, 0.2), 0 0 20px rgba(255, 45, 85, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 87, 34, 0.4), 0 0 50px rgba(255, 45, 85, 0.25);
+  }
+}
+
+/* 3D card entrance */
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: perspective(1000px) rotateX(8deg) translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1000px) rotateX(0deg) translateY(0) scale(1);
+  }
+}
+
+/* Shimmer for skeletons */
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
-.skeleton-shimmer {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
+
+/* Cart bounce */
+@keyframes cartBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
 }
 
-/* Status badges */
+/* Subtle scale pulse for interactive elements */
+@keyframes scalePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+/* Gradient mesh background */
+@keyframes meshMove {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 100% 50%; }
+  50% { background-position: 100% 0%; }
+  75% { background-position: 0% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Slide in from left */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide in from right */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ============================================================
+   Animation Utility Classes
+   ============================================================ */
+.animate-fade-up {
+  animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-card-entrance {
+  animation: cardEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-gradient-glow {
+  animation: gradientGlow 3s ease-in-out infinite;
+}
+
+.animate-scale-pulse {
+  animation: scalePulse 2s ease-in-out infinite;
+}
+
+/* Stagger delays */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+.stagger-7 { animation-delay: 0.35s; }
+.stagger-8 { animation-delay: 0.4s; }
+
+/* ============================================================
+   Glassmorphism Classes
+   ============================================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-dark {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-accent {
+  background: rgba(255, 87, 34, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 87, 34, 0.2);
+}
+
+/* ============================================================
+   3D Card System
+   ============================================================ */
+.card-3d {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4),
+              0 2px 4px rgba(0, 0, 0, 0.3);
+  will-change: transform;
+}
+
+.card-3d:hover {
+  transform: perspective(1000px) rotateX(-2deg) rotateY(2deg) translateZ(10px) translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+              0 8px 16px rgba(0, 0, 0, 0.4),
+              0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.card-3d-interactive {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out,
+              box-shadow 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  will-change: transform;
+}
+
+/* ============================================================
+   Depth Shadow Utilities
+   ============================================================ */
+.depth-sm { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2); }
+.depth-md { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3); }
+.depth-lg { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2); }
+.depth-xl { box-shadow: 0 16px 64px rgba(0, 0, 0, 0.6), 0 8px 16px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3); }
+
+/* ============================================================
+   Glow Effects
+   ============================================================ */
+.glow-orange {
+  box-shadow: 0 0 20px rgba(255, 87, 34, 0.4),
+              0 0 60px rgba(255, 87, 34, 0.15);
+}
+
+.glow-gradient {
+  box-shadow: 0 0 20px rgba(255, 87, 34, 0.3),
+              0 0 40px rgba(255, 45, 85, 0.2);
+}
+
+/* ============================================================
+   Text Gradient Utilities
+   ============================================================ */
+.text-gradient {
+  background: linear-gradient(135deg, #FF5722, #FF2D55);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-orange {
+  background: linear-gradient(135deg, #FF5722, #FF8A50);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-subtle {
+  background: linear-gradient(135deg, #F5F5F7, #86868B);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================
+   Section Backgrounds
+   ============================================================ */
+.section-dark {
+  background: #0A0A0A;
+}
+
+.section-gradient {
+  background: linear-gradient(180deg, #000000 0%, #0A0A0A 50%, #000000 100%);
+}
+
+.section-gradient-accent {
+  background: linear-gradient(180deg, #000000 0%, rgba(255, 87, 34, 0.03) 50%, #000000 100%);
+}
+
+.section-mesh {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(255, 87, 34, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255, 45, 85, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+    #000000;
+  background-size: 200% 200%;
+}
+
+.section-mesh-animated {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(255, 87, 34, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255, 45, 85, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+    #000000;
+  background-size: 200% 200%;
+  animation: meshMove 15s ease infinite;
+}
+
+/* ============================================================
+   Hover Interaction Utilities
+   ============================================================ */
+.hover-lift {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-lift:hover {
+  transform: translateY(-6px) translateZ(10px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5),
+              0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.hover-glow {
+  transition: box-shadow 0.35s ease;
+}
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(255, 87, 34, 0.4),
+              0 0 60px rgba(255, 87, 34, 0.15);
+}
+
+.hover-surface {
+  transition: background 0.25s ease;
+}
+.hover-surface:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.hover-scale {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+/* ============================================================
+   Product Card — Enhanced 3D
+   ============================================================ */
+.product-card {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.product-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+              0 8px 16px rgba(0, 0, 0, 0.4),
+              0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.product-card:hover .product-img {
+  transform: scale(1.05) translateZ(10px);
+}
+.product-card:hover .quick-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+.product-img {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.quick-actions {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
+   Button Interactions — Enhanced
+   ============================================================ */
+.btn-scale {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-scale:hover {
+  transform: scale(0.98);
+}
+.btn-scale:active {
+  transform: scale(0.96);
+}
+
+/* 3D button press effect */
+.btn-3d {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3),
+              0 1px 3px rgba(0, 0, 0, 0.2);
+}
+.btn-3d:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4),
+              0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.btn-3d:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Cart icon bounce */
+.cart-bounce { animation: cartBounce 0.3s ease; }
+
+/* ============================================================
+   Skeleton Shimmer — Dark Theme
+   ============================================================ */
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #1D1D1F 25%, #2A2A2E 50%, #1D1D1F 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* ============================================================
+   Status Badges — Original (for any bg)
+   ============================================================ */
 .badge-pending { background: #FFF8E1; color: #F57F17; }
 .badge-confirmed { background: #E3F2FD; color: #1565C0; }
 .badge-packing { background: #F3E5F5; color: #7B1FA2; }
@@ -184,28 +622,208 @@ h1, h2, h3, h4, h5, h6 {
 .badge-cancelled { background: #FFEBEE; color: #C62828; }
 .badge-returned { background: #F3E5F5; color: #6A1B9A; }
 
-/* Flipkart-style filter section */
-.filter-section { border-bottom: 1px solid #E4E7EC; padding-bottom: 16px; margin-bottom: 16px; }
+/* Status Badges — Dark Variants (for dark backgrounds) */
+.badge-dark-pending {
+  background: rgba(255, 193, 7, 0.15);
+  color: #FFC107;
+  border: 1px solid rgba(255, 193, 7, 0.25);
+}
+.badge-dark-confirmed {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60A5FA;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
+.badge-dark-packing {
+  background: rgba(168, 85, 247, 0.15);
+  color: #C084FC;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+}
+.badge-dark-shipping {
+  background: rgba(255, 87, 34, 0.15);
+  color: #FF8A50;
+  border: 1px solid rgba(255, 87, 34, 0.25);
+}
+.badge-dark-delivered {
+  background: rgba(40, 167, 69, 0.15);
+  color: #4ADE80;
+  border: 1px solid rgba(40, 167, 69, 0.25);
+}
+.badge-dark-cancelled {
+  background: rgba(220, 53, 69, 0.15);
+  color: #F87171;
+  border: 1px solid rgba(220, 53, 69, 0.25);
+}
+.badge-dark-returned {
+  background: rgba(168, 85, 247, 0.15);
+  color: #C084FC;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+}
+
+/* ============================================================
+   Filter Section — Dark Theme
+   ============================================================ */
+.filter-section {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
 .filter-section:last-child { border-bottom: none; }
 
-/* Checkout progress bar */
+/* ============================================================
+   Checkout Progress Bar — Dark Theme
+   ============================================================ */
 .checkout-step { position: relative; }
-.checkout-step.completed .step-circle { background: #28A745; border-color: #28A745; }
-.checkout-step.active .step-circle { background: #FF5722; border-color: #FF5722; }
-.step-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #E4E7EC; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; transition: all 0.3s ease; }
-.step-line { height: 2px; flex: 1; background: #E4E7EC; transition: background 0.3s ease; }
-.step-line.completed { background: #28A745; }
+.checkout-step.completed .step-circle {
+  background: #28A745;
+  border-color: #28A745;
+  box-shadow: 0 0 12px rgba(40, 167, 69, 0.3);
+}
+.checkout-step.active .step-circle {
+  background: #FF5722;
+  border-color: #FF5722;
+  box-shadow: 0 0 16px rgba(255, 87, 34, 0.4);
+}
+.step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #86868B;
+  background: #1D1D1F;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.step-line {
+  height: 2px;
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease;
+}
+.step-line.completed {
+  background: #28A745;
+  box-shadow: 0 0 8px rgba(40, 167, 69, 0.2);
+}
 
-/* Discount tag */
-.discount-tag { background: #28A745; color: white; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; }
+/* ============================================================
+   Discount Tag
+   ============================================================ */
+.discount-tag {
+  background: linear-gradient(135deg, #28A745, #20E070);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
 
-/* Hero carousel dots */
-.carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); transition: all 0.3s ease; cursor: pointer; }
-.carousel-dot.active { width: 24px; border-radius: 4px; background: #FF5722; }
+/* ============================================================
+   Hero Carousel Dots
+   ============================================================ */
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+.carousel-dot.active {
+  width: 24px;
+  border-radius: 4px;
+  background: #FF5722;
+  box-shadow: 0 0 12px rgba(255, 87, 34, 0.4);
+}
 
-/* Admin table hover */
-.admin-row { transition: background 0.15s ease; }
-.admin-row:hover { background: #F8FAFC; }
+/* ============================================================
+   Admin Table Row — Dark Theme
+   ============================================================ */
+.admin-row {
+  transition: background 0.2s ease;
+}
+.admin-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
 
-/* Image lightbox */
-.lightbox-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; cursor: zoom-out; }
+/* ============================================================
+   Image Lightbox
+   ============================================================ */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+
+/* ============================================================
+   Parallax-Ready Container
+   ============================================================ */
+.parallax-container {
+  perspective: 1200px;
+  perspective-origin: center;
+  overflow: hidden;
+}
+
+.parallax-layer {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* ============================================================
+   Gradient Border Utility
+   ============================================================ */
+.border-gradient {
+  position: relative;
+}
+.border-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, #FF5722, #FF2D55);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Focus Ring — Accent colored
+   ============================================================ */
+.focus-ring:focus-visible {
+  outline: 2px solid #FF5722;
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Noise Texture Overlay (subtle)
+   ============================================================ */
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============================================================
+   Selection Styling
+   ============================================================ */
+::selection {
+  background: rgba(255, 87, 34, 0.3);
+  color: #F5F5F7;
+}

@@ -204,10 +204,10 @@ export default function ShopPage() {
                 onCheckedChange={() => toggleCategory(cat.slug)}
                 className="rounded data-[state=checked]:bg-[#FF5722] data-[state=checked]:border-[#FF5722]"
               />
-              <span className="text-sm text-[#5A6B7F] group-hover:text-cf-text flex-1">
+              <span className="text-sm text-white/50 group-hover:text-cf-text flex-1">
                 {cat.name}
               </span>
-              <span className="text-xs text-[#5A6B7F]/60">({cat.product_count})</span>
+              <span className="text-xs text-white/30">({cat.product_count})</span>
             </label>
           ))}
         </div>
@@ -222,18 +222,18 @@ export default function ShopPage() {
             placeholder="Min"
             value={priceMin || ''}
             onChange={(e) => { setPriceMin(parseInt(e.target.value) || 0); setPage(1); }}
-            className="h-9 text-sm rounded-lg w-full"
+            className="h-9 text-sm rounded-lg w-full bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:ring-[#FF5722]/50"
             min={0}
             max={50000}
             step={500}
           />
-          <span className="text-[#5A6B7F] text-sm">to</span>
+          <span className="text-white/50 text-sm">to</span>
           <Input
             type="number"
             placeholder="Max"
             value={priceMax || ''}
             onChange={(e) => { setPriceMax(parseInt(e.target.value) || 50000); setPage(1); }}
-            className="h-9 text-sm rounded-lg w-full"
+            className="h-9 text-sm rounded-lg w-full bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:ring-[#FF5722]/50"
             min={0}
             max={50000}
             step={500}
@@ -246,9 +246,9 @@ export default function ShopPage() {
           step={500}
           value={priceMax}
           onChange={(e) => { setPriceMax(parseInt(e.target.value)); setPage(1); }}
-          className="w-full h-1.5 rounded-full appearance-none bg-[#E4E7EC] accent-[#FF5722]"
+          className="w-full h-1.5 rounded-full appearance-none bg-white/10 accent-[#FF5722]"
         />
-        <div className="flex justify-between text-xs text-[#5A6B7F] mt-1">
+        <div className="flex justify-between text-xs text-white/50 mt-1">
           <span>₹0</span>
           <span>₹50,000</span>
         </div>
@@ -264,8 +264,8 @@ export default function ShopPage() {
               onClick={() => toggleSize(size)}
               className={`px-3.5 py-1.5 rounded-lg text-xs font-medium border transition-all ${
                 selectedSizes.includes(size)
-                  ? 'bg-[#FF5722] text-white border-[#FF5722]'
-                  : 'bg-white text-[#5A6B7F] border-[#E4E7EC] hover:border-[#5A6B7F]'
+                  ? 'bg-gradient-to-r from-[#FF5722] to-[#FF2D55] text-white border-transparent'
+                  : 'bg-white/5 text-white/50 border-white/10 hover:border-white/30'
               }`}
             >
               {size}
@@ -286,7 +286,7 @@ export default function ShopPage() {
               className={`w-8 h-8 rounded-full border-2 transition-all ${
                 selectedColors.includes(color.name)
                   ? 'border-[#FF5722] scale-110 ring-2 ring-[#FF5722]/30'
-                  : 'border-[#E4E7EC] hover:border-[#5A6B7F]'
+                  : 'border-white/10 hover:border-white/30'
               } ${color.name === 'White' ? 'shadow-sm' : ''}`}
               style={{ backgroundColor: color.hex }}
             />
@@ -305,7 +305,7 @@ export default function ShopPage() {
                 onCheckedChange={() => toggleDiscount(d)}
                 className="rounded data-[state=checked]:bg-[#FF5722] data-[state=checked]:border-[#FF5722]"
               />
-              <span className="text-sm text-[#5A6B7F] group-hover:text-cf-text">{d} off</span>
+              <span className="text-sm text-white/50 group-hover:text-cf-text">{d} off</span>
             </label>
           ))}
         </div>
@@ -331,19 +331,19 @@ export default function ShopPage() {
           {/* Mobile filter button */}
           <Dialog open={filterOpen} onOpenChange={setFilterOpen}>
             <DialogTrigger asChild>
-              <Button variant="outline" className="lg:hidden h-10 rounded-lg border-[#E4E7EC]">
+              <Button variant="outline" className="lg:hidden h-10 rounded-lg border-white/10 bg-white/5 text-white hover:bg-white/10">
                 <SlidersHorizontal className="size-4 mr-2" />
                 Filters
                 {activeFilterCount > 0 && (
-                  <Badge className="ml-2 bg-[#FF5722] text-white text-[10px] h-5 min-w-5 px-1.5 rounded-full">
+                  <Badge className="ml-2 bg-gradient-to-r from-[#FF5722] to-[#FF2D55] text-white text-[10px] h-5 min-w-5 px-1.5 rounded-full">
                     {activeFilterCount}
                   </Badge>
                 )}
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-sm max-h-[85vh] overflow-y-auto">
+            <DialogContent className="max-w-sm max-h-[85vh] overflow-y-auto bg-[#1D1D1F] border-white/10">
               <DialogHeader>
-                <DialogTitle className="font-bold text-lg">Filters</DialogTitle>
+                <DialogTitle className="font-bold text-lg text-cf-text">Filters</DialogTitle>
               </DialogHeader>
               <FilterContent />
             </DialogContent>
@@ -354,7 +354,7 @@ export default function ShopPage() {
               {searchQuery ? `Results for "${searchQuery}"` : 'Shop'}
             </h1>
             {!loading && (
-              <p className="text-sm text-[#5A6B7F]">
+              <p className="text-sm text-white/50">
                 Showing {startItem}–{endItem} of {total} results
               </p>
             )}
@@ -364,13 +364,13 @@ export default function ShopPage() {
         <div className="flex items-center gap-2">
           {/* Sort */}
           <Select value={sortBy} onValueChange={(v) => { setSortBy(v); setPage(1); }}>
-            <SelectTrigger className="w-[180px] h-10 rounded-lg border-[#E4E7EC] text-sm">
-              <span className="text-[#5A6B7F] text-xs mr-1">Sort by</span>
+            <SelectTrigger className="w-[180px] h-10 rounded-lg border-white/10 text-sm bg-white/5 text-white">
+              <span className="text-white/50 text-xs mr-1">Sort by</span>
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-[#1D1D1F] border-white/10">
               {SORT_OPTIONS.map((opt) => (
-                <SelectItem key={opt.value} value={opt.value}>
+                <SelectItem key={opt.value} value={opt.value} className="text-white focus:bg-white/5 focus:text-white">
                   {opt.label}
                 </SelectItem>
               ))}
@@ -378,16 +378,16 @@ export default function ShopPage() {
           </Select>
 
           {/* View toggle */}
-          <div className="hidden sm:flex items-center border border-[#E4E7EC] rounded-lg overflow-hidden">
+          <div className="hidden sm:flex items-center border border-white/10 rounded-lg overflow-hidden">
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-2 transition-colors ${viewMode === 'grid' ? 'bg-[#FF5722] text-white' : 'bg-white text-[#5A6B7F] hover:bg-gray-50'}`}
+              className={`p-2 transition-colors ${viewMode === 'grid' ? 'bg-gradient-to-r from-[#FF5722] to-[#FF2D55] text-white' : 'bg-white/5 text-white/50 hover:bg-white/10'}`}
             >
               <LayoutGrid className="size-4" />
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`p-2 transition-colors ${viewMode === 'list' ? 'bg-[#FF5722] text-white' : 'bg-white text-[#5A6B7F] hover:bg-gray-50'}`}
+              className={`p-2 transition-colors ${viewMode === 'list' ? 'bg-gradient-to-r from-[#FF5722] to-[#FF2D55] text-white' : 'bg-white/5 text-white/50 hover:bg-white/10'}`}
             >
               <List className="size-4" />
             </button>
@@ -398,33 +398,33 @@ export default function ShopPage() {
       {/* Active filters pills */}
       {activeFilterCount > 0 && (
         <div className="flex flex-wrap items-center gap-2 mb-4">
-          <span className="text-xs text-[#5A6B7F]">Active filters:</span>
+          <span className="text-xs text-white/50">Active filters:</span>
           {selectedCategories.map((cat) => (
-            <Badge key={cat} variant="secondary" className="text-xs gap-1 pr-1 bg-white border border-[#E4E7EC]">
+            <Badge key={cat} variant="secondary" className="text-xs gap-1 pr-1 bg-white/5 border border-white/10 text-white">
               {cat}
               <button onClick={() => toggleCategory(cat)}><X className="size-3" /></button>
             </Badge>
           ))}
           {selectedSizes.map((s) => (
-            <Badge key={s} variant="secondary" className="text-xs gap-1 pr-1 bg-white border border-[#E4E7EC]">
+            <Badge key={s} variant="secondary" className="text-xs gap-1 pr-1 bg-white/5 border border-white/10 text-white">
               Size: {s}
               <button onClick={() => toggleSize(s)}><X className="size-3" /></button>
             </Badge>
           ))}
           {selectedColors.map((c) => (
-            <Badge key={c} variant="secondary" className="text-xs gap-1 pr-1 bg-white border border-[#E4E7EC]">
+            <Badge key={c} variant="secondary" className="text-xs gap-1 pr-1 bg-white/5 border border-white/10 text-white">
               {c}
               <button onClick={() => toggleColor(c)}><X className="size-3" /></button>
             </Badge>
           ))}
           {selectedDiscounts.map((d) => (
-            <Badge key={d} variant="secondary" className="text-xs gap-1 pr-1 bg-white border border-[#E4E7EC]">
+            <Badge key={d} variant="secondary" className="text-xs gap-1 pr-1 bg-white/5 border border-white/10 text-white">
               {d} off
               <button onClick={() => toggleDiscount(d)}><X className="size-3" /></button>
             </Badge>
           ))}
           {(priceMin > 0 || priceMax < 50000) && (
-            <Badge variant="secondary" className="text-xs gap-1 pr-1 bg-white border border-[#E4E7EC]">
+            <Badge variant="secondary" className="text-xs gap-1 pr-1 bg-white/5 border border-white/10 text-white">
               ₹{priceMin.toLocaleString('en-IN')} - ₹{priceMax.toLocaleString('en-IN')}
               <button onClick={() => { setPriceMin(0); setPriceMax(50000); }}><X className="size-3" /></button>
             </Badge>
@@ -435,7 +435,7 @@ export default function ShopPage() {
       <div className="flex gap-8">
         {/* Desktop sidebar */}
         <aside className="hidden lg:block w-[280px] shrink-0">
-          <div className="sticky top-24 bg-white rounded-xl border border-[#E4E7EC] shadow-sm p-5">
+          <div className="sticky top-24 bg-[#1D1D1F] rounded-xl border border-white/5 shadow-sm p-5">
             <div className="flex items-center justify-between mb-5">
               <h3 className="font-bold text-lg text-cf-text">Filters</h3>
               {activeFilterCount > 0 && (
@@ -479,8 +479,8 @@ export default function ShopPage() {
             <div className="text-center py-16">
               <div className="text-5xl mb-4">🔍</div>
               <h3 className="text-lg font-bold text-cf-text mb-2">No products found</h3>
-              <p className="text-sm text-[#5A6B7F] mb-4">Try adjusting your filters or search query.</p>
-              <Button variant="outline" onClick={clearFilters} className="rounded-lg border-[#E4E7EC]">
+              <p className="text-sm text-white/50 mb-4">Try adjusting your filters or search query.</p>
+              <Button variant="outline" onClick={clearFilters} className="rounded-lg border-white/10 text-white hover:bg-white/5">
                 Clear Filters
               </Button>
             </div>
@@ -498,9 +498,9 @@ export default function ShopPage() {
                     <div
                       key={product.id}
                       onClick={() => navigate('product', { id: product.id })}
-                      className="product-card flex gap-4 bg-white rounded-xl border border-[#E4E7EC] p-4 cursor-pointer"
+                      className="product-card flex gap-4 bg-[#1D1D1F] rounded-xl border border-white/5 p-4 cursor-pointer hover:border-white/10 transition-colors"
                     >
-                      <div className="shrink-0 w-32 h-32 md:w-40 md:h-40 rounded-xl overflow-hidden bg-gray-100">
+                      <div className="shrink-0 w-32 h-32 md:w-40 md:h-40 rounded-xl overflow-hidden bg-white/5">
                         <img
                           src={product.images[0] || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=300&fit=crop'}
                           alt={product.name}
@@ -510,13 +510,13 @@ export default function ShopPage() {
                       <div className="flex-1 min-w-0 flex flex-col justify-center">
                         <h3 className="text-sm font-semibold text-cf-text line-clamp-2 mb-1">{product.name}</h3>
                         {product.category_name && (
-                          <p className="text-xs text-[#5A6B7F] mb-2">{product.category_name}</p>
+                          <p className="text-xs text-white/50 mb-2">{product.category_name}</p>
                         )}
                         <div className="flex items-center gap-2 mb-2">
                           <span className="text-base font-bold text-cf-text">₹{product.price.toLocaleString('en-IN')}</span>
                           {product.wholesale_price && product.wholesale_price > product.price && (
                             <>
-                              <span className="text-sm text-[#5A6B7F] line-through">₹{product.wholesale_price.toLocaleString('en-IN')}</span>
+                              <span className="text-sm text-white/50 line-through">₹{product.wholesale_price.toLocaleString('en-IN')}</span>
                               <span className="discount-tag">
                                 {Math.round(((product.wholesale_price - product.price) / product.wholesale_price) * 100)}% off
                               </span>
@@ -525,9 +525,9 @@ export default function ShopPage() {
                         </div>
                         <div className="flex items-center gap-2">
                           {product.sizes.slice(0, 4).map((s) => (
-                            <span key={s} className="text-[10px] border border-[#E4E7EC] rounded px-1.5 py-0.5 text-[#5A6B7F]">{s}</span>
+                            <span key={s} className="text-[10px] border border-white/10 rounded px-1.5 py-0.5 text-white/50">{s}</span>
                           ))}
-                          {product.sizes.length > 4 && <span className="text-[10px] text-[#5A6B7F]">+{product.sizes.length - 4}</span>}
+                          {product.sizes.length > 4 && <span className="text-[10px] text-white/50">+{product.sizes.length - 4}</span>}
                         </div>
                       </div>
                     </div>
@@ -543,7 +543,7 @@ export default function ShopPage() {
                     size="sm"
                     disabled={page <= 1}
                     onClick={() => setPage(page - 1)}
-                    className="rounded-lg h-9 border-[#E4E7EC]"
+                    className="rounded-lg h-9 border-white/10 bg-white/5 text-white hover:bg-white/10"
                   >
                     <ChevronLeft className="size-4" />
                   </Button>
@@ -558,21 +558,21 @@ export default function ShopPage() {
                         variant={page === pageNum ? 'default' : 'outline'}
                         size="sm"
                         onClick={() => setPage(pageNum)}
-                        className={`rounded-lg h-9 w-9 p-0 ${page === pageNum ? 'bg-[#FF5722] text-white hover:bg-[#FF5722]' : 'border-[#E4E7EC]'}`}
+                        className={`rounded-lg h-9 w-9 p-0 ${page === pageNum ? 'bg-gradient-to-r from-[#FF5722] to-[#FF2D55] text-white hover:from-[#FF5722] hover:to-[#FF2D55]' : 'border-white/10 bg-white/5 text-white hover:bg-white/10'}`}
                       >
                         {pageNum}
                       </Button>
                     );
                   })}
                   {totalPages > 5 && page < totalPages - 2 && (
-                    <span className="text-[#5A6B7F] text-sm px-1">...</span>
+                    <span className="text-white/50 text-sm px-1">...</span>
                   )}
                   <Button
                     variant="outline"
                     size="sm"
                     disabled={page >= totalPages}
                     onClick={() => setPage(page + 1)}
-                    className="rounded-lg h-9 border-[#E4E7EC]"
+                    className="rounded-lg h-9 border-white/10 bg-white/5 text-white hover:bg-white/10"
                   >
                     Next
                     <ChevronRight className="size-4 ml-1" />
