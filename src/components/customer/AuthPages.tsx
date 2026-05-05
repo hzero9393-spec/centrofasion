@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@/stores/navigation';
 import { useAuth } from '@/stores/auth';
 import { toast } from 'sonner';
@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Loader2, Phone, ArrowRight, UserPlus, X } from 'lucide-react';
+import { Loader2, Phone, Lock, UserPlus, X, Eye, EyeOff, Mail, User } from 'lucide-react';
 
 interface AuthPagesProps {
   open: boolean;
@@ -23,155 +23,121 @@ interface AuthPagesProps {
 
 export function AuthModal({ open, onOpenChange }: AuthPagesProps) {
   const { loginCustomer } = useAuth();
-  const [step, setStep] = useState<'mobile' | 'otp' | 'signup'>('mobile');
-  const [mobile, setMobile] = useState('');
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
-  const [loading, setLoading] = useState(false);
-  const [verifying, setVerifying] = useState(false);
+  const [tab, setTab] = useState<'login' | 'signup'>('login');
+
+  // Login form
+  const [loginMobile, setLoginMobile] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
 
   // Signup form
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [pin, setPin] = useState(['', '', '', '', '', '']);
-  const [confirmPin, setConfirmPin] = useState(['', '', '', '', '', '']);
-  const [signingUp, setSigningUp] = useState(false);
-
-  const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const pinRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const confirmPinRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [signFirstName, setSignFirstName] = useState('');
+  const [signLastName, setSignLastName] = useState('');
+  const [signEmail, setSignEmail] = useState('');
+  const [signMobile, setSignMobile] = useState('');
+  const [signPassword, setSignPassword] = useState('');
+  const [signConfirmPassword, setSignConfirmPassword] = useState('');
+  const [showSignPassword, setShowSignPassword] = useState(false);
+  const [showSignConfirm, setShowSignConfirm] = useState(false);
+  const [signLoading, setSignLoading] = useState(false);
 
   // Reset state on open/close
   useEffect(() => {
     if (open) {
-      setStep('mobile');
-      setMobile('');
-      setOtp(['', '', '', '', '', '']);
-      setFirstName('');
-      setLastName('');
-      setPin(['', '', '', '', '', '']);
-      setConfirmPin(['', '', '', '', '', '']);
+      setTab('login');
+      setLoginMobile('');
+      setLoginPassword('');
+      setShowLoginPassword(false);
+      setSignFirstName('');
+      setSignLastName('');
+      setSignEmail('');
+      setSignMobile('');
+      setSignPassword('');
+      setSignConfirmPassword('');
+      setShowSignPassword(false);
+      setShowSignConfirm(false);
     }
   }, [open]);
 
-  const handleSendCode = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (mobile.length !== 10) {
+    if (loginMobile.length !== 10) {
       toast.error('Please enter a valid 10-digit mobile number');
       return;
     }
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 800));
-
-    // Check if user exists
-    try {
-      const res = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'check-mobile', mobile }),
-      });
-      const data = await res.json();
-      if (data.exists) {
-        setStep('otp');
-      } else {
-        setStep('signup');
-      }
-    } catch {
-      // Fallback: show OTP step
-      setStep('otp');
-    }
-
-    // Dev mode
-    alert('Your OTP is 123456');
-    setLoading(false);
-  };
-
-  const handleOtpChange = (index: number, value: string) => {
-    if (value.length > 1) value = value[value.length - 1];
-    if (!/^\d*$/.test(value)) return;
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-    if (value && index < 5) otpRefs.current[index + 1]?.focus();
-  };
-
-  const handleOtpKeyDown = (index: number, e: React.KeyboardEvent) => {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
-      otpRefs.current[index - 1]?.focus();
-    }
-  };
-
-  const handlePinChange = (index: number, value: string, setFn: React.Dispatch<React.SetStateAction<string[]>>, refs: React.MutableRefObject<(HTMLInputElement | null)[]>) => {
-    if (value.length > 1) value = value[value.length - 1];
-    if (!/^\d*$/.test(value)) return;
-    const newPin = [...setFn as unknown as string[]];
-    newPin[index] = value;
-    // Use a functional approach
-    setFn((prev) => {
-      const updated = [...prev];
-      updated[index] = value;
-      return updated;
-    });
-    if (value && index < 5) refs.current[index + 1]?.focus();
-  };
-
-  const handlePinKeyDown = (index: number, e: React.KeyboardEvent, pinArr: string[], refs: React.MutableRefObject<(HTMLInputElement | null)[]>) => {
-    if (e.key === 'Backspace' && !pinArr[index] && index > 0) {
-      refs.current[index - 1]?.focus();
-    }
-  };
-
-  const handleVerify = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const otpCode = otp.join('');
-    if (otpCode.length !== 6) {
-      toast.error('Please enter the complete 6-digit OTP');
+    if (!loginPassword) {
+      toast.error('Please enter your password');
       return;
     }
-    setVerifying(true);
+    if (loginPassword.length < 4) {
+      toast.error('Password must be at least 4 characters');
+      return;
+    }
+
+    setLoginLoading(true);
     try {
       const res = await fetch('/api/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'customer-login', mobile, pin: otpCode }),
+        body: JSON.stringify({ type: 'customer-login', mobile: loginMobile, pin: loginPassword }),
       });
       const data = await res.json();
       if (data.customer) {
         loginCustomer(data.customer);
-        toast.success('Login successful!');
+        toast.success(`Welcome back, ${data.customer.first_name}!`);
         onOpenChange(false);
       } else {
-        toast.error(data.error || 'Invalid OTP');
+        toast.error(data.error || 'Invalid mobile number or password');
       }
     } catch {
       toast.error('Login failed. Please try again.');
     } finally {
-      setVerifying(false);
+      setLoginLoading(false);
     }
   };
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!firstName.trim()) { toast.error('Please enter your first name'); return; }
-    if (pin.join('').length !== 6) { toast.error('PIN must be 6 digits'); return; }
-    if (confirmPin.join('') !== pin.join('')) { toast.error('PINs do not match'); return; }
+    if (!signFirstName.trim()) {
+      toast.error('Please enter your first name');
+      return;
+    }
+    if (signMobile.length !== 10) {
+      toast.error('Please enter a valid 10-digit mobile number');
+      return;
+    }
+    if (signEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signEmail)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+    if (signPassword.length < 4) {
+      toast.error('Password must be at least 4 characters');
+      return;
+    }
+    if (signPassword !== signConfirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
 
-    setSigningUp(true);
+    setSignLoading(true);
     try {
       const res = await fetch('/api/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           type: 'customer-signup',
-          first_name: firstName,
-          last_name: lastName,
-          mobile,
-          pin: pin.join(''),
+          first_name: signFirstName.trim(),
+          last_name: signLastName.trim(),
+          mobile: signMobile,
+          email: signEmail.trim(),
+          pin: signPassword,
         }),
       });
       const data = await res.json();
       if (data.customer) {
         loginCustomer(data.customer);
-        toast.success('Account created successfully!');
+        toast.success('Account created successfully! Welcome to ClothFasion!');
         onOpenChange(false);
       } else {
         toast.error(data.error || 'Signup failed');
@@ -179,220 +145,272 @@ export function AuthModal({ open, onOpenChange }: AuthPagesProps) {
     } catch {
       toast.error('Signup failed. Please try again.');
     } finally {
-      setSigningUp(false);
+      setSignLoading(false);
     }
-  };
-
-  const resetToMobile = () => {
-    setStep('mobile');
-    setOtp(['', '', '', '', '', '']);
-    setPin(['', '', '', '', '', '']);
-    setConfirmPin(['', '', '', '', '', '']);
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[450px] p-0 overflow-hidden">
+      <DialogContent className="max-w-[440px] p-0 overflow-hidden glass rounded-2xl border-[rgba(255,255,255,0.1)] bg-[#1D1D1F]/95 backdrop-blur-xl">
         <DialogHeader className="sr-only">
-          <DialogTitle>{step === 'signup' ? 'Create Account' : 'Login'}</DialogTitle>
+          <DialogTitle>{tab === 'login' ? 'Login' : 'Create Account'}</DialogTitle>
         </DialogHeader>
 
         {/* Close button */}
         <button
           onClick={() => onOpenChange(false)}
-          className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-[#F5F7FA] flex items-center justify-center text-[#5A6B7F] hover:bg-[#E4E7EC] transition-colors"
+          className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-[rgba(255,255,255,0.1)] flex items-center justify-center text-[#86868B] hover:bg-[rgba(255,255,255,0.15)] hover:text-[#F5F5F7] transition-all duration-200"
         >
           <X className="size-4" />
         </button>
 
         <div className="p-6 md:p-8">
-          {/* Step 1: Mobile */}
-          {step === 'mobile' && (
-            <div>
-              <div className="text-center mb-6">
-                <h2 className="text-xl font-bold text-cf-text">Login / Sign Up</h2>
-                <p className="text-sm text-[#5A6B7F] mt-1">Enter your mobile number to continue</p>
-              </div>
-              <form onSubmit={handleSendCode} className="space-y-4">
-                <div>
-                  <Label className="text-sm font-medium text-cf-text mb-2 block">Mobile Number</Label>
-                  <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#5A6B7F]" />
-                    <Input
-                      type="tel"
-                      placeholder="Enter 10-digit mobile number"
-                      value={mobile}
-                      onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                      className="pl-10 h-12 rounded-lg border-[#E4E7EC] text-sm"
-                      maxLength={10}
-                      autoFocus
-                    />
-                  </div>
-                </div>
-                <Button
-                  type="submit"
-                  disabled={loading || mobile.length !== 10}
-                  className="w-full h-12 bg-[#FF5722] hover:bg-[#E64A19] text-white rounded-lg text-sm font-bold btn-scale"
-                >
-                  {loading ? <Loader2 className="size-4 animate-spin mr-2" /> : <ArrowRight className="size-4 mr-2" />}
-                  Continue
-                </Button>
-              </form>
-              <p className="text-center text-xs text-[#5A6B7F] mt-6">
-                By continuing, you agree to our Terms of Service and Privacy Policy
-              </p>
-            </div>
-          )}
+          {/* Header */}
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold text-[#F5F5F7] tracking-tight">
+              {tab === 'login' ? 'Welcome Back' : 'Create Account'}
+            </h2>
+            <p className="text-sm text-[#86868B] mt-1.5">
+              {tab === 'login'
+                ? 'Login to your ClothFasion account'
+                : 'Join ClothFasion and start shopping'}
+            </p>
+          </div>
 
-          {/* Step 2: OTP (existing user) */}
-          {step === 'otp' && (
-            <div>
-              <div className="text-center mb-6">
-                <h2 className="text-xl font-bold text-cf-text">Verify OTP</h2>
-                <p className="text-sm text-[#5A6B7F] mt-1">
-                  OTP sent to <span className="font-semibold text-cf-text">+91 {mobile}</span>
-                </p>
-              </div>
-              <form onSubmit={handleVerify} className="space-y-5">
-                <div className="flex justify-center gap-2">
-                  {otp.map((digit, i) => (
-                    <input
-                      key={i}
-                      ref={(el) => { otpRefs.current[i] = el; }}
-                      type="text"
-                      inputMode="numeric"
-                      maxLength={1}
-                      value={digit}
-                      onChange={(e) => handleOtpChange(i, e.target.value)}
-                      onKeyDown={(e) => handleOtpKeyDown(i, e)}
-                      className="w-12 h-14 text-center text-xl font-bold rounded-lg border-2 border-[#E4E7EC] bg-[#F5F7FA] focus:outline-none focus:ring-2 focus:ring-[#FF5722] focus:border-transparent transition-all"
-                      autoFocus={i === 0}
-                    />
-                  ))}
-                </div>
+          {/* Tabs */}
+          <div className="flex bg-[rgba(255,255,255,0.06)] rounded-xl p-1 mb-6">
+            <button
+              type="button"
+              onClick={() => setTab('login')}
+              className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 ${
+                tab === 'login'
+                  ? 'bg-[#FF5722] text-white shadow-lg shadow-[rgba(255,87,34,0.3)]'
+                  : 'text-[#86868B] hover:text-[#F5F5F7]'
+              }`}
+            >
+              Login
+            </button>
+            <button
+              type="button"
+              onClick={() => setTab('signup')}
+              className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 ${
+                tab === 'signup'
+                  ? 'bg-[#FF5722] text-white shadow-lg shadow-[rgba(255,87,34,0.3)]'
+                  : 'text-[#86868B] hover:text-[#F5F5F7]'
+              }`}
+            >
+              Sign Up
+            </button>
+          </div>
 
-                <div className="flex items-center justify-between">
-                  <button type="button" onClick={resetToMobile} className="text-sm text-[#5A6B7F] hover:text-cf-text">
-                    Change number
-                  </button>
+          {/* Login Form */}
+          {tab === 'login' && (
+            <form onSubmit={handleLogin} className="space-y-4 animate-fade-up">
+              <div>
+                <Label className="text-sm font-medium text-[#F5F5F7] mb-2 block">Mobile Number</Label>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#86868B]" />
+                  <Input
+                    type="tel"
+                    placeholder="Enter 10-digit mobile number"
+                    value={loginMobile}
+                    onChange={(e) => setLoginMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                    className="pl-10 h-12 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[#F5F5F7] placeholder:text-[#86868B] text-sm focus:ring-[#FF5722] focus:border-[#FF5722] transition-all duration-200"
+                    maxLength={10}
+                    autoFocus
+                  />
+                </div>
+              </div>
+
+              <div>
+                <Label className="text-sm font-medium text-[#F5F5F7] mb-2 block">Password</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#86868B]" />
+                  <Input
+                    type={showLoginPassword ? 'text' : 'password'}
+                    placeholder="Enter your password"
+                    value={loginPassword}
+                    onChange={(e) => setLoginPassword(e.target.value)}
+                    className="pl-10 pr-10 h-12 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[#F5F5F7] placeholder:text-[#86868B] text-sm focus:ring-[#FF5722] focus:border-[#FF5722] transition-all duration-200"
+                    autoComplete="current-password"
+                  />
                   <button
                     type="button"
-                    onClick={() => {
-                      setOtp(['1', '2', '3', '4', '5', '6']);
-                      toast.info('OTP auto-filled (Dev mode)');
-                    }}
-                    className="text-sm text-[#FF5722] font-medium hover:underline"
+                    onClick={() => setShowLoginPassword(!showLoginPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#86868B] hover:text-[#F5F5F7] transition-colors"
                   >
-                    Resend OTP
+                    {showLoginPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
                   </button>
                 </div>
+              </div>
 
-                <Button
-                  type="submit"
-                  disabled={verifying || otp.join('').length !== 6}
-                  className="w-full h-12 bg-[#FF5722] hover:bg-[#E64A19] text-white rounded-lg text-sm font-bold btn-scale"
+              <Button
+                type="submit"
+                disabled={loginLoading || loginMobile.length !== 10 || !loginPassword}
+                className="w-full h-12 bg-[#FF5722] hover:bg-[#E64A19] text-white rounded-xl text-sm font-bold btn-3d disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loginLoading ? (
+                  <Loader2 className="size-4 animate-spin mr-2" />
+                ) : (
+                  <Lock className="size-4 mr-2" />
+                )}
+                Login
+              </Button>
+
+              <div className="text-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => setTab('signup')}
+                  className="text-sm text-[#86868B] hover:text-[#F5F5F7] transition-colors"
                 >
-                  {verifying ? <Loader2 className="size-4 animate-spin mr-2" /> : <ArrowRight className="size-4 mr-2" />}
-                  Verify & Login
-                </Button>
-              </form>
-            </div>
+                  New here?{' '}
+                  <span className="text-[#FF5722] font-semibold hover:underline">Create an account</span>
+                </button>
+              </div>
+            </form>
           )}
 
-          {/* Step 2: Signup (new user) */}
-          {step === 'signup' && (
-            <div>
-              <div className="text-center mb-6">
-                <h2 className="text-xl font-bold text-cf-text">Create Account</h2>
-                <p className="text-sm text-[#5A6B7F] mt-1">
-                  New to ClothFasion? Create your account
-                </p>
-              </div>
-              <form onSubmit={handleSignup} className="space-y-4">
-                {/* Name */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <Label className="text-sm font-medium text-cf-text mb-1.5 block">First Name *</Label>
+          {/* Signup Form */}
+          {tab === 'signup' && (
+            <form onSubmit={handleSignup} className="space-y-4 animate-fade-up">
+              {/* Name */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label className="text-sm font-medium text-[#F5F5F7] mb-2 block">First Name *</Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#86868B]" />
                     <Input
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      className="h-11 rounded-lg border-[#E4E7EC] text-sm"
+                      value={signFirstName}
+                      onChange={(e) => setSignFirstName(e.target.value)}
+                      className="pl-10 h-11 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[#F5F5F7] placeholder:text-[#86868B] text-sm focus:ring-[#FF5722] focus:border-[#FF5722] transition-all duration-200"
                       placeholder="First name"
                       autoFocus
                     />
                   </div>
-                  <div>
-                    <Label className="text-sm font-medium text-cf-text mb-1.5 block">Last Name</Label>
-                    <Input
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      className="h-11 rounded-lg border-[#E4E7EC] text-sm"
-                      placeholder="Last name"
-                    />
-                  </div>
                 </div>
-
-                <Separator />
-
-                {/* Create PIN */}
                 <div>
-                  <Label className="text-sm font-medium text-cf-text mb-2 block">Create 6-digit PIN</Label>
-                  <div className="flex justify-center gap-2">
-                    {pin.map((digit, i) => (
-                      <input
-                        key={i}
-                        ref={(el) => { pinRefs.current[i] = el; }}
-                        type="text"
-                        inputMode="numeric"
-                        maxLength={1}
-                        value={digit}
-                        onChange={(e) => handlePinChange(i, e.target.value, setPin, pinRefs)}
-                        onKeyDown={(e) => handlePinKeyDown(i, e, pin, pinRefs)}
-                        className="w-12 h-14 text-center text-xl font-bold rounded-lg border-2 border-[#E4E7EC] bg-[#F5F7FA] focus:outline-none focus:ring-2 focus:ring-[#FF5722] focus:border-transparent transition-all"
-                        autoFocus={i === 0}
-                      />
-                    ))}
-                  </div>
+                  <Label className="text-sm font-medium text-[#F5F5F7] mb-2 block">Last Name</Label>
+                  <Input
+                    value={signLastName}
+                    onChange={(e) => setSignLastName(e.target.value)}
+                    className="h-11 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[#F5F5F7] placeholder:text-[#86868B] text-sm focus:ring-[#FF5722] focus:border-[#FF5722] transition-all duration-200"
+                    placeholder="Last name"
+                  />
                 </div>
+              </div>
 
-                {/* Confirm PIN */}
-                <div>
-                  <Label className="text-sm font-medium text-cf-text mb-2 block">Confirm PIN</Label>
-                  <div className="flex justify-center gap-2">
-                    {confirmPin.map((digit, i) => (
-                      <input
-                        key={i}
-                        ref={(el) => { confirmPinRefs.current[i] = el; }}
-                        type="text"
-                        inputMode="numeric"
-                        maxLength={1}
-                        value={digit}
-                        onChange={(e) => handlePinChange(i, e.target.value, setConfirmPin, confirmPinRefs)}
-                        onKeyDown={(e) => handlePinKeyDown(i, e, confirmPin, confirmPinRefs)}
-                        className="w-12 h-14 text-center text-xl font-bold rounded-lg border-2 border-[#E4E7EC] bg-[#F5F7FA] focus:outline-none focus:ring-2 focus:ring-[#FF5722] focus:border-transparent transition-all"
-                        autoFocus={i === 0}
-                      />
-                    ))}
-                  </div>
+              {/* Mobile */}
+              <div>
+                <Label className="text-sm font-medium text-[#F5F5F7] mb-2 block">Mobile Number *</Label>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#86868B]" />
+                  <Input
+                    type="tel"
+                    value={signMobile}
+                    onChange={(e) => setSignMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                    className="pl-10 h-11 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[#F5F5F7] placeholder:text-[#86868B] text-sm focus:ring-[#FF5722] focus:border-[#FF5722] transition-all duration-200"
+                    placeholder="Enter 10-digit mobile number"
+                    maxLength={10}
+                  />
                 </div>
+              </div>
 
-                <Button
-                  type="submit"
-                  disabled={signingUp}
-                  className="w-full h-12 bg-[#FF5722] hover:bg-[#E64A19] text-white rounded-lg text-sm font-bold btn-scale mt-2"
-                >
-                  {signingUp ? <Loader2 className="size-4 animate-spin mr-2" /> : <UserPlus className="size-4 mr-2" />}
-                  Create Account
-                </Button>
+              {/* Email */}
+              <div>
+                <Label className="text-sm font-medium text-[#F5F5F7] mb-2 block">Email (Optional)</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#86868B]" />
+                  <Input
+                    type="email"
+                    value={signEmail}
+                    onChange={(e) => setSignEmail(e.target.value)}
+                    className="pl-10 h-11 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[#F5F5F7] placeholder:text-[#86868B] text-sm focus:ring-[#FF5722] focus:border-[#FF5722] transition-all duration-200"
+                    placeholder="your@email.com"
+                  />
+                </div>
+              </div>
 
-                <div className="text-center">
-                  <button type="button" onClick={resetToMobile} className="text-sm text-[#5A6B7F] hover:text-cf-text">
-                    Change number
+              <Separator className="bg-[rgba(255,255,255,0.08)]" />
+
+              {/* Password */}
+              <div>
+                <Label className="text-sm font-medium text-[#F5F5F7] mb-2 block">Password *</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#86868B]" />
+                  <Input
+                    type={showSignPassword ? 'text' : 'password'}
+                    value={signPassword}
+                    onChange={(e) => setSignPassword(e.target.value)}
+                    className="pl-10 pr-10 h-11 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[#F5F5F7] placeholder:text-[#86868B] text-sm focus:ring-[#FF5722] focus:border-[#FF5722] transition-all duration-200"
+                    placeholder="Min 4 characters"
+                    autoComplete="new-password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowSignPassword(!showSignPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#86868B] hover:text-[#F5F5F7] transition-colors"
+                  >
+                    {showSignPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
                   </button>
                 </div>
-              </form>
-            </div>
+              </div>
+
+              {/* Confirm Password */}
+              <div>
+                <Label className="text-sm font-medium text-[#F5F5F7] mb-2 block">Confirm Password *</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#86868B]" />
+                  <Input
+                    type={showSignConfirm ? 'text' : 'password'}
+                    value={signConfirmPassword}
+                    onChange={(e) => setSignConfirmPassword(e.target.value)}
+                    className="pl-10 pr-10 h-11 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[#F5F5F7] placeholder:text-[#86868B] text-sm focus:ring-[#FF5722] focus:border-[#FF5722] transition-all duration-200"
+                    placeholder="Re-enter your password"
+                    autoComplete="new-password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowSignConfirm(!showSignConfirm)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#86868B] hover:text-[#F5F5F7] transition-colors"
+                  >
+                    {showSignConfirm ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <Button
+                type="submit"
+                disabled={signLoading || !signFirstName.trim() || signMobile.length !== 10 || signPassword.length < 4 || signPassword !== signConfirmPassword}
+                className="w-full h-12 bg-[#FF5722] hover:bg-[#E64A19] text-white rounded-xl text-sm font-bold btn-3d disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+              >
+                {signLoading ? (
+                  <Loader2 className="size-4 animate-spin mr-2" />
+                ) : (
+                  <UserPlus className="size-4 mr-2" />
+                )}
+                Create Account
+              </Button>
+
+              <div className="text-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => setTab('login')}
+                  className="text-sm text-[#86868B] hover:text-[#F5F5F7] transition-colors"
+                >
+                  Already have an account?{' '}
+                  <span className="text-[#FF5722] font-semibold hover:underline">Login</span>
+                </button>
+              </div>
+            </form>
           )}
+
+          {/* Terms */}
+          <p className="text-center text-xs text-[#86868B] mt-6 leading-relaxed">
+            By continuing, you agree to our{' '}
+            <span className="text-[#F5F5F7] hover:underline cursor-pointer">Terms of Service</span>
+            {' '}and{' '}
+            <span className="text-[#F5F5F7] hover:underline cursor-pointer">Privacy Policy</span>
+          </p>
         </div>
       </DialogContent>
     </Dialog>
@@ -401,10 +419,10 @@ export function AuthModal({ open, onOpenChange }: AuthPagesProps) {
 
 // Standalone login page (for direct navigation)
 export function LoginPage() {
-  const { navigate, goBack } = useNavigation();
+  const { navigate } = useNavigation();
   return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="max-w-[450px] w-full bg-white rounded-xl border border-[#E4E7EC] p-6 md:p-8 shadow-sm">
+    <div className="flex items-center justify-center min-h-[60vh] px-4">
+      <div className="max-w-[440px] w-full">
         <AuthModal
           open={true}
           onOpenChange={(open) => { if (!open) navigate('home'); }}

@@ -141,3 +141,33 @@ Stage Summary:
 - Server renders loading spinner, client rehydrates Zustand stores then renders app
 - No more "client-side exception has occurred" error on Vercel
 - User must add TURSO_URL and TURSO_AUTH_TOKEN env vars in Vercel dashboard
+
+---
+Task ID: 9
+Agent: Main Agent
+Task: Replace OTP-based auth with simple password-based sign-up system
+
+Work Log:
+- Redesigned AuthPages.tsx with Login/Signup tabs (no OTP)
+  - Login: Mobile number + Password with show/hide toggle
+  - Signup: First name, Last name, Mobile, Email (optional), Password, Confirm password
+  - Apple dark glassmorphism design matching the site theme
+  - Tab switcher with orange active state
+  - Password visibility toggle (eye icon)
+  - Form validation with toast error messages
+- Updated API auth route (src/app/api/auth/route.ts)
+  - Added email column auto-migration (ALTER TABLE)
+  - Added 'customer-update' type for profile updates
+  - Simplified login flow: mobile + password directly (no OTP step)
+  - Signup accepts email field
+- Updated auth store (src/stores/auth.ts)
+  - Added 'email' field to Customer interface
+- ESLint: zero errors
+- Dev server: running fine
+
+Stage Summary:
+- OTP system completely removed, replaced with simple password-based auth
+- Login: Mobile + Password → Direct login
+- Signup: Name + Mobile + Email + Password → Create account
+- Email column added to customers table via auto-migration
+- Clean dark glassmorphism UI matching Apple-inspired theme

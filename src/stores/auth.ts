@@ -6,6 +6,7 @@ export interface Customer {
   first_name: string;
   last_name: string;
   mobile: string;
+  email: string | null;
   avatar: string | null;
   address: string | null;
   pincode: string | null;
