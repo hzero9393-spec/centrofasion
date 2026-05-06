@@ -4,6 +4,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigation } from '@/stores/navigation';
 import { useAuth, type Customer } from '@/stores/auth';
 import { useCart } from '@/stores/cart';
+import { useThemeStore } from '@/stores/theme';
+import { THEMES } from '@/stores/theme';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -791,41 +793,72 @@ export default function ProfilePage() {
             </div>
           )}
 
-          {/* Settings Tab */}
-          {activeTab === 'settings' && (
-            <div className="space-y-6">
-              <h2 className="text-xl font-bold text-cf-text">Settings</h2>
-              <Card className="border border-[#E4E7EC]">
-                <CardContent className="p-5 space-y-4">
-                  <div className="flex items-center justify-between py-2">
-                    <div>
-                      <p className="text-sm font-semibold text-cf-text">Account</p>
-                      <p className="text-xs text-[#5A6B7F]">Manage your account settings</p>
-                    </div>
-                    <User className="size-5 text-[#5A6B7F]" />
-                  </div>
-                  <div className="h-px bg-[#E4E7EC]" />
-                  <div className="flex items-center justify-between py-2">
-                    <div>
-                      <p className="text-sm font-semibold text-cf-text">Notifications</p>
-                      <p className="text-xs text-[#5A6B7F]">Notification preferences</p>
-                    </div>
-                  </div>
-                  <div className="h-px bg-[#E4E7EC]" />
-                  <div className="flex items-center justify-between py-2">
-                    <div>
-                      <p className="text-sm font-semibold text-[#5A6B7F]">App Version</p>
-                      <p className="text-xs text-[#5A6B7F]/60">v1.0.0</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              <Button onClick={handleLogout} variant="destructive" className="w-full h-11 rounded-lg text-sm font-bold">
-                <LogOut className="size-4 mr-2" />
-                Logout
-              </Button>
-            </div>
-          )}
+           {/* Settings Tab */}
+           {activeTab === 'settings' && (
+             <div className="space-y-6">
+               <h2 className="text-xl font-bold text-cf-text">Settings</h2>
+               <Card className="border border-[#E4E7EC]">
+                 <CardContent className="p-5 space-y-4">
+                   <div className="flex items-center justify-between py-2">
+                     <div>
+                       <p className="text-sm font-semibold text-cf-text">Account</p>
+                       <p className="text-xs text-[#5A6B7F]">Manage your account settings</p>
+                     </div>
+                     <User className="size-5 text-[#5A6B7F]" />
+                   </div>
+                   <div className="h-px bg-[#E4E7EC]" />
+                   <div className="flex items-center justify-between py-2">
+                     <div>
+                       <p className="text-sm font-semibold text-cf-text">Notifications</p>
+                       <p className="text-xs text-[#5A6B7F]">Notification preferences</p>
+                     </div>
+                   </div>
+                   <div className="h-px bg-[#E4E7EC]" />
+                   <div className="flex items-center justify-between py-2">
+                     <div>
+                       <p className="text-sm font-semibold text-[#5A6B7F]">App Version</p>
+                       <p className="text-xs text-[#5A6B7F]/60">v1.0.0</p>
+                     </div>
+                   </div>
+                   <div className="h-px bg-[#E4E7EC]" />
+                   <div className="space-y-3">
+                     <p className="text-sm font-semibold text-cf-text mb-2">Theme</p>
+                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                       {THEMES.map((theme) => (
+                         <button
+                           key={theme.id}
+                           onClick={() => {
+                             const { setActiveTheme } = useThemeStore.getState();
+                             setActiveTheme(theme.id);
+                           }}
+                           className={`relative overflow-hidden rounded-xl border-2 ${
+                             useThemeStore.getState().activeThemeId === theme.id
+                               ? 'border-[var(--theme-primary)] bg-[var(--theme-primary)]/10'
+                               : 'border-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.03)]'
+                           }} transition-all duration-200 cursor-pointer">
+                           <div className="h-10 w-full rounded-t-lg flex items-center justify-center mb-2" style={{ background: theme.colors.gradient }}>
+                             <div className="flex space-x-1">
+                               <div className="w-2 h-2 rounded-full" style={{ background: theme.colors.primary }} />
+                               <div className="w-2 h-2 rounded-full" style={{ background: theme.colors.secondary }} />
+                               <div className="w-2 h-2 rounded-full" style={{ background: theme.colors.accent }} />
+                             </div>
+                           </div>
+                           <div className="flex-1 px-3 py-2 text-center">
+                             <p className="text-xs font-medium text-[var(--theme-text)] line-clamp-1">{theme.name}</p>
+                             <p className="text-[10px] text-[var(--theme-text-muted)]">{theme.id}</p>
+                           </div>
+                         </button>
+                       ))}
+                     </div>
+                   </div>
+                 </CardContent>
+               </Card>
+               <Button onClick={handleLogout} variant="destructive" className="w-full h-11 rounded-lg text-sm font-bold">
+                 <LogOut className="size-4 mr-2" />
+                 Logout
+               </Button>
+             </div>
+           )}
         </div>
       </div>
 
