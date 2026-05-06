@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/stores/auth';
+import { useThemeStore, THEMES } from '@/stores/theme';
 import { toast } from 'sonner';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -16,6 +17,7 @@ import { User, Store, Shield, Palette, Save, Plus, Loader2, Check, Sparkles } fr
 
 export default function AdminProfile() {
   const { admin } = useAuth();
+  const { activeThemeId, setActiveTheme } = useThemeStore();
   const [shopData, setShopData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -89,21 +91,10 @@ export default function AdminProfile() {
     setSecurityForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
   };
 
-  // Theme cards with glow effects
-  const themes = [
-    { name: 'Sunset', colors: ['#FF5722', '#FF9800', '#FFC107', '#E64A19'], glow: '#FF5722' },
-    { name: 'Ocean', colors: ['#0077B6', '#00B4D8', '#90E0EF', '#023E8A'], glow: '#0077B6' },
-    { name: 'Forest', colors: ['#2D6A4F', '#40916C', '#52B788', '#1B4332'], glow: '#2D6A4F' },
-    { name: 'Berry', colors: ['#7B2D8E', '#9D4EDD', '#C77DFF', '#5A189A'], glow: '#7B2D8E' },
-    { name: 'Midnight', colors: ['#0A1B2A', '#1A2942', '#2A3F5A', '#0D2240'], glow: '#0A1B2A' },
-    { name: 'Rose', colors: ['#E63946', '#F4845F', '#F7B267', '#D62828'], glow: '#E63946' },
-    { name: 'Sage', colors: ['#606C38', '#8B9E6B', '#A3B18A', '#344E41'], glow: '#606C38' },
-    { name: 'Coral', colors: ['#FF6B6B', '#FFA07A', '#FFD93D', '#C44569'], glow: '#FF6B6B' },
-    { name: 'Slate', colors: ['#2D3436', '#636E72', '#B2BEC3', '#DFE6E9'], glow: '#636E72' },
-    { name: 'Indigo', colors: ['#3F37C9', '#4895EF', '#4CC9F0', '#4361EE'], glow: '#3F37C9' },
-    { name: 'Amber', colors: ['#E85D04', '#F48C06', '#FAA307', '#DC2F02'], glow: '#E85D04' },
-    { name: 'Teal', colors: ['#0D9488', '#14B8A6', '#5EEAD4', '#0F766E'], glow: '#0D9488' },
-  ];
+  const handleApplyTheme = (themeId: string, themeName: string) => {
+    setActiveTheme(themeId);
+    toast.success(`${themeName} theme applied!`);
+  };
 
   const inputClass = "bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[#FF5722]/50 focus:ring-[#FF5722]/20";
   const labelClass = "text-[#86868B] text-xs";
@@ -318,40 +309,58 @@ export default function AdminProfile() {
 
         {/* Themes */}
         <TabsContent value="themes">
+          <div className="mb-4">
+            <p className="text-sm text-[#86868B]">Choose a color theme for your store. Changes apply to both admin & customer side.</p>
+          </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            {themes.map((theme) => (
-              <Card
-                key={theme.name}
-                className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl hover:border-white/[0.15] transition-all duration-300 group cursor-pointer hover:shadow-lg"
-                style={{ '--glow-color': theme.glow } as React.CSSProperties}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 32px ${theme.glow}15, 0 0 0 1px ${theme.glow}20`;
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-                }}
-              >
-                <CardContent className="p-4">
-                  <div className="flex gap-1.5 mb-4">
-                    {theme.colors.map((color, i) => (
-                      <div
-                        key={i}
-                        className="w-9 h-9 rounded-xl transition-transform duration-200 group-hover:scale-110 group-hover:-translate-y-0.5"
-                        style={{ backgroundColor: color }}
-                      />
-                    ))}
-                  </div>
-                  <p className="text-sm font-medium text-[#F5F5F7] group-hover:text-white transition-colors">{theme.name}</p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="mt-3 w-full text-xs bg-white/5 border-white/10 text-[#86868B] hover:bg-white/10 hover:text-white hover:border-white/20 transition-all"
-                  >
-                    Apply
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
+            {THEMES.map((theme) => {
+              const isActive = activeThemeId === theme.id;
+              return (
+                <Card
+                  key={theme.id}
+                  className={`bg-[#1D1D1F] rounded-2xl transition-all duration-300 group cursor-pointer hover:shadow-lg ${isActive ? 'border-2 shadow-lg' : 'border border-white/[0.08] hover:border-white/[0.15]'}`}
+                  style={isActive ? { borderColor: theme.colors.primary, boxShadow: `0 8px 32px ${theme.colors.primary}30` } : { '--glow-color': theme.colors.primary } as React.CSSProperties}
+                  onMouseEnter={(e) => {
+                    if (!isActive) (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 32px ${theme.colors.primary}15, 0 0 0 1px ${theme.colors.primary}20`;
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) (e.currentTarget as HTMLElement).style.boxShadow = 'none';
+                  }}
+                >
+                  <CardContent className="p-4">
+                    <div className="flex gap-1.5 mb-4">
+                      {theme.preview.map((color, i) => (
+                        <div
+                          key={i}
+                          className="w-9 h-9 rounded-xl transition-transform duration-200 group-hover:scale-110 group-hover:-translate-y-0.5"
+                          style={{ backgroundColor: color }}
+                        />
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium text-[#F5F5F7] group-hover:text-white transition-colors">{theme.name}</p>
+                      {isActive && (
+                        <div className="w-5 h-5 rounded-full bg-[#28A745] flex items-center justify-center">
+                          <Check className="size-3 text-white" />
+                        </div>
+                      )}
+                    </div>
+                    <Button
+                      onClick={() => handleApplyTheme(theme.id, theme.name)}
+                      variant="outline"
+                      size="sm"
+                      className={`mt-3 w-full text-xs transition-all ${isActive
+                        ? 'text-white border-transparent'
+                        : 'bg-white/5 border-white/10 text-[#86868B] hover:bg-white/10 hover:text-white hover:border-white/20'
+                      }`}
+                      style={isActive ? { backgroundColor: theme.colors.primary, borderColor: theme.colors.primary } : {}}
+                    >
+                      {isActive ? 'Active' : 'Apply'}
+                    </Button>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </TabsContent>
       </Tabs>

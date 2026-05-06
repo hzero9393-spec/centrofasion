@@ -1,11 +1,15 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigation } from '@/stores/navigation';
-import { Instagram, Facebook, Twitter, CreditCard, Truck } from 'lucide-react';
+import { useThemeStore, THEMES } from '@/stores/theme';
+import { Instagram, Facebook, Twitter, CreditCard, Truck, Palette, Check, ChevronDown } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function Footer() {
   const { navigate } = useNavigation();
+  const { activeThemeId, setActiveTheme } = useThemeStore();
+  const [showThemes, setShowThemes] = useState(false);
 
   const shopLinks = [
     { label: 'Home', action: () => navigate('home') },
@@ -27,6 +31,11 @@ export default function Footer() {
     { label: 'Terms of Service', action: () => {} },
     { label: 'Shipping Policy', action: () => {} },
   ];
+
+  const handleApplyTheme = (themeId: string, themeName: string) => {
+    setActiveTheme(themeId);
+    toast.success(`${themeName} theme applied!`);
+  };
 
   return (
     <footer className="bg-[#1D1D1F] text-white mt-auto">
@@ -141,7 +150,60 @@ export default function Footer() {
           <p className="text-xs text-white/30">
             © 2024 ClothFasion. All rights reserved.
           </p>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4">
+            {/* Theme Picker */}
+            <div className="relative">
+              <button
+                onClick={() => setShowThemes(!showThemes)}
+                className="flex items-center gap-2 text-white/30 hover:text-white/60 transition-colors px-3 py-1.5 rounded-lg hover:bg-white/5"
+              >
+                <Palette className="size-4" />
+                <span className="text-xs font-medium">Theme</span>
+                <ChevronDown className={`size-3 transition-transform duration-200 ${showThemes ? 'rotate-180' : ''}`} />
+              </button>
+
+              {showThemes && (
+                <>
+                  {/* Backdrop */}
+                  <div className="fixed inset-0 z-40" onClick={() => setShowThemes(false)} />
+
+                  {/* Theme Dropdown */}
+                  <div className="absolute bottom-full right-0 mb-2 z-50 w-[280px] rounded-2xl border border-white/[0.1] bg-[#1D1D1F]/95 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] p-3 animate-fade-up">
+                    <p className="text-xs font-medium text-white/50 px-1 mb-2">Choose Theme</p>
+                    <div className="grid grid-cols-4 gap-2">
+                      {THEMES.map((theme) => {
+                        const isActive = activeThemeId === theme.id;
+                        return (
+                          <button
+                            key={theme.id}
+                            onClick={() => { handleApplyTheme(theme.id, theme.name); setShowThemes(false); }}
+                            className={`relative group rounded-xl p-1.5 transition-all duration-200 hover:scale-105 ${isActive ? 'ring-2 ring-white/30 bg-white/10' : 'bg-white/5 hover:bg-white/10'}`}
+                            title={theme.name}
+                          >
+                            <div className="grid grid-cols-2 gap-0.5">
+                              {theme.preview.slice(0, 4).map((color, i) => (
+                                <div
+                                  key={i}
+                                  className="h-5 rounded-sm"
+                                  style={{ backgroundColor: color }}
+                                />
+                              ))}
+                            </div>
+                            {isActive && (
+                              <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#28A745] flex items-center justify-center">
+                                <Check className="size-2.5 text-white" />
+                              </div>
+                            )}
+                            <p className="text-[9px] text-white/40 mt-1 text-center truncate group-hover:text-white/70">{theme.name}</p>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+
             <div className="flex items-center gap-2 text-white/30 hover:text-white/50 transition-colors">
               <CreditCard className="size-4" />
               <span className="text-xs">Secure Payments</span>
