@@ -138,14 +138,14 @@ export default function CheckoutPage() {
   // Step 1: Login prompt
   const renderLoginStep = () => (
     <div className="max-w-md mx-auto text-center py-12">
-      <div className="w-16 h-16 rounded-full bg-[#FF5722]/10 flex items-center justify-center mx-auto mb-6">
-        <CreditCard className="size-8 text-[#FF5722]" />
+      <div className="w-16 h-16 rounded-full bg-[var(--theme-primary)]/10 flex items-center justify-center mx-auto mb-6">
+        <CreditCard className="size-8 text-[var(--theme-primary)]" />
       </div>
       <h2 className="text-xl font-bold text-cf-text mb-2">Login to Continue</h2>
       <p className="text-sm text-[#5A6B7F] mb-6">Please login to proceed with your order</p>
       <Button
         onClick={() => navigate('login')}
-        className="bg-[#FF5722] hover:bg-[#E64A19] text-white h-12 px-8 rounded-lg text-sm font-bold"
+        className="bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)] text-white h-12 px-8 rounded-lg text-sm font-bold"
       >
         Login / Sign Up
       </Button>
@@ -156,7 +156,7 @@ export default function CheckoutPage() {
   const renderAddressStep = () => (
     <div className="max-w-2xl mx-auto">
       <h2 className="text-lg font-bold text-cf-text mb-6 flex items-center gap-2">
-        <MapPin className="size-5 text-[#FF5722]" />
+        <MapPin className="size-5 text-[var(--theme-primary)]" />
         Delivery Address
       </h2>
       <div className="bg-white rounded-xl border border-[#E4E7EC] p-6 space-y-4">
@@ -262,7 +262,7 @@ export default function CheckoutPage() {
             id="saveAddress"
             checked={address.saveAddress}
             onCheckedChange={(checked) => handleAddressChange('saveAddress', checked as boolean)}
-            className="rounded data-[state=checked]:bg-[#FF5722] data-[state=checked]:border-[#FF5722]"
+            className="rounded data-[state=checked]:bg-[var(--theme-primary)] data-[state=checked]:border-[var(--theme-primary)]"
           />
           <Label htmlFor="saveAddress" className="text-sm text-[#5A6B7F] cursor-pointer">
             Save this address for future orders
@@ -271,7 +271,7 @@ export default function CheckoutPage() {
 
         <Button
           onClick={handleAddressContinue}
-          className="w-full h-12 bg-[#FF5722] hover:bg-[#E64A19] text-white rounded-lg text-sm font-bold btn-scale mt-2"
+          className="w-full h-12 bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)] text-white rounded-lg text-sm font-bold btn-scale mt-2"
         >
           Continue
         </Button>
@@ -283,7 +283,7 @@ export default function CheckoutPage() {
   const renderPaymentStep = () => (
     <div className="max-w-2xl mx-auto">
       <h2 className="text-lg font-bold text-cf-text mb-6 flex items-center gap-2">
-        <CreditCard className="size-5 text-[#FF5722]" />
+        <CreditCard className="size-5 text-[var(--theme-primary)]" />
         Payment Method
       </h2>
 
@@ -293,7 +293,7 @@ export default function CheckoutPage() {
           <label
             className={`flex items-center gap-4 p-5 rounded-xl border-2 cursor-pointer transition-all ${
               paymentMethod === 'cod'
-                ? 'border-[#FF5722] bg-[#FFF8F5]'
+                ? 'border-[var(--theme-primary)] bg-[#FFF8F5]'
                 : 'border-[#E4E7EC] bg-white hover:border-[#5A6B7F]'
             }`}
           >
@@ -311,7 +311,7 @@ export default function CheckoutPage() {
           <label
             className={`flex items-center gap-4 p-5 rounded-xl border-2 cursor-pointer transition-all ${
               paymentMethod === 'upi'
-                ? 'border-[#FF5722] bg-[#FFF8F5]'
+                ? 'border-[var(--theme-primary)] bg-[#FFF8F5]'
                 : 'border-[#E4E7EC] bg-white hover:border-[#5A6B7F]'
             }`}
           >
@@ -369,7 +369,7 @@ export default function CheckoutPage() {
         <Button
           onClick={handlePlaceOrder}
           disabled={placing}
-          className="w-full h-12 bg-[#FF5722] hover:bg-[#E64A19] text-white rounded-lg text-sm font-bold btn-scale"
+          className="w-full h-12 bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)] text-white rounded-lg text-sm font-bold btn-scale"
         >
           {placing ? (
             <Loader2 className="size-4 animate-spin mr-2" />
@@ -465,7 +465,7 @@ export default function CheckoutPage() {
                       {status === 'completed' ? <Check className="size-3.5" strokeWidth={3} /> : stepNum}
                     </div>
                     <span className={`text-[10px] mt-1.5 font-medium hidden sm:block ${
-                      status === 'active' ? 'text-[#FF5722]' : status === 'completed' ? 'text-[#28A745]' : 'text-[#5A6B7F]/50'
+                      status === 'active' ? 'text-[var(--theme-primary)]' : status === 'completed' ? 'text-[#28A745]' : 'text-[#5A6B7F]/50'
                     }`}>
                       {step}
                     </span>

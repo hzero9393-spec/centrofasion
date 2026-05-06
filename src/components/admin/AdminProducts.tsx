@@ -176,39 +176,39 @@ export default function AdminProducts() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center gap-3">
-          <h1 className="text-xl font-semibold text-[#F5F5F7]">All Products</h1>
-          <Badge className="bg-white/5 text-[#86868B] border border-white/10 hover:bg-white/5">
+          <h1 className="text-xl font-semibold text-[var(--theme-text)]">All Products</h1>
+          <Badge className="bg-white/5 text-[var(--theme-text-muted)] border border-white/10 hover:bg-white/5">
             {total}
           </Badge>
         </div>
         <Button
           onClick={openAdd}
-          className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:from-[#E64A19] hover:to-[#E6234D] text-white gap-2 border-0 shadow-lg shadow-[#FF5722]/20"
+          className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] hover:from-[var(--theme-primary)] hover:to-[#E6234D] text-white gap-2 border-0 shadow-lg shadow-[var(--theme-primary)]/20"
         >
           <Plus className="h-4 w-4" /> Add Product
         </Button>
       </div>
 
       {/* Filters */}
-      <div className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl p-4">
+      <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-4">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#86868B]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--theme-text-muted)]" />
             <Input
               placeholder="Search products..."
               value={search}
               onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-              className="pl-9 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[#FF5722]/50 rounded-xl"
+              className="pl-9 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[var(--theme-primary)] rounded-xl"
             />
           </div>
           <Select value={categoryFilter} onValueChange={(v) => { setCategoryFilter(v); setPage(1); }}>
             <SelectTrigger className="w-full sm:w-[180px] bg-white/5 border-white/10 text-white rounded-xl">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
-            <SelectContent className="bg-[#1D1D1F] border-white/10">
-              <SelectItem value="all" className="text-[#F5F5F7] focus:bg-white/5 focus:text-[#F5F5F7]">All Categories</SelectItem>
+            <SelectContent className="bg-[var(--theme-card)] border-white/10">
+              <SelectItem value="all" className="text-[var(--theme-text)] focus:bg-white/5 focus:text-[var(--theme-text)]">All Categories</SelectItem>
               {categories.map((c) => (
-                <SelectItem key={c.id} value={c.id} className="text-[#F5F5F7] focus:bg-white/5 focus:text-[#F5F5F7]">{c.name}</SelectItem>
+                <SelectItem key={c.id} value={c.id} className="text-[var(--theme-text)] focus:bg-white/5 focus:text-[var(--theme-text)]">{c.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -216,29 +216,29 @@ export default function AdminProducts() {
             <SelectTrigger className="w-full sm:w-[160px] bg-white/5 border-white/10 text-white rounded-xl">
               <SelectValue placeholder="Stock" />
             </SelectTrigger>
-            <SelectContent className="bg-[#1D1D1F] border-white/10">
-              <SelectItem value="all" className="text-[#F5F5F7] focus:bg-white/5 focus:text-[#F5F5F7]">All Stock</SelectItem>
-              <SelectItem value="in" className="text-[#F5F5F7] focus:bg-white/5 focus:text-[#F5F5F7]">In Stock</SelectItem>
-              <SelectItem value="low" className="text-[#F5F5F7] focus:bg-white/5 focus:text-[#F5F5F7]">Low Stock</SelectItem>
-              <SelectItem value="out" className="text-[#F5F5F7] focus:bg-white/5 focus:text-[#F5F5F7]">Out of Stock</SelectItem>
+            <SelectContent className="bg-[var(--theme-card)] border-white/10">
+              <SelectItem value="all" className="text-[var(--theme-text)] focus:bg-white/5 focus:text-[var(--theme-text)]">All Stock</SelectItem>
+              <SelectItem value="in" className="text-[var(--theme-text)] focus:bg-white/5 focus:text-[var(--theme-text)]">In Stock</SelectItem>
+              <SelectItem value="low" className="text-[var(--theme-text)] focus:bg-white/5 focus:text-[var(--theme-text)]">Low Stock</SelectItem>
+              <SelectItem value="out" className="text-[var(--theme-text)] focus:bg-white/5 focus:text-[var(--theme-text)]">Out of Stock</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </div>
 
       {/* Table */}
-      <div className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl overflow-hidden">
+      <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow className="bg-white/[0.03] hover:bg-white/[0.03] border-white/[0.06]">
-                <TableHead className="font-medium text-[#86868B]">Image</TableHead>
-                <TableHead className="font-medium text-[#86868B]">Name</TableHead>
-                <TableHead className="font-medium text-[#86868B] hidden md:table-cell">Category</TableHead>
-                <TableHead className="font-medium text-[#86868B] text-right">Price</TableHead>
-                <TableHead className="font-medium text-[#86868B] text-right">Stock</TableHead>
-                <TableHead className="font-medium text-[#86868B] hidden lg:table-cell">Status</TableHead>
-                <TableHead className="font-medium text-[#86868B] text-right">Actions</TableHead>
+                <TableHead className="font-medium text-[var(--theme-text-muted)]">Image</TableHead>
+                <TableHead className="font-medium text-[var(--theme-text-muted)]">Name</TableHead>
+                <TableHead className="font-medium text-[var(--theme-text-muted)] hidden md:table-cell">Category</TableHead>
+                <TableHead className="font-medium text-[var(--theme-text-muted)] text-right">Price</TableHead>
+                <TableHead className="font-medium text-[var(--theme-text-muted)] text-right">Stock</TableHead>
+                <TableHead className="font-medium text-[var(--theme-text-muted)] hidden lg:table-cell">Status</TableHead>
+                <TableHead className="font-medium text-[var(--theme-text-muted)] text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -250,9 +250,9 @@ export default function AdminProducts() {
                 ))
               ) : products.length === 0 ? (
                 <TableRow className="border-white/[0.06]">
-                  <TableCell colSpan={7} className="text-center py-16 text-[#86868B]">
+                  <TableCell colSpan={7} className="text-center py-16 text-[var(--theme-text-muted)]">
                     <Package className="h-10 w-10 mx-auto mb-3 text-white/20" />
-                    <p className="text-[#F5F5F7]">No products found</p>
+                    <p className="text-[var(--theme-text)]">No products found</p>
                     <p className="text-sm text-white/40 mt-1">Try adjusting your filters</p>
                   </TableCell>
                 </TableRow>
@@ -274,15 +274,15 @@ export default function AdminProducts() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <p className="font-medium text-[#F5F5F7]">{p.name}</p>
+                      <p className="font-medium text-[var(--theme-text)]">{p.name}</p>
                       {p.featured && (
                         <span className="text-[10px] font-medium text-[#FFB020] bg-[#FFB020]/10 px-1.5 py-0.5 rounded-full border border-[#FFB020]/20">
                           Featured
                         </span>
                       )}
                     </TableCell>
-                    <TableCell className="hidden md:table-cell text-[#86868B]">{p.category_name || '—'}</TableCell>
-                    <TableCell className="text-right font-medium text-[#F5F5F7]">₹{p.price.toLocaleString('en-IN')}</TableCell>
+                    <TableCell className="hidden md:table-cell text-[var(--theme-text-muted)]">{p.category_name || '—'}</TableCell>
+                    <TableCell className="text-right font-medium text-[var(--theme-text)]">₹{p.price.toLocaleString('en-IN')}</TableCell>
                     <TableCell className={`text-right font-semibold ${stockColor(p.stock)}`}>{p.stock}</TableCell>
                     <TableCell className="hidden lg:table-cell">
                       <Badge className={`${stockBadge(p.stock)} text-xs rounded-full border`}>
@@ -294,7 +294,7 @@ export default function AdminProducts() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 hover:bg-white/10 text-[#86868B] hover:text-[#F5F5F7]"
+                          className="h-8 w-8 hover:bg-white/10 text-[var(--theme-text-muted)] hover:text-[var(--theme-text)]"
                           onClick={() => openEdit(p)}
                         >
                           <Pencil className="h-4 w-4" />
@@ -320,15 +320,15 @@ export default function AdminProducts() {
       {/* Pagination */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-[#86868B]">Per page:</span>
+          <span className="text-sm text-[var(--theme-text-muted)]">Per page:</span>
           <Select value={String(perPage)} onValueChange={(v) => { setPerPage(Number(v)); setPage(1); }}>
             <SelectTrigger className="w-[70px] h-8 text-sm bg-white/5 border-white/10 text-white rounded-xl">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-[#1D1D1F] border-white/10">
-              <SelectItem value="10" className="text-[#F5F5F7] focus:bg-white/5">10</SelectItem>
-              <SelectItem value="25" className="text-[#F5F5F7] focus:bg-white/5">25</SelectItem>
-              <SelectItem value="50" className="text-[#F5F5F7] focus:bg-white/5">50</SelectItem>
+            <SelectContent className="bg-[var(--theme-card)] border-white/10">
+              <SelectItem value="10" className="text-[var(--theme-text)] focus:bg-white/5">10</SelectItem>
+              <SelectItem value="25" className="text-[var(--theme-text)] focus:bg-white/5">25</SelectItem>
+              <SelectItem value="50" className="text-[var(--theme-text)] focus:bg-white/5">50</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -350,7 +350,7 @@ export default function AdminProducts() {
               className="h-8 w-8 rounded-xl"
               onClick={() => setPage(n)}
               style={n === page ? {
-                background: 'linear-gradient(135deg, #FF5722, #FF2D55)',
+                background: 'linear-gradient(135deg, var(--theme-primary), var(--theme-secondary))',
                 borderColor: 'transparent',
               } : {
                 backgroundColor: 'rgba(255,255,255,0.05)',
@@ -375,49 +375,49 @@ export default function AdminProducts() {
 
       {/* Add/Edit Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-[#1D1D1F] border border-white/10 rounded-2xl [&>button]:text-white/50 hover:[&>button]:text-white">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-[var(--theme-card)] border border-white/10 rounded-2xl [&>button]:text-white/50 hover:[&>button]:text-white">
           <DialogHeader>
-            <DialogTitle className="text-[#F5F5F7]">{editId ? 'Edit Product' : 'Add Product'}</DialogTitle>
+            <DialogTitle className="text-[var(--theme-text)]">{editId ? 'Edit Product' : 'Add Product'}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-5 py-2">
             <div className="grid gap-2">
-              <Label className="text-[#86868B]">Product Name *</Label>
+              <Label className="text-[var(--theme-text-muted)]">Product Name *</Label>
               <Input
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 placeholder="Enter product name"
-                className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[#FF5722]/50 rounded-xl"
+                className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[var(--theme-primary)] rounded-xl"
               />
             </div>
             <div className="grid gap-2">
-              <Label className="text-[#86868B]">Description</Label>
+              <Label className="text-[var(--theme-text-muted)]">Description</Label>
               <Textarea
                 value={form.description}
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
                 placeholder="Product description..."
                 rows={3}
-                className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[#FF5722]/50 rounded-xl resize-none"
+                className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[var(--theme-primary)] rounded-xl resize-none"
               />
             </div>
             <div className="grid gap-2">
-              <Label className="text-[#86868B]">Images (comma-separated URLs)</Label>
+              <Label className="text-[var(--theme-text-muted)]">Images (comma-separated URLs)</Label>
               <Input
                 value={form.images}
                 onChange={(e) => setForm({ ...form, images: e.target.value })}
                 placeholder="https://example.com/img1.jpg, https://..."
-                className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[#FF5722]/50 rounded-xl"
+                className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[var(--theme-primary)] rounded-xl"
               />
             </div>
             <div>
-              <Label className="text-[#86868B] mb-2 block">Sizes</Label>
+              <Label className="text-[var(--theme-text-muted)] mb-2 block">Sizes</Label>
               <div className="flex flex-wrap gap-2">
                 {ALL_SIZES.map((size) => (
                   <label
                     key={size}
                     className={`flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-lg border transition-all ${
                       form.sizes.includes(size)
-                        ? 'bg-[#FF5722]/10 border-[#FF5722]/30 text-[#FF5722]'
-                        : 'bg-white/5 border-white/10 text-[#86868B] hover:bg-white/10 hover:text-[#F5F5F7]'
+                        ? 'bg-[var(--theme-primary)]/10 border-[var(--theme-primary)] text-[var(--theme-primary)]'
+                        : 'bg-white/5 border-white/10 text-[var(--theme-text-muted)] hover:bg-white/10 hover:text-[var(--theme-text)]'
                     }`}
                   >
                     <Checkbox
@@ -431,64 +431,64 @@ export default function AdminProducts() {
               </div>
             </div>
             <div className="grid gap-2">
-              <Label className="text-[#86868B]">Colours (comma-separated hex codes)</Label>
+              <Label className="text-[var(--theme-text-muted)]">Colours (comma-separated hex codes)</Label>
               <Input
                 value={form.colors}
                 onChange={(e) => setForm({ ...form, colors: e.target.value })}
-                placeholder="#FF5722, #28A745, #000000"
-                className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[#FF5722]/50 rounded-xl"
+                placeholder="var(--theme-primary), #28A745, #000000"
+                className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[var(--theme-primary)] rounded-xl"
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="grid gap-2">
-                <Label className="text-[#86868B]">Category</Label>
+                <Label className="text-[var(--theme-text-muted)]">Category</Label>
                 <Select value={form.category_id} onValueChange={(v) => setForm({ ...form, category_id: v })}>
                   <SelectTrigger className="bg-white/5 border-white/10 text-white rounded-xl">
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#1D1D1F] border-white/10">
+                  <SelectContent className="bg-[var(--theme-card)] border-white/10">
                     {categories.map((c) => (
-                      <SelectItem key={c.id} value={c.id} className="text-[#F5F5F7] focus:bg-white/5 focus:text-[#F5F5F7]">{c.name}</SelectItem>
+                      <SelectItem key={c.id} value={c.id} className="text-[var(--theme-text)] focus:bg-white/5 focus:text-[var(--theme-text)]">{c.name}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
               <div className="grid gap-2">
-                <Label className="text-[#86868B]">Sell Price *</Label>
+                <Label className="text-[var(--theme-text-muted)]">Sell Price *</Label>
                 <Input
                   type="number"
                   value={form.price}
                   onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
-                  className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[#FF5722]/50 rounded-xl"
+                  className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[var(--theme-primary)] rounded-xl"
                 />
               </div>
               <div className="grid gap-2">
-                <Label className="text-[#86868B]">Wholesale Price</Label>
+                <Label className="text-[var(--theme-text-muted)]">Wholesale Price</Label>
                 <Input
                   type="number"
                   value={form.wholesale_price}
                   onChange={(e) => setForm({ ...form, wholesale_price: Number(e.target.value) })}
-                  className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[#FF5722]/50 rounded-xl"
+                  className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[var(--theme-primary)] rounded-xl"
                 />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
-                <Label className="text-[#86868B]">Quantity</Label>
+                <Label className="text-[var(--theme-text-muted)]">Quantity</Label>
                 <Input
                   type="number"
                   value={form.stock}
                   onChange={(e) => setForm({ ...form, stock: Number(e.target.value) })}
-                  className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[#FF5722]/50 rounded-xl"
+                  className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[var(--theme-primary)] rounded-xl"
                 />
               </div>
               <div className="flex items-center gap-3 pt-6">
                 <Switch
                   checked={form.featured}
                   onCheckedChange={(v) => setForm({ ...form, featured: v })}
-                  className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-[#FF5722] data-[state=checked]:to-[#FF2D55]"
+                  className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-[var(--theme-primary)] data-[state=checked]:to-[var(--theme-secondary)]"
                 />
-                <Label className="text-[#86868B]">Featured</Label>
+                <Label className="text-[var(--theme-text-muted)]">Featured</Label>
               </div>
             </div>
           </div>
@@ -503,7 +503,7 @@ export default function AdminProducts() {
             <Button
               onClick={handleSave}
               disabled={saving}
-              className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:from-[#E64A19] hover:to-[#E6234D] text-white border-0 shadow-lg shadow-[#FF5722]/20 rounded-xl"
+              className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] hover:from-[var(--theme-primary)] hover:to-[#E6234D] text-white border-0 shadow-lg shadow-[var(--theme-primary)]/20 rounded-xl"
             >
               {saving ? 'Saving...' : 'Save Product'}
             </Button>
@@ -513,10 +513,10 @@ export default function AdminProducts() {
 
       {/* Delete Dialog */}
       <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <AlertDialogContent className="bg-[#1D1D1F] border border-white/10 rounded-2xl">
+        <AlertDialogContent className="bg-[var(--theme-card)] border border-white/10 rounded-2xl">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-[#F5F5F7]">Delete Product</AlertDialogTitle>
-            <AlertDialogDescription className="text-[#86868B]">
+            <AlertDialogTitle className="text-[var(--theme-text)]">Delete Product</AlertDialogTitle>
+            <AlertDialogDescription className="text-[var(--theme-text-muted)]">
               Are you sure you want to delete this product? This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>

@@ -96,8 +96,8 @@ export default function AdminProfile() {
     toast.success(`${themeName} theme applied!`);
   };
 
-  const inputClass = "bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[#FF5722]/50 focus:ring-[#FF5722]/20";
-  const labelClass = "text-[#86868B] text-xs";
+  const inputClass = "bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[var(--theme-primary)] focus:ring-[var(--theme-primary)]/20";
+  const labelClass = "text-[var(--theme-text-muted)] text-xs";
 
   if (loading) {
     return (
@@ -112,37 +112,37 @@ export default function AdminProfile() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-[#F5F5F7] tracking-tight">My Profile</h1>
-        <p className="text-sm text-[#86868B] mt-1">Manage your account and preferences</p>
+        <h1 className="text-2xl font-semibold text-[var(--theme-text)] tracking-tight">My Profile</h1>
+        <p className="text-sm text-[var(--theme-text-muted)] mt-1">Manage your account and preferences</p>
       </div>
 
       <Tabs defaultValue="admin" className="space-y-6">
         <TabsList className="bg-white/5 border border-white/[0.08] rounded-xl p-1">
-          <TabsTrigger value="admin" className="gap-2 rounded-lg text-[#86868B] data-[state=active]:bg-white/10 data-[state=active]:text-[#F5F5F7] data-[state=active]:shadow-sm">
+          <TabsTrigger value="admin" className="gap-2 rounded-lg text-[var(--theme-text-muted)] data-[state=active]:bg-white/10 data-[state=active]:text-[var(--theme-text)] data-[state=active]:shadow-sm">
             <User className="h-4 w-4" /> Admin Info
           </TabsTrigger>
-          <TabsTrigger value="shop" className="gap-2 rounded-lg text-[#86868B] data-[state=active]:bg-white/10 data-[state=active]:text-[#F5F5F7] data-[state=active]:shadow-sm">
+          <TabsTrigger value="shop" className="gap-2 rounded-lg text-[var(--theme-text-muted)] data-[state=active]:bg-white/10 data-[state=active]:text-[var(--theme-text)] data-[state=active]:shadow-sm">
             <Store className="h-4 w-4" /> Shop Details
           </TabsTrigger>
-          <TabsTrigger value="security" className="gap-2 rounded-lg text-[#86868B] data-[state=active]:bg-white/10 data-[state=active]:text-[#F5F5F7] data-[state=active]:shadow-sm">
+          <TabsTrigger value="security" className="gap-2 rounded-lg text-[var(--theme-text-muted)] data-[state=active]:bg-white/10 data-[state=active]:text-[var(--theme-text)] data-[state=active]:shadow-sm">
             <Shield className="h-4 w-4" /> Security
           </TabsTrigger>
-          <TabsTrigger value="themes" className="gap-2 rounded-lg text-[#86868B] data-[state=active]:bg-white/10 data-[state=active]:text-[#F5F5F7] data-[state=active]:shadow-sm">
+          <TabsTrigger value="themes" className="gap-2 rounded-lg text-[var(--theme-text-muted)] data-[state=active]:bg-white/10 data-[state=active]:text-[var(--theme-text)] data-[state=active]:shadow-sm">
             <Palette className="h-4 w-4" /> Themes
           </TabsTrigger>
         </TabsList>
 
         {/* Admin Info */}
         <TabsContent value="admin">
-          <Card className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl">
+          <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl">
             <CardContent className="p-6 space-y-5">
               <div className="flex items-center gap-4 mb-2">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF5722] to-[#FF2D55] flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-[#FF5722]/20">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[var(--theme-primary)] to-[var(--theme-secondary)] flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-[var(--theme-primary)]/20">
                   {admin?.name?.charAt(0) || 'A'}
                 </div>
                 <div>
-                  <h3 className="font-semibold text-[#F5F5F7] text-lg">{admin?.name} {admin?.last_name || ''}</h3>
-                  <Badge variant="secondary" className="bg-white/5 text-[#86868B] border border-white/10 mt-1">
+                  <h3 className="font-semibold text-[var(--theme-text)] text-lg">{admin?.name} {admin?.last_name || ''}</h3>
+                  <Badge variant="secondary" className="bg-white/5 text-[var(--theme-text-muted)] border border-white/10 mt-1">
                     {admin?.is_master === 1 ? 'Master Admin' : 'Admin'}
                   </Badge>
                 </div>
@@ -169,7 +169,7 @@ export default function AdminProfile() {
                 </div>
               </div>
 
-              <Button onClick={handleSaveAdmin} className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:opacity-90 text-white gap-2 transition-opacity">
+              <Button onClick={handleSaveAdmin} className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] hover:opacity-90 text-white gap-2 transition-opacity">
                 <Save className="h-4 w-4" /> Save Changes
               </Button>
             </CardContent>
@@ -177,7 +177,7 @@ export default function AdminProfile() {
 
           {/* Master Admin Section */}
           {admin?.is_master === 1 && (
-            <Card className="bg-[#1D1D1F] border border-yellow-500/20 rounded-2xl mt-4 relative overflow-hidden">
+            <Card className="bg-[var(--theme-card)] border border-yellow-500/20 rounded-2xl mt-4 relative overflow-hidden">
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-500/40 to-transparent" />
               <CardContent className="p-6 space-y-5">
                 <div className="flex items-center gap-3">
@@ -185,8 +185,8 @@ export default function AdminProfile() {
                     <Sparkles className="h-5 w-5 text-yellow-400" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-[#F5F5F7]">Master Admin Panel</h3>
-                    <p className="text-xs text-[#86868B]">Create and manage admin accounts</p>
+                    <h3 className="font-semibold text-[var(--theme-text)]">Master Admin Panel</h3>
+                    <p className="text-xs text-[var(--theme-text-muted)]">Create and manage admin accounts</p>
                   </div>
                 </div>
                 <Separator className="bg-white/[0.05]" />
@@ -204,7 +204,7 @@ export default function AdminProfile() {
                     <Input type="password" className={inputClass} value={newAdminForm.password} onChange={(e) => setNewAdminForm({ ...newAdminForm, password: e.target.value })} placeholder="••••••" />
                   </div>
                 </div>
-                <Button className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:opacity-90 text-white gap-2 transition-opacity">
+                <Button className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] hover:opacity-90 text-white gap-2 transition-opacity">
                   <Plus className="h-4 w-4" /> Create Admin
                 </Button>
               </CardContent>
@@ -214,15 +214,15 @@ export default function AdminProfile() {
 
         {/* Shop Details */}
         <TabsContent value="shop">
-          <Card className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl">
+          <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl">
             <CardContent className="p-6 space-y-5">
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
-                  <Store className="h-5 w-5 text-[#86868B]" />
+                  <Store className="h-5 w-5 text-[var(--theme-text-muted)]" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-[#F5F5F7]">Shop Information</h3>
-                  <p className="text-xs text-[#86868B]">These details appear on invoices and storefront</p>
+                  <h3 className="font-semibold text-[var(--theme-text)]">Shop Information</h3>
+                  <p className="text-xs text-[var(--theme-text-muted)]">These details appear on invoices and storefront</p>
                 </div>
               </div>
 
@@ -254,7 +254,7 @@ export default function AdminProfile() {
                   <Textarea className={`${inputClass} resize-none`} value={shopForm.terms} onChange={(e) => setShopForm({ ...shopForm, terms: e.target.value })} rows={4} />
                 </div>
               </div>
-              <Button onClick={handleSaveShop} disabled={saving} className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:opacity-90 text-white gap-2 transition-opacity disabled:opacity-50">
+              <Button onClick={handleSaveShop} disabled={saving} className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] hover:opacity-90 text-white gap-2 transition-opacity disabled:opacity-50">
                 {saving && <Loader2 className="h-4 w-4 animate-spin" />}
                 <Save className="h-4 w-4" /> Save Shop Details
               </Button>
@@ -264,15 +264,15 @@ export default function AdminProfile() {
 
         {/* Security */}
         <TabsContent value="security">
-          <Card className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl">
+          <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl">
             <CardContent className="p-6 space-y-5">
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
-                  <Shield className="h-5 w-5 text-[#86868B]" />
+                  <Shield className="h-5 w-5 text-[var(--theme-text-muted)]" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-[#F5F5F7]">Security Settings</h3>
-                  <p className="text-xs text-[#86868B]">Manage your account security</p>
+                  <h3 className="font-semibold text-[var(--theme-text)]">Security Settings</h3>
+                  <p className="text-xs text-[var(--theme-text-muted)]">Manage your account security</p>
                 </div>
               </div>
 
@@ -280,12 +280,12 @@ export default function AdminProfile() {
 
               <div className="grid gap-2">
                 <Label className={labelClass}>User ID (read-only)</Label>
-                <Input value={admin?.user_id || ''} disabled className="bg-white/[0.03] border-white/[0.05] text-[#86868B] cursor-not-allowed" />
+                <Input value={admin?.user_id || ''} disabled className="bg-white/[0.03] border-white/[0.05] text-[var(--theme-text-muted)] cursor-not-allowed" />
               </div>
 
               <Separator className="bg-white/[0.05]" />
 
-              <h3 className="font-medium text-[#F5F5F7]">Change Password</h3>
+              <h3 className="font-medium text-[var(--theme-text)]">Change Password</h3>
               <div className="grid gap-4 max-w-sm">
                 <div className="grid gap-2">
                   <Label className={labelClass}>Current Password</Label>
@@ -300,7 +300,7 @@ export default function AdminProfile() {
                   <Input type="password" className={inputClass} value={securityForm.confirmPassword} onChange={(e) => setSecurityForm({ ...securityForm, confirmPassword: e.target.value })} />
                 </div>
               </div>
-              <Button onClick={handleChangePassword} className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:opacity-90 text-white gap-2 transition-opacity">
+              <Button onClick={handleChangePassword} className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] hover:opacity-90 text-white gap-2 transition-opacity">
                 <Shield className="h-4 w-4" /> Update Password
               </Button>
             </CardContent>
@@ -310,7 +310,7 @@ export default function AdminProfile() {
         {/* Themes */}
         <TabsContent value="themes">
           <div className="mb-4">
-            <p className="text-sm text-[#86868B]">Choose a color theme for your store. Changes apply to both admin & customer side.</p>
+            <p className="text-sm text-[var(--theme-text-muted)]">Choose a color theme for your store. Changes apply to both admin & customer side.</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {THEMES.map((theme) => {
@@ -318,7 +318,7 @@ export default function AdminProfile() {
               return (
                 <Card
                   key={theme.id}
-                  className={`bg-[#1D1D1F] rounded-2xl transition-all duration-300 group cursor-pointer hover:shadow-lg ${isActive ? 'border-2 shadow-lg' : 'border border-white/[0.08] hover:border-white/[0.15]'}`}
+                  className={`bg-[var(--theme-card)] rounded-2xl transition-all duration-300 group cursor-pointer hover:shadow-lg ${isActive ? 'border-2 shadow-lg' : 'border border-white/[0.08] hover:border-white/[0.15]'}`}
                   style={isActive ? { borderColor: theme.colors.primary, boxShadow: `0 8px 32px ${theme.colors.primary}30` } : { '--glow-color': theme.colors.primary } as React.CSSProperties}
                   onMouseEnter={(e) => {
                     if (!isActive) (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 32px ${theme.colors.primary}15, 0 0 0 1px ${theme.colors.primary}20`;
@@ -338,7 +338,7 @@ export default function AdminProfile() {
                       ))}
                     </div>
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-medium text-[#F5F5F7] group-hover:text-white transition-colors">{theme.name}</p>
+                      <p className="text-sm font-medium text-[var(--theme-text)] group-hover:text-white transition-colors">{theme.name}</p>
                       {isActive && (
                         <div className="w-5 h-5 rounded-full bg-[#28A745] flex items-center justify-center">
                           <Check className="size-3 text-white" />
@@ -351,7 +351,7 @@ export default function AdminProfile() {
                       size="sm"
                       className={`mt-3 w-full text-xs transition-all ${isActive
                         ? 'text-white border-transparent'
-                        : 'bg-white/5 border-white/10 text-[#86868B] hover:bg-white/10 hover:text-white hover:border-white/20'
+                        : 'bg-white/5 border-white/10 text-[var(--theme-text-muted)] hover:bg-white/10 hover:text-white hover:border-white/20'
                       }`}
                       style={isActive ? { backgroundColor: theme.colors.primary, borderColor: theme.colors.primary } : {}}
                     >

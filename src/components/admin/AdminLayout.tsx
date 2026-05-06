@@ -69,19 +69,19 @@ function SidebarNav({
             onClick={() => onNavigate(item.id)}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group relative ${
               isActive
-                ? 'text-[#F5F5F7]'
+                ? 'text-[var(--theme-text)]'
                 : 'text-white/40 hover:text-white/80 hover:bg-white/5'
             }`}
           >
             {isActive && (
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full bg-gradient-to-b from-[#FF5722] to-[#FF2D55]" />
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full bg-gradient-to-b from-[var(--theme-primary)] to-[var(--theme-secondary)]" />
             )}
             {isActive && (
-              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-[#FF5722]/10 to-[#FF2D55]/5 pointer-events-none" />
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-[var(--theme-primary)]/10 to-[var(--theme-secondary)]/5 pointer-events-none" />
             )}
             <Icon
               className={`h-5 w-5 flex-shrink-0 relative z-10 ${
-                isActive ? 'text-[#FF5722]' : ''
+                isActive ? 'text-[var(--theme-primary)]' : ''
               }`}
             />
             {!collapsed && <span className="relative z-10">{item.label}</span>}
@@ -117,18 +117,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="min-h-screen flex bg-[#000000]">
       {/* Desktop Sidebar */}
       <aside
-        className={`hidden lg:flex flex-col bg-[#1D1D1F] fixed top-0 left-0 h-full z-40 transition-all duration-300 border-r border-white/[0.06] ${
+        className={`hidden lg:flex flex-col bg-[var(--theme-card)] fixed top-0 left-0 h-full z-40 transition-all duration-300 border-r border-white/[0.06] ${
           collapsed ? 'w-[72px]' : 'w-[260px]'
         }`}
       >
         {/* Logo */}
         <div className="flex items-center gap-3 px-4 h-16 border-b border-white/[0.06] flex-shrink-0">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-[#FF5722] to-[#FF2D55]">
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)]">
             <span className="text-white font-bold text-sm">CF</span>
           </div>
           {!collapsed && (
             <div className="overflow-hidden">
-              <h1 className="text-[#F5F5F7] font-semibold text-lg tracking-tight">
+              <h1 className="text-[var(--theme-text)] font-semibold text-lg tracking-tight">
                 CF Admin
               </h1>
             </div>
@@ -161,19 +161,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Mobile Sidebar */}
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
         <SheetTrigger asChild>
-          <button className="lg:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-[#1D1D1F] border border-white/[0.08] rounded-xl flex items-center justify-center text-[#F5F5F7] shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+          <button className="lg:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-[var(--theme-card)] border border-white/[0.08] rounded-xl flex items-center justify-center text-[var(--theme-text)] shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
             <Menu className="h-5 w-5" />
           </button>
         </SheetTrigger>
         <SheetContent
           side="left"
-          className="w-[280px] p-0 bg-[#1D1D1F] border-white/[0.08]"
+          className="w-[280px] p-0 bg-[var(--theme-card)] border-white/[0.08]"
         >
           <div className="flex items-center gap-3 px-4 h-16 border-b border-white/[0.06]">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-gradient-to-r from-[#FF5722] to-[#FF2D55]">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)]">
               <span className="text-white font-bold text-sm">CF</span>
             </div>
-            <h1 className="text-[#F5F5F7] font-semibold text-lg">CF Admin</h1>
+            <h1 className="text-[var(--theme-text)] font-semibold text-lg">CF Admin</h1>
           </div>
           <SidebarNav
             collapsed={false}
@@ -199,30 +199,30 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         }`}
       >
         {/* Top Bar */}
-        <header className="h-16 bg-[#1D1D1F]/80 backdrop-blur-xl border-b border-white/[0.06] flex items-center justify-between px-4 lg:px-6 sticky top-0 z-30">
+        <header className="h-16 bg-[var(--theme-card)]/80 backdrop-blur-xl border-b border-white/[0.06] flex items-center justify-between px-4 lg:px-6 sticky top-0 z-30">
           <div className="flex items-center gap-3 pl-12 lg:pl-0">
-            <h2 className="text-lg font-semibold text-[#F5F5F7]">{title}</h2>
+            <h2 className="text-lg font-semibold text-[var(--theme-text)]">{title}</h2>
           </div>
 
           <div className="flex items-center gap-3">
             {/* Notification Bell */}
             <button className="relative w-9 h-9 rounded-lg hover:bg-white/5 flex items-center justify-center transition-colors">
-              <Bell className="h-5 w-5 text-[#86868B]" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#FF2D55] rounded-full" />
+              <Bell className="h-5 w-5 text-[var(--theme-text-muted)]" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[var(--theme-secondary)] rounded-full" />
             </button>
 
             {/* Admin Avatar */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-lg hover:bg-white/5 transition-colors">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#FF5722] to-[#FF2D55] flex items-center justify-center text-white text-xs font-semibold">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] flex items-center justify-center text-white text-xs font-semibold">
                     {initials}
                   </div>
                   <div className="hidden sm:block text-left">
-                    <p className="text-sm font-medium text-[#F5F5F7] leading-tight">
+                    <p className="text-sm font-medium text-[var(--theme-text)] leading-tight">
                       {admin?.name || 'Admin'}
                     </p>
-                    <p className="text-xs text-[#86868B] leading-tight">
+                    <p className="text-xs text-[var(--theme-text-muted)] leading-tight">
                       {admin?.user_id || ''}
                     </p>
                   </div>
@@ -230,11 +230,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="w-48 bg-[#1D1D1F] border-white/[0.08] text-[#F5F5F7]"
+                className="w-48 bg-[var(--theme-card)] border-white/[0.08] text-[var(--theme-text)]"
               >
                 <DropdownMenuItem
                   onClick={() => handleNavigate('profile')}
-                  className="text-[#86868B] focus:text-[#F5F5F7] focus:bg-white/5"
+                  className="text-[var(--theme-text-muted)] focus:text-[var(--theme-text)] focus:bg-white/5"
                 >
                   <UserIcon className="mr-2 h-4 w-4" />
                   Profile
@@ -242,7 +242,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <DropdownMenuSeparator className="bg-white/[0.06]" />
                 <DropdownMenuItem
                   onClick={handleLogout}
-                  className="text-[#FF2D55] focus:text-[#FF2D55] focus:bg-white/5"
+                  className="text-[var(--theme-secondary)] focus:text-[var(--theme-secondary)] focus:bg-white/5"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
                   Logout

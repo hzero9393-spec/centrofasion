@@ -21,7 +21,7 @@ const REPORT_TYPES = [
   { id: 'revenue', title: 'Revenue Report', icon: DollarSign, color: '#A78BFA', gradient: 'from-violet-500/20 to-violet-500/5' },
 ];
 
-const PIE_COLORS = ['#FF5722', '#34D399', '#FBBF24', '#F87171', '#60A5FA', '#A78BFA'];
+const PIE_COLORS = ['var(--theme-primary)', '#34D399', '#FBBF24', '#F87171', '#60A5FA', '#A78BFA'];
 
 // Demo data for reports
 const generateReportData = (type: string) => {
@@ -92,13 +92,13 @@ interface CustomTooltipProps {
 function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload) return null;
   return (
-    <div className="bg-[#2A2A2E] border border-white/[0.08] rounded-xl px-4 py-3 shadow-xl">
-      <p className="text-[#86868B] text-xs mb-2">{label}</p>
+    <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-xl px-4 py-3 shadow-xl">
+      <p className="text-[var(--theme-text-muted)] text-xs mb-2">{label}</p>
       {payload.map((entry, index) => (
         <div key={index} className="flex items-center gap-2 text-sm">
           <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
-          <span className="text-[#86868B]">{entry.name}:</span>
-          <span className="text-[#F5F5F7] font-medium">
+          <span className="text-[var(--theme-text-muted)]">{entry.name}:</span>
+          <span className="text-[var(--theme-text)] font-medium">
             {typeof entry.value === 'number' ? `₹${entry.value.toLocaleString('en-IN')}` : entry.value}
           </span>
         </div>
@@ -131,8 +131,8 @@ export default function AdminReports() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-[#F5F5F7] tracking-tight">Reports</h1>
-          <p className="text-sm text-[#86868B] mt-1">Generate and download business analytics</p>
+          <h1 className="text-2xl font-semibold text-[var(--theme-text)] tracking-tight">Reports</h1>
+          <p className="text-sm text-[var(--theme-text-muted)] mt-1">Generate and download business analytics</p>
         </div>
       </div>
 
@@ -144,9 +144,9 @@ export default function AdminReports() {
           return (
             <Card
               key={report.id}
-              className={`bg-[#1D1D1F] rounded-2xl transition-all duration-200 ${
+              className={`bg-[var(--theme-card)] rounded-2xl transition-all duration-200 ${
                 isActive
-                  ? 'border-[#FF5722]/40 shadow-lg shadow-[#FF5722]/5'
+                  ? 'border-[var(--theme-primary)]/40 shadow-lg shadow-[var(--theme-primary)]/5'
                   : 'border border-white/[0.08] hover:border-white/[0.12]'
               }`}
             >
@@ -156,24 +156,24 @@ export default function AdminReports() {
                     <Icon className="h-6 w-6" style={{ color: report.color }} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-[#F5F5F7]">{report.title}</h3>
+                    <h3 className="font-semibold text-[var(--theme-text)]">{report.title}</h3>
                     <div className="mt-3 flex flex-wrap items-center gap-2">
                       <Select value={dateRange} onValueChange={setDateRange}>
-                        <SelectTrigger className="h-8 w-[130px] text-xs bg-white/5 border-white/10 text-[#F5F5F7] focus:ring-[#FF5722]/30">
+                        <SelectTrigger className="h-8 w-[130px] text-xs bg-white/5 border-white/10 text-[var(--theme-text)] focus:ring-[var(--theme-primary)]">
                           <SelectValue />
                         </SelectTrigger>
-                        <SelectContent className="bg-[#2A2A2E] border-white/[0.08]">
-                          <SelectItem value="7days" className="text-[#F5F5F7] focus:bg-white/5 focus:text-[#F5F5F7]">Last 7 days</SelectItem>
-                          <SelectItem value="30days" className="text-[#F5F5F7] focus:bg-white/5 focus:text-[#F5F5F7]">Last 30 days</SelectItem>
-                          <SelectItem value="90days" className="text-[#F5F5F7] focus:bg-white/5 focus:text-[#F5F5F7]">Last 90 days</SelectItem>
-                          <SelectItem value="year" className="text-[#F5F5F7] focus:bg-white/5 focus:text-[#F5F5F7]">This Year</SelectItem>
+                        <SelectContent className="bg-[var(--theme-card)] border-white/[0.08]">
+                          <SelectItem value="7days" className="text-[var(--theme-text)] focus:bg-white/5 focus:text-[var(--theme-text)]">Last 7 days</SelectItem>
+                          <SelectItem value="30days" className="text-[var(--theme-text)] focus:bg-white/5 focus:text-[var(--theme-text)]">Last 30 days</SelectItem>
+                          <SelectItem value="90days" className="text-[var(--theme-text)] focus:bg-white/5 focus:text-[var(--theme-text)]">Last 90 days</SelectItem>
+                          <SelectItem value="year" className="text-[var(--theme-text)] focus:bg-white/5 focus:text-[var(--theme-text)]">This Year</SelectItem>
                         </SelectContent>
                       </Select>
                       <Button
                         size="sm"
                         className={`text-xs gap-1.5 transition-all ${
                           isActive
-                            ? 'bg-gradient-to-r from-[#FF5722] to-[#FF2D55] text-white'
+                            ? 'bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] text-white'
                             : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'
                         }`}
                         onClick={() => handleGenerate(report.id)}
@@ -191,15 +191,15 @@ export default function AdminReports() {
 
       {/* Report Preview */}
       {activeReport && (
-        <Card className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl" id="report-preview">
+        <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl" id="report-preview">
           <CardContent className="p-6 space-y-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 {(() => {
                   const Icon = REPORT_TYPES.find((r) => r.id === activeReport)?.icon;
-                  return Icon ? <Icon className="h-5 w-5 text-[#86868B]" /> : null;
+                  return Icon ? <Icon className="h-5 w-5 text-[var(--theme-text-muted)]" /> : null;
                 })()}
-                <h3 className="text-lg font-semibold text-[#F5F5F7]">
+                <h3 className="text-lg font-semibold text-[var(--theme-text)]">
                   {REPORT_TYPES.find((r) => r.id === activeReport)?.title}
                 </h3>
               </div>
@@ -224,10 +224,10 @@ export default function AdminReports() {
                   <ResponsiveContainer width="100%" height={300}>
                     <BarChart data={reportData.chart} barCategoryGap="25%">
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
-                      <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#86868B' }} axisLine={false} tickLine={false} />
-                      <YAxis tick={{ fontSize: 12, fill: '#86868B' }} axisLine={false} tickLine={false} tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} />
+                      <XAxis dataKey="month" tick={{ fontSize: 12, fill: 'var(--theme-text-muted)' }} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fontSize: 12, fill: 'var(--theme-text-muted)' }} axisLine={false} tickLine={false} tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} />
                       <Tooltip content={<CustomTooltip />} />
-                      <Legend wrapperStyle={{ fontSize: 12, color: '#86868B' }} />
+                      <Legend wrapperStyle={{ fontSize: 12, color: 'var(--theme-text-muted)' }} />
                       <Bar dataKey="profit" fill="#34D399" radius={[6, 6, 0, 0]} name="Profit" />
                       <Bar dataKey="expense" fill="#F87171" radius={[6, 6, 0, 0]} name="Expense" />
                     </BarChart>
@@ -237,11 +237,11 @@ export default function AdminReports() {
                   <ResponsiveContainer width="100%" height={300}>
                     <LineChart data={reportData.chart}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
-                      <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#86868B' }} axisLine={false} tickLine={false} />
-                      <YAxis tick={{ fontSize: 12, fill: '#86868B' }} axisLine={false} tickLine={false} />
+                      <XAxis dataKey="month" tick={{ fontSize: 12, fill: 'var(--theme-text-muted)' }} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fontSize: 12, fill: 'var(--theme-text-muted)' }} axisLine={false} tickLine={false} />
                       <Tooltip content={<CustomTooltip />} />
-                      <Legend wrapperStyle={{ fontSize: 12, color: '#86868B' }} />
-                      <Line type="monotone" dataKey="new" stroke="#FF5722" strokeWidth={2.5} dot={{ fill: '#FF5722', strokeWidth: 0, r: 4 }} name="New Customers" />
+                      <Legend wrapperStyle={{ fontSize: 12, color: 'var(--theme-text-muted)' }} />
+                      <Line type="monotone" dataKey="new" stroke="var(--theme-primary)" strokeWidth={2.5} dot={{ fill: 'var(--theme-primary)', strokeWidth: 0, r: 4 }} name="New Customers" />
                       <Line type="monotone" dataKey="returning" stroke="#60A5FA" strokeWidth={2.5} dot={{ fill: '#60A5FA', strokeWidth: 0, r: 4 }} name="Returning" />
                     </LineChart>
                   </ResponsiveContainer>
@@ -268,8 +268,8 @@ export default function AdminReports() {
                         </linearGradient>
                       </defs>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
-                      <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#86868B' }} axisLine={false} tickLine={false} />
-                      <YAxis tick={{ fontSize: 12, fill: '#86868B' }} axisLine={false} tickLine={false} tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} />
+                      <XAxis dataKey="month" tick={{ fontSize: 12, fill: 'var(--theme-text-muted)' }} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fontSize: 12, fill: 'var(--theme-text-muted)' }} axisLine={false} tickLine={false} tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} />
                       <Tooltip content={<CustomTooltip />} />
                       <Area type="monotone" dataKey="revenue" stroke="#A78BFA" strokeWidth={2.5} fill="url(#revenueGradient)" name="Revenue" />
                     </AreaChart>
@@ -280,8 +280,8 @@ export default function AdminReports() {
                 <div className="grid grid-cols-3 gap-4">
                   {Object.entries(reportData.summary).map(([key, value]) => (
                     <div key={key} className="bg-white/[0.03] rounded-xl p-4 text-center border border-white/[0.05]">
-                      <p className="text-[10px] uppercase tracking-widest text-[#86868B]">{key.replace(/([A-Z])/g, ' $1')}</p>
-                      <p className="text-lg font-bold text-[#F5F5F7] mt-1.5">{value}</p>
+                      <p className="text-[10px] uppercase tracking-widest text-[var(--theme-text-muted)]">{key.replace(/([A-Z])/g, ' $1')}</p>
+                      <p className="text-lg font-bold text-[var(--theme-text)] mt-1.5">{value}</p>
                     </div>
                   ))}
                 </div>

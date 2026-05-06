@@ -322,7 +322,7 @@ export default function ProfilePage() {
               key={item.id}
               onClick={() => setActiveTab(item.id)}
               className={`shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
-                activeTab === item.id ? 'bg-[#FF5722]/10 text-[#FF5722]' : 'text-[#5A6B7F] hover:bg-[#F5F7FA]'
+                activeTab === item.id ? 'bg-[var(--theme-primary)]/10 text-[var(--theme-primary)]' : 'text-[#5A6B7F] hover:bg-[#F5F7FA]'
               }`}
             >
               <Icon className="size-3.5" />
@@ -340,7 +340,7 @@ export default function ProfilePage() {
               <div className="flex items-center gap-3">
                 <Avatar className="size-12 rounded-full">
                   <AvatarImage src={customer.avatar || undefined} />
-                  <AvatarFallback className="bg-[#FF5722]/10 text-[#FF5722] font-semibold">
+                  <AvatarFallback className="bg-[var(--theme-primary)]/10 text-[var(--theme-primary)] font-semibold">
                     {customer.first_name?.[0]}{customer.last_name?.[0]}
                   </AvatarFallback>
                 </Avatar>
@@ -358,7 +358,7 @@ export default function ProfilePage() {
                     key={item.id}
                     onClick={() => setActiveTab(item.id)}
                     className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                      activeTab === item.id ? 'bg-[#FF5722]/10 text-[#FF5722]' : 'text-[#5A6B7F] hover:bg-[#F5F7FA]'
+                      activeTab === item.id ? 'bg-[var(--theme-primary)]/10 text-[var(--theme-primary)]' : 'text-[#5A6B7F] hover:bg-[#F5F7FA]'
                     }`}
                   >
                     <Icon className="size-4" />
@@ -406,7 +406,7 @@ export default function ProfilePage() {
                 <CardContent className="p-5">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-sm font-bold text-cf-text flex items-center gap-2">
-                      <TrendingUp className="size-4 text-[#FF5722]" />
+                      <TrendingUp className="size-4 text-[var(--theme-primary)]" />
                       Monthly Spending
                     </h3>
                     <span className="text-xs text-[#5A6B7F]">Last 6 months</span>
@@ -423,7 +423,7 @@ export default function ProfilePage() {
                         />
                         <Bar dataKey="amount" radius={[6, 6, 0, 0]}>
                           {chartData.map((_, index) => (
-                            <Cell key={index} fill={index === chartData.length - 1 ? '#FF5722' : '#E4E7EC'} />
+                            <Cell key={index} fill={index === chartData.length - 1 ? 'var(--theme-primary)' : '#E4E7EC'} />
                           ))}
                         </Bar>
                       </BarChart>
@@ -437,7 +437,7 @@ export default function ProfilePage() {
                 <CardContent className="p-5">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-sm font-bold text-cf-text">Recent Orders</h3>
-                    <button onClick={() => setActiveTab('orders')} className="text-xs text-[#FF5722] font-medium hover:underline">View All</button>
+                    <button onClick={() => setActiveTab('orders')} className="text-xs text-[var(--theme-primary)] font-medium hover:underline">View All</button>
                   </div>
                   {orders.length === 0 ? (
                     <p className="text-sm text-[#5A6B7F]">No orders yet.</p>
@@ -479,7 +479,7 @@ export default function ProfilePage() {
                     onClick={() => setOrderFilter(status)}
                     className={`shrink-0 px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
                       orderFilter === status
-                        ? 'bg-[#FF5722] text-white'
+                        ? 'bg-[var(--theme-primary)] text-white'
                         : 'bg-white text-[#5A6B7F] border border-[#E4E7EC] hover:border-[#5A6B7F]'
                     }`}
                   >
@@ -518,7 +518,7 @@ export default function ProfilePage() {
                                 <p className="text-base font-bold text-cf-text">₹{order.total.toLocaleString('en-IN')}</p>
                                 <button
                                   onClick={() => setExpandedOrder(isExpanded ? null : order.id)}
-                                  className="flex items-center gap-1 text-xs text-[#FF5722] font-medium mt-1 hover:underline"
+                                  className="flex items-center gap-1 text-xs text-[var(--theme-primary)] font-medium mt-1 hover:underline"
                                 >
                                   {isExpanded ? 'Hide' : 'Details'}
                                   {isExpanded ? <ChevronUp className="size-3" /> : <ChevronDown className="size-3" />}
@@ -581,7 +581,7 @@ export default function ProfilePage() {
                               {order.status === 'Delivered' && (
                                 <Button
                                   size="sm"
-                                  className="text-xs bg-[#FF5722] hover:bg-[#E64A19] text-white rounded-lg h-8"
+                                  className="text-xs bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)] text-white rounded-lg h-8"
                                   onClick={() => { setReturnOrderId(order.id); setReturnDialogOpen(true); }}
                                 >
                                   Return
@@ -627,7 +627,7 @@ export default function ProfilePage() {
                         <div className="flex gap-2 mt-3">
                           <Button
                             size="sm"
-                            className="flex-1 h-8 bg-[#FF5722] hover:bg-[#E64A19] text-white text-xs rounded-lg"
+                            className="flex-1 h-8 bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)] text-white text-xs rounded-lg"
                             onClick={() => handleMoveToCart(item)}
                           >
                             <ShoppingBag className="size-3 mr-1" />
@@ -716,7 +716,7 @@ export default function ProfilePage() {
               <div className="flex items-center gap-4 p-5 bg-white rounded-xl border border-[#E4E7EC]">
                 <Avatar className="size-20 rounded-full">
                   <AvatarImage src={customer.avatar || undefined} />
-                  <AvatarFallback className="bg-[#FF5722]/10 text-[#FF5722] text-xl font-semibold">
+                  <AvatarFallback className="bg-[var(--theme-primary)]/10 text-[var(--theme-primary)] text-xl font-semibold">
                     {customer.first_name?.[0]}{customer.last_name?.[0]}
                   </AvatarFallback>
                 </Avatar>
@@ -761,7 +761,7 @@ export default function ProfilePage() {
                     </div>
                   </div>
                   {editMode && (
-                    <Button onClick={handleSaveProfile} disabled={saving} className="bg-[#FF5722] hover:bg-[#E64A19] text-white rounded-lg text-sm font-bold">
+                    <Button onClick={handleSaveProfile} disabled={saving} className="bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)] text-white rounded-lg text-sm font-bold">
                       {saving ? <Loader2 className="size-4 animate-spin mr-2" /> : <Save className="size-4 mr-2" />}
                       Save Changes
                     </Button>
@@ -842,12 +842,12 @@ export default function ProfilePage() {
                 value={returnReason}
                 onChange={(e) => setReturnReason(e.target.value)}
                 placeholder="Describe the reason for your return..."
-                className="w-full min-h-[100px] p-3 text-sm rounded-lg border border-[#E4E7EC] bg-[#F5F7FA] focus:outline-none focus:ring-2 focus:ring-[#FF5722] focus:border-transparent resize-none"
+                className="w-full min-h-[100px] p-3 text-sm rounded-lg border border-[#E4E7EC] bg-[#F5F7FA] focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)] focus:border-transparent resize-none"
               />
             </div>
             <div className="flex gap-2">
               <Button variant="outline" onClick={() => setReturnDialogOpen(false)} className="flex-1 rounded-lg border-[#E4E7EC]">Cancel</Button>
-              <Button onClick={handleReturn} disabled={saving} className="flex-1 bg-[#FF5722] hover:bg-[#E64A19] text-white rounded-lg font-bold">
+              <Button onClick={handleReturn} disabled={saving} className="flex-1 bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)] text-white rounded-lg font-bold">
                 {saving ? <Loader2 className="size-4 animate-spin" /> : 'Submit Return'}
               </Button>
             </div>
@@ -874,7 +874,7 @@ export default function ProfilePage() {
               <Label className="text-sm font-medium text-cf-text mb-1.5 block">Confirm New PIN</Label>
               <Input type="password" value={pinForm.confirmPin} onChange={(e) => setPinForm({ ...pinForm, confirmPin: e.target.value.replace(/\D/g, '').slice(0, 6) })} placeholder="Confirm new PIN" className="h-10 rounded-lg border-[#E4E7EC]" maxLength={6} />
             </div>
-            <Button onClick={handleChangePin} disabled={saving} className="w-full bg-[#FF5722] hover:bg-[#E64A19] text-white rounded-lg font-bold">
+            <Button onClick={handleChangePin} disabled={saving} className="w-full bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)] text-white rounded-lg font-bold">
               {saving ? <Loader2 className="size-4 animate-spin" /> : 'Change PIN'}
             </Button>
           </div>

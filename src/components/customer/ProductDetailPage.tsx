@@ -35,7 +35,7 @@ import type { Product } from './SharedTypes';
 const colorMap: Record<string, string> = {
   black: '#000000', white: '#FFFFFF', red: '#DC3545', blue: '#3B82F6',
   green: '#28A745', yellow: '#FFC107', pink: '#EC4899', purple: '#9C27B0',
-  orange: '#FF5722', brown: '#92400E', gray: '#6B7280', navy: '#0A1B2A',
+  orange: 'var(--theme-primary)', brown: '#92400E', gray: '#6B7280', navy: '#0A1B2A',
   beige: '#D4C5A9', cream: '#FFFDD0', maroon: '#800000', olive: '#808000',
   teal: '#14B8A6', coral: '#FF7F50', gold: '#FFD700', silver: '#C0C0C0',
 };
@@ -237,7 +237,7 @@ export default function ProductDetailPage() {
                   key={i}
                   onClick={() => setSelectedImage(i)}
                   className={`shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
-                    selectedImage === i ? 'border-[#FF5722] ring-2 ring-[#FF5722]/20' : 'border-[#E4E7EC]'
+                    selectedImage === i ? 'border-[var(--theme-primary)] ring-2 ring-[var(--theme-primary)]/20' : 'border-[#E4E7EC]'
                   }`}
                 >
                   <img src={img} alt="" className="w-full h-full object-cover" />
@@ -292,7 +292,7 @@ export default function ProductDetailPage() {
             <div>
               <div className="flex items-center justify-between mb-3">
                 <Label className="text-sm font-bold text-cf-text">Select Size</Label>
-                <button className="text-sm text-[#FF5722] font-medium hover:underline">Size Chart</button>
+                <button className="text-sm text-[var(--theme-primary)] font-medium hover:underline">Size Chart</button>
               </div>
               <div className="flex flex-wrap gap-2">
                 {product.sizes.map((size) => (
@@ -301,7 +301,7 @@ export default function ProductDetailPage() {
                     onClick={() => setSelectedSize(size)}
                     className={`min-w-[52px] h-10 px-4 rounded-lg text-sm font-medium border-2 transition-all ${
                       selectedSize === size
-                        ? 'bg-[#FF5722] text-white border-[#FF5722]'
+                        ? 'bg-[var(--theme-primary)] text-white border-[var(--theme-primary)]'
                         : 'bg-white text-cf-text border-[#E4E7EC] hover:border-[#5A6B7F]'
                     }`}
                   >
@@ -324,7 +324,7 @@ export default function ProductDetailPage() {
                       title={color}
                       className={`w-10 h-10 rounded-full border-2 transition-all flex items-center justify-center ${
                         selectedColor === color
-                          ? 'ring-2 ring-[#FF5722] ring-offset-2 border-[#FF5722]'
+                          ? 'ring-2 ring-[var(--theme-primary)] ring-offset-2 border-[var(--theme-primary)]'
                           : 'border-[#E4E7EC] hover:border-[#5A6B7F]'
                       } ${color.toLowerCase() === 'white' ? 'shadow-sm' : ''}`}
                       style={{ backgroundColor: colorMap[color.toLowerCase()] || color }}
@@ -358,7 +358,7 @@ export default function ProductDetailPage() {
                 </button>
               </div>
               {product.stock > 0 && product.stock <= 5 && (
-                <span className="text-xs text-[#FF5722] font-medium">Only {product.stock} left!</span>
+                <span className="text-xs text-[var(--theme-primary)] font-medium">Only {product.stock} left!</span>
               )}
             </div>
           </div>
@@ -368,7 +368,7 @@ export default function ProductDetailPage() {
           {/* Bank Offers */}
           <div className="bg-[#FFF8F5] rounded-xl p-4 border border-[#FFE0D6]">
             <h4 className="flex items-center gap-2 text-sm font-bold text-cf-text mb-3">
-              <Tag className="size-4 text-[#FF5722]" />
+              <Tag className="size-4 text-[var(--theme-primary)]" />
               Bank Offers
             </h4>
             <div className="space-y-2">
@@ -386,7 +386,7 @@ export default function ProductDetailPage() {
             <Button
               onClick={handleAddToCart}
               disabled={adding || product.stock === 0}
-              className="w-full h-12 bg-[#FF5722] hover:bg-[#E64A19] text-white rounded-lg text-sm font-bold btn-scale"
+              className="w-full h-12 bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)] text-white rounded-lg text-sm font-bold btn-scale"
             >
               {adding ? <Loader2 className="size-4 animate-spin mr-2" /> : <ShoppingCart className="size-4 mr-2" />}
               {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
@@ -395,13 +395,13 @@ export default function ProductDetailPage() {
               onClick={handleBuyNow}
               disabled={adding || product.stock === 0}
               variant="outline"
-              className="w-full h-12 border-2 border-[#FF5722] text-[#FF5722] hover:bg-[#FF5722] hover:text-white rounded-lg text-sm font-bold transition-colors btn-scale"
+              className="w-full h-12 border-2 border-[var(--theme-primary)] text-[var(--theme-primary)] hover:bg-[var(--theme-primary)] hover:text-white rounded-lg text-sm font-bold transition-colors btn-scale"
             >
               Buy Now
             </Button>
             <button
               onClick={toggleWishlist}
-              className="flex items-center justify-center gap-2 text-sm text-[#5A6B7F] hover:text-[#FF5722] transition-colors py-2"
+              className="flex items-center justify-center gap-2 text-sm text-[#5A6B7F] hover:text-[var(--theme-primary)] transition-colors py-2"
             >
               <Heart className={`size-4 ${isWishlisted ? 'fill-[#DC3545] text-[#DC3545]' : ''}`} />
               {isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}
@@ -411,7 +411,7 @@ export default function ProductDetailPage() {
           {/* Delivery check */}
           <div className="bg-white rounded-xl p-4 border border-[#E4E7EC]">
             <div className="flex items-center gap-2 mb-3">
-              <MapPin className="size-4 text-[#FF5722]" />
+              <MapPin className="size-4 text-[var(--theme-primary)]" />
               <span className="text-sm font-bold text-cf-text">Delivery Check</span>
             </div>
             <div className="flex gap-2">
@@ -423,7 +423,7 @@ export default function ProductDetailPage() {
                 className="h-10 rounded-lg text-sm max-w-[160px]"
                 maxLength={6}
               />
-              <Button variant="outline" onClick={handleCheckPincode} className="h-10 rounded-lg border-[#FF5722] text-[#FF5722] text-sm font-medium">
+              <Button variant="outline" onClick={handleCheckPincode} className="h-10 rounded-lg border-[var(--theme-primary)] text-[var(--theme-primary)] text-sm font-medium">
                 Check
               </Button>
             </div>
@@ -438,15 +438,15 @@ export default function ProductDetailPage() {
           {/* Benefits row */}
           <div className="grid grid-cols-3 gap-3">
             <div className="text-center p-3 rounded-lg bg-[#F5F7FA]">
-              <Truck className="size-5 mx-auto text-[#FF5722] mb-1.5" />
+              <Truck className="size-5 mx-auto text-[var(--theme-primary)] mb-1.5" />
               <p className="text-[11px] text-[#5A6B7F] font-medium">Free Shipping</p>
             </div>
             <div className="text-center p-3 rounded-lg bg-[#F5F7FA]">
-              <RotateCcw className="size-5 mx-auto text-[#FF5722] mb-1.5" />
+              <RotateCcw className="size-5 mx-auto text-[var(--theme-primary)] mb-1.5" />
               <p className="text-[11px] text-[#5A6B7F] font-medium">Easy Returns</p>
             </div>
             <div className="text-center p-3 rounded-lg bg-[#F5F7FA]">
-              <ShieldCheck className="size-5 mx-auto text-[#FF5722] mb-1.5" />
+              <ShieldCheck className="size-5 mx-auto text-[var(--theme-primary)] mb-1.5" />
               <p className="text-[11px] text-[#5A6B7F] font-medium">Secure Pay</p>
             </div>
           </div>
@@ -459,19 +459,19 @@ export default function ProductDetailPage() {
           <TabsList className="w-full justify-start border-b border-[#E4E7EC] bg-transparent rounded-none h-auto p-0">
             <TabsTrigger
               value="details"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#FF5722] data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3 text-sm font-semibold text-[#5A6B7F] data-[state=active]:text-[#FF5722]"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-[var(--theme-primary)] data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3 text-sm font-semibold text-[#5A6B7F] data-[state=active]:text-[var(--theme-primary)]"
             >
               Product Details
             </TabsTrigger>
             <TabsTrigger
               value="sizechart"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#FF5722] data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3 text-sm font-semibold text-[#5A6B7F] data-[state=active]:text-[#FF5722]"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-[var(--theme-primary)] data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3 text-sm font-semibold text-[#5A6B7F] data-[state=active]:text-[var(--theme-primary)]"
             >
               Size Chart
             </TabsTrigger>
             <TabsTrigger
               value="returns"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#FF5722] data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3 text-sm font-semibold text-[#5A6B7F] data-[state=active]:text-[#FF5722]"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-[var(--theme-primary)] data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3 text-sm font-semibold text-[#5A6B7F] data-[state=active]:text-[var(--theme-primary)]"
             >
               Return Policy
             </TabsTrigger>

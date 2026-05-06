@@ -205,7 +205,7 @@ export default function Header() {
                 <span className="text-[17px] font-semibold tracking-tight text-white">
                   Cloth
                 </span>
-                <span className="text-[17px] font-semibold tracking-tight bg-gradient-to-r from-[#FF5722] to-[#FF2D55] bg-clip-text text-transparent">
+                <span className="text-[17px] font-semibold tracking-tight bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
                   Fasion
                 </span>
               </button>
@@ -251,7 +251,7 @@ export default function Header() {
 
                 {/* Autocomplete Dropdown */}
                 {showSuggestions && searchQuery.trim().length >= 2 && (
-                  <div className="absolute top-full left-0 mt-2 w-[320px] rounded-2xl border border-white/[0.08] bg-[#1D1D1F]/95 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden animate-in fade-in-0 zoom-in-95 slide-in-from-top-1 duration-200">
+                  <div className="absolute top-full left-0 mt-2 w-[320px] rounded-2xl border border-white/[0.08] bg-[var(--theme-card)]/95 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden animate-in fade-in-0 zoom-in-95 slide-in-from-top-1 duration-200">
                     <div className="max-h-[340px] overflow-y-auto overscroll-contain">
                       {searchResults.length > 0 ? (
                         <div className="py-1.5">
@@ -306,7 +306,7 @@ export default function Header() {
                             setShowSuggestions(false);
                             setSearchQuery('');
                           }}
-                          className="flex w-full items-center justify-center gap-1 py-2.5 text-[12px] font-medium text-[#FF5722] transition-colors hover:bg-white/[0.04]"
+                          className="flex w-full items-center justify-center gap-1 py-2.5 text-[12px] font-medium text-[var(--theme-primary)] transition-colors hover:bg-white/[0.04]"
                         >
                           View all results for &ldquo;{searchQuery}&rdquo;
                         </button>
@@ -345,7 +345,7 @@ export default function Header() {
                 >
                   <ShoppingCart className="size-[17px]" />
                   {cartCount > 0 && (
-                    <span className="absolute -top-0.5 -right-0.5 flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-gradient-to-r from-[#FF5722] to-[#FF2D55] px-[5px] text-[10px] font-bold leading-none text-white shadow-[0_2px_8px_rgba(255,45,85,0.4)]">
+                    <span className="absolute -top-0.5 -right-0.5 flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] px-[5px] text-[10px] font-bold leading-none text-white shadow-[0_2px_8px_rgba(255,45,85,0.4)]">
                       {cartCount > 99 ? '99+' : cartCount}
                     </span>
                   )}
@@ -361,7 +361,7 @@ export default function Header() {
                         size="icon"
                         className="h-8 w-8 transition-colors duration-200 hover:bg-white/[0.04]"
                       >
-                        <div className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-gradient-to-br from-[#FF5722] to-[#FF2D55] text-[11px] font-bold text-white shadow-[0_2px_8px_rgba(255,45,85,0.25)]">
+                        <div className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-gradient-to-br from-[var(--theme-primary)] to-[var(--theme-secondary)] text-[11px] font-bold text-white shadow-[0_2px_8px_rgba(255,45,85,0.25)]">
                           {customer.first_name?.[0]?.toUpperCase() || 'U'}
                         </div>
                       </Button>
@@ -369,7 +369,7 @@ export default function Header() {
                     <DropdownMenuContent
                       align="end"
                       sideOffset={8}
-                      className="w-[220px] rounded-2xl border border-white/[0.08] bg-[#1D1D1F] p-1.5 shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
+                      className="w-[220px] rounded-2xl border border-white/[0.08] bg-[var(--theme-card)] p-1.5 shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
                     >
                       {/* User info card */}
                       <div className="mb-1.5 rounded-xl bg-white/[0.04] px-3 py-2.5">
@@ -455,7 +455,7 @@ export default function Header() {
 
               <SheetContent
                 side="left"
-                className="w-[280px] border-r border-white/[0.08] bg-[#1D1D1F]/[0.98] p-0 backdrop-blur-2xl"
+                className="w-[280px] border-r border-white/[0.08] bg-[var(--theme-card)]/[0.98] p-0 backdrop-blur-2xl"
               >
                 {/* Sheet header */}
                 <SheetHeader className="border-b border-white/[0.06] px-5 py-4">
@@ -463,7 +463,7 @@ export default function Header() {
                     <span className="text-[18px] font-semibold tracking-tight text-white">
                       Cloth
                     </span>
-                    <span className="text-[18px] font-semibold tracking-tight bg-gradient-to-r from-[#FF5722] to-[#FF2D55] bg-clip-text text-transparent">
+                    <span className="text-[18px] font-semibold tracking-tight bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
                       Fasion
                     </span>
                   </SheetTitle>
@@ -489,7 +489,7 @@ export default function Header() {
                   {showMobileSuggestions &&
                     mobileSearchQuery.trim().length >= 2 &&
                     mobileSearchResults.length > 0 && (
-                      <div className="mt-2 max-h-[260px] overflow-y-auto overscroll-contain rounded-xl border border-white/[0.08] bg-[#1D1D1F]/95 backdrop-blur-2xl shadow-[0_16px_48px_rgba(0,0,0,0.5)]">
+                      <div className="mt-2 max-h-[260px] overflow-y-auto overscroll-contain rounded-xl border border-white/[0.08] bg-[var(--theme-card)]/95 backdrop-blur-2xl shadow-[0_16px_48px_rgba(0,0,0,0.5)]">
                         {mobileSearchResults.map((product) => (
                           <button
                             key={product.id}
@@ -525,7 +525,7 @@ export default function Header() {
                             setMobileSearchQuery('');
                             setMobileOpen(false);
                           }}
-                          className="w-full border-t border-white/[0.06] py-2.5 text-center text-[12px] font-medium text-[#FF5722] transition-colors hover:bg-white/[0.04]"
+                          className="w-full border-t border-white/[0.06] py-2.5 text-center text-[12px] font-medium text-[var(--theme-primary)] transition-colors hover:bg-white/[0.04]"
                         >
                           View all results
                         </button>
@@ -592,7 +592,7 @@ export default function Header() {
                   ) : (
                     <button
                       onClick={() => handleNavClick('login')}
-                      className="mx-1 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#FF5722] to-[#FF2D55] px-4 py-[11px] text-[14px] font-semibold text-white shadow-[0_4px_16px_rgba(255,45,85,0.25)] transition-all duration-300 hover:from-[#E64A19] hover:to-[#E0264A]"
+                      className="mx-1 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] px-4 py-[11px] text-[14px] font-semibold text-white shadow-[0_4px_16px_rgba(255,45,85,0.25)] transition-all duration-300 hover:from-[var(--theme-primary)] hover:to-[var(--theme-secondary)]"
                     >
                       <User className="size-4" />
                       Login / Sign Up
@@ -621,7 +621,7 @@ export default function Header() {
               <span className="text-[16px] font-semibold tracking-tight text-white">
                 Cloth
               </span>
-              <span className="text-[16px] font-semibold tracking-tight bg-gradient-to-r from-[#FF5722] to-[#FF2D55] bg-clip-text text-transparent">
+              <span className="text-[16px] font-semibold tracking-tight bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
                 Fasion
               </span>
             </button>
@@ -653,7 +653,7 @@ export default function Header() {
             >
               <ShoppingCart className="size-[18px]" />
               {cartCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-gradient-to-r from-[#FF5722] to-[#FF2D55] px-[5px] text-[10px] font-bold leading-none text-white shadow-[0_2px_8px_rgba(255,45,85,0.4)]">
+                <span className="absolute -top-0.5 -right-0.5 flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] px-[5px] text-[10px] font-bold leading-none text-white shadow-[0_2px_8px_rgba(255,45,85,0.4)]">
                   {cartCount > 99 ? '99+' : cartCount}
                 </span>
               )}
@@ -668,7 +668,7 @@ export default function Header() {
                 onClick={() => navigate('profile')}
                 className="h-9 w-9 transition-colors hover:bg-white/[0.04]"
               >
-                <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-gradient-to-br from-[#FF5722] to-[#FF2D55] text-[10px] font-bold text-white">
+                <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-gradient-to-br from-[var(--theme-primary)] to-[var(--theme-secondary)] text-[10px] font-bold text-white">
                   {customer.first_name?.[0]?.toUpperCase() || 'U'}
                 </div>
               </Button>

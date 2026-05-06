@@ -202,7 +202,7 @@ export default function ShopPage() {
               <Checkbox
                 checked={selectedCategories.includes(cat.slug)}
                 onCheckedChange={() => toggleCategory(cat.slug)}
-                className="rounded data-[state=checked]:bg-[#FF5722] data-[state=checked]:border-[#FF5722]"
+                className="rounded data-[state=checked]:bg-[var(--theme-primary)] data-[state=checked]:border-[var(--theme-primary)]"
               />
               <span className="text-sm text-white/50 group-hover:text-cf-text flex-1">
                 {cat.name}
@@ -222,7 +222,7 @@ export default function ShopPage() {
             placeholder="Min"
             value={priceMin || ''}
             onChange={(e) => { setPriceMin(parseInt(e.target.value) || 0); setPage(1); }}
-            className="h-9 text-sm rounded-lg w-full bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:ring-[#FF5722]/50"
+            className="h-9 text-sm rounded-lg w-full bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:ring-[var(--theme-primary)]"
             min={0}
             max={50000}
             step={500}
@@ -233,7 +233,7 @@ export default function ShopPage() {
             placeholder="Max"
             value={priceMax || ''}
             onChange={(e) => { setPriceMax(parseInt(e.target.value) || 50000); setPage(1); }}
-            className="h-9 text-sm rounded-lg w-full bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:ring-[#FF5722]/50"
+            className="h-9 text-sm rounded-lg w-full bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:ring-[var(--theme-primary)]"
             min={0}
             max={50000}
             step={500}
@@ -246,7 +246,7 @@ export default function ShopPage() {
           step={500}
           value={priceMax}
           onChange={(e) => { setPriceMax(parseInt(e.target.value)); setPage(1); }}
-          className="w-full h-1.5 rounded-full appearance-none bg-white/10 accent-[#FF5722]"
+          className="w-full h-1.5 rounded-full appearance-none bg-white/10 accent-[var(--theme-primary)]"
         />
         <div className="flex justify-between text-xs text-white/50 mt-1">
           <span>₹0</span>
@@ -264,7 +264,7 @@ export default function ShopPage() {
               onClick={() => toggleSize(size)}
               className={`px-3.5 py-1.5 rounded-lg text-xs font-medium border transition-all ${
                 selectedSizes.includes(size)
-                  ? 'bg-gradient-to-r from-[#FF5722] to-[#FF2D55] text-white border-transparent'
+                  ? 'bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] text-white border-transparent'
                   : 'bg-white/5 text-white/50 border-white/10 hover:border-white/30'
               }`}
             >
@@ -285,7 +285,7 @@ export default function ShopPage() {
               title={color.name}
               className={`w-8 h-8 rounded-full border-2 transition-all ${
                 selectedColors.includes(color.name)
-                  ? 'border-[#FF5722] scale-110 ring-2 ring-[#FF5722]/30'
+                  ? 'border-[var(--theme-primary)] scale-110 ring-2 ring-[var(--theme-primary)]'
                   : 'border-white/10 hover:border-white/30'
               } ${color.name === 'White' ? 'shadow-sm' : ''}`}
               style={{ backgroundColor: color.hex }}
@@ -303,7 +303,7 @@ export default function ShopPage() {
               <Checkbox
                 checked={selectedDiscounts.includes(d)}
                 onCheckedChange={() => toggleDiscount(d)}
-                className="rounded data-[state=checked]:bg-[#FF5722] data-[state=checked]:border-[#FF5722]"
+                className="rounded data-[state=checked]:bg-[var(--theme-primary)] data-[state=checked]:border-[var(--theme-primary)]"
               />
               <span className="text-sm text-white/50 group-hover:text-cf-text">{d} off</span>
             </label>
@@ -335,13 +335,13 @@ export default function ShopPage() {
                 <SlidersHorizontal className="size-4 mr-2" />
                 Filters
                 {activeFilterCount > 0 && (
-                  <Badge className="ml-2 bg-gradient-to-r from-[#FF5722] to-[#FF2D55] text-white text-[10px] h-5 min-w-5 px-1.5 rounded-full">
+                  <Badge className="ml-2 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] text-white text-[10px] h-5 min-w-5 px-1.5 rounded-full">
                     {activeFilterCount}
                   </Badge>
                 )}
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-sm max-h-[85vh] overflow-y-auto bg-[#1D1D1F] border-white/10">
+            <DialogContent className="max-w-sm max-h-[85vh] overflow-y-auto bg-[var(--theme-card)] border-white/10">
               <DialogHeader>
                 <DialogTitle className="font-bold text-lg text-cf-text">Filters</DialogTitle>
               </DialogHeader>
@@ -368,7 +368,7 @@ export default function ShopPage() {
               <span className="text-white/50 text-xs mr-1">Sort by</span>
               <SelectValue />
             </SelectTrigger>
-            <SelectContent className="bg-[#1D1D1F] border-white/10">
+            <SelectContent className="bg-[var(--theme-card)] border-white/10">
               {SORT_OPTIONS.map((opt) => (
                 <SelectItem key={opt.value} value={opt.value} className="text-white focus:bg-white/5 focus:text-white">
                   {opt.label}
@@ -381,13 +381,13 @@ export default function ShopPage() {
           <div className="hidden sm:flex items-center border border-white/10 rounded-lg overflow-hidden">
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-2 transition-colors ${viewMode === 'grid' ? 'bg-gradient-to-r from-[#FF5722] to-[#FF2D55] text-white' : 'bg-white/5 text-white/50 hover:bg-white/10'}`}
+              className={`p-2 transition-colors ${viewMode === 'grid' ? 'bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] text-white' : 'bg-white/5 text-white/50 hover:bg-white/10'}`}
             >
               <LayoutGrid className="size-4" />
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`p-2 transition-colors ${viewMode === 'list' ? 'bg-gradient-to-r from-[#FF5722] to-[#FF2D55] text-white' : 'bg-white/5 text-white/50 hover:bg-white/10'}`}
+              className={`p-2 transition-colors ${viewMode === 'list' ? 'bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] text-white' : 'bg-white/5 text-white/50 hover:bg-white/10'}`}
             >
               <List className="size-4" />
             </button>
@@ -435,7 +435,7 @@ export default function ShopPage() {
       <div className="flex gap-8">
         {/* Desktop sidebar */}
         <aside className="hidden lg:block w-[280px] shrink-0">
-          <div className="sticky top-24 bg-[#1D1D1F] rounded-xl border border-white/5 shadow-sm p-5">
+          <div className="sticky top-24 bg-[var(--theme-card)] rounded-xl border border-white/5 shadow-sm p-5">
             <div className="flex items-center justify-between mb-5">
               <h3 className="font-bold text-lg text-cf-text">Filters</h3>
               {activeFilterCount > 0 && (
@@ -498,7 +498,7 @@ export default function ShopPage() {
                     <div
                       key={product.id}
                       onClick={() => navigate('product', { id: product.id })}
-                      className="product-card flex gap-4 bg-[#1D1D1F] rounded-xl border border-white/5 p-4 cursor-pointer hover:border-white/10 transition-colors"
+                      className="product-card flex gap-4 bg-[var(--theme-card)] rounded-xl border border-white/5 p-4 cursor-pointer hover:border-white/10 transition-colors"
                     >
                       <div className="shrink-0 w-32 h-32 md:w-40 md:h-40 rounded-xl overflow-hidden bg-white/5">
                         <img
@@ -558,7 +558,7 @@ export default function ShopPage() {
                         variant={page === pageNum ? 'default' : 'outline'}
                         size="sm"
                         onClick={() => setPage(pageNum)}
-                        className={`rounded-lg h-9 w-9 p-0 ${page === pageNum ? 'bg-gradient-to-r from-[#FF5722] to-[#FF2D55] text-white hover:from-[#FF5722] hover:to-[#FF2D55]' : 'border-white/10 bg-white/5 text-white hover:bg-white/10'}`}
+                        className={`rounded-lg h-9 w-9 p-0 ${page === pageNum ? 'bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] text-white hover:from-[var(--theme-primary)] hover:to-[var(--theme-secondary)]' : 'border-white/10 bg-white/5 text-white hover:bg-white/10'}`}
                       >
                         {pageNum}
                       </Button>

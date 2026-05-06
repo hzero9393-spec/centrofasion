@@ -49,7 +49,7 @@ export default function CartPage() {
           </p>
           <Button
             onClick={() => navigate('shop')}
-            className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:from-[#E64A19] hover:to-[#E91E63] text-white h-12 px-8 rounded-lg text-sm font-bold btn-scale"
+            className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] hover:from-[var(--theme-primary)] hover:to-[#E91E63] text-white h-12 px-8 rounded-lg text-sm font-bold btn-scale"
           >
             Shop Now
             <ArrowRight className="size-4 ml-2" />
@@ -72,14 +72,14 @@ export default function CartPage() {
         <Button
           variant="ghost"
           onClick={() => navigate('shop')}
-          className="text-sm text-[#FF5722] hover:text-[#FF5722] font-medium"
+          className="text-sm text-[var(--theme-primary)] hover:text-[var(--theme-primary)] font-medium"
         >
           Continue Shopping
         </Button>
       </div>
 
       {/* Deliver to */}
-      <div className="flex items-center gap-3 mb-6 bg-[#1D1D1F] rounded-xl border border-white/5 p-3 px-4">
+      <div className="flex items-center gap-3 mb-6 bg-[var(--theme-card)] rounded-xl border border-white/5 p-3 px-4">
         <MapPin className="size-4 text-white/50" />
         <span className="text-sm text-white/50">
           Deliver to: <span className="font-semibold text-cf-text">{pincodeInput || 'Enter Pincode'}</span>
@@ -87,7 +87,7 @@ export default function CartPage() {
         <Button
           variant="ghost"
           size="sm"
-          className="text-xs text-[#FF5722] hover:text-[#FF5722] font-semibold ml-auto h-7"
+          className="text-xs text-[var(--theme-primary)] hover:text-[var(--theme-primary)] font-semibold ml-auto h-7"
         >
           Change
         </Button>
@@ -101,7 +101,7 @@ export default function CartPage() {
             return (
               <div
                 key={item.id}
-                className="bg-[#1D1D1F] rounded-xl border border-white/5 p-4 shadow-sm hover:border-white/10 transition-colors"
+                className="bg-[var(--theme-card)] rounded-xl border border-white/5 p-4 shadow-sm hover:border-white/10 transition-colors"
               >
                 <div className="flex gap-4">
                   {/* Image */}
@@ -181,7 +181,7 @@ export default function CartPage() {
                     </div>
 
                     {/* Save for later */}
-                    <button className="text-xs text-[#FF5722] font-medium mt-2 hover:underline">
+                    <button className="text-xs text-[var(--theme-primary)] font-medium mt-2 hover:underline">
                       Save for Later
                     </button>
                   </div>
@@ -193,7 +193,7 @@ export default function CartPage() {
 
         {/* Price Details - 35% sticky */}
         <div className="lg:w-[380px] shrink-0">
-          <div className="sticky top-24 bg-[#1D1D1F] rounded-xl border border-white/5 shadow-sm p-6">
+          <div className="sticky top-24 bg-[var(--theme-card)] rounded-xl border border-white/5 shadow-sm p-6">
             <h3 className="text-sm font-bold text-cf-text uppercase tracking-wider mb-5">
               Price Details
             </h3>
@@ -226,7 +226,7 @@ export default function CartPage() {
                 </span>
               </div>
               {deliveryFee > 0 && (
-                <p className="text-xs text-[#FF5722]">
+                <p className="text-xs text-[var(--theme-primary)]">
                   Add ₹{(999 - subtotal).toLocaleString('en-IN')} more for free delivery
                 </p>
               )}
@@ -245,7 +245,7 @@ export default function CartPage() {
 
             <Button
               onClick={handleProceedToCheckout}
-              className="w-full h-12 bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:from-[#E64A19] hover:to-[#E91E63] text-white rounded-lg text-sm font-bold btn-scale"
+              className="w-full h-12 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] hover:from-[var(--theme-primary)] hover:to-[#E91E63] text-white rounded-lg text-sm font-bold btn-scale"
             >
               <Truck className="size-4 mr-2" />
               Place Order

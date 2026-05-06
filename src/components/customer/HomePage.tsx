@@ -87,15 +87,15 @@ export default function HomePage() {
         <div className="absolute inset-0 dot-pattern opacity-40" />
 
         {/* Decorative gradient orbs */}
-        <div className="absolute top-[10%] right-[5%] w-[500px] h-[500px] md:w-[700px] md:h-[700px] rounded-full bg-gradient-to-br from-[#FF5722]/25 to-[#FF2D55]/10 blur-[120px] animate-float pointer-events-none" />
-        <div className="absolute bottom-[10%] left-[0%] w-[400px] h-[400px] md:w-[550px] md:h-[550px] rounded-full bg-gradient-to-tr from-[#FF2D55]/20 to-[#FF5722]/5 blur-[100px] animate-float-slow pointer-events-none" />
-        <div className="absolute top-[50%] left-[40%] w-[300px] h-[300px] rounded-full bg-gradient-to-r from-[#FF5722]/10 to-[#FF2D55]/10 blur-[80px] animate-float-reverse pointer-events-none" />
+        <div className="absolute top-[10%] right-[5%] w-[500px] h-[500px] md:w-[700px] md:h-[700px] rounded-full bg-gradient-to-br from-[var(--theme-primary)]/25 to-[var(--theme-secondary)]/10 blur-[120px] animate-float pointer-events-none" />
+        <div className="absolute bottom-[10%] left-[0%] w-[400px] h-[400px] md:w-[550px] md:h-[550px] rounded-full bg-gradient-to-tr from-[var(--theme-secondary)]/20 to-[var(--theme-primary)]/5 blur-[100px] animate-float-slow pointer-events-none" />
+        <div className="absolute top-[50%] left-[40%] w-[300px] h-[300px] rounded-full bg-gradient-to-r from-[var(--theme-primary)]/10 to-[var(--theme-secondary)]/10 blur-[80px] animate-float-reverse pointer-events-none" />
 
         {/* Content */}
         <div className="relative z-10 max-w-[1280px] mx-auto px-4 text-center">
           <h1 className="animate-fade-up text-[40px] sm:text-[52px] md:text-[80px] font-bold tracking-tight text-white leading-[1.05] mb-6">
             Discover Your{' '}
-            <span className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
               Style
             </span>
           </h1>
@@ -107,7 +107,7 @@ export default function HomePage() {
             <Button
               onClick={() => navigate('shop')}
               size="lg"
-              className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:opacity-90 text-white rounded-full px-8 py-4 text-base font-semibold shadow-[0_8px_32px_rgba(255,87,34,0.35)] transition-all duration-300 hover:shadow-[0_12px_48px_rgba(255,87,34,0.5)] hover:scale-[1.02] btn-scale"
+              className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] hover:opacity-90 text-white rounded-full px-8 py-4 text-base font-semibold shadow-[0_8px_32px_rgba(255,87,34,0.35)] transition-all duration-300 hover:shadow-[0_12px_48px_rgba(255,87,34,0.5)] hover:scale-[1.02] btn-scale"
             >
               Shop Now
               <ArrowRight className="ml-2 size-4" />
@@ -151,8 +151,8 @@ export default function HomePage() {
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               {Array.from({ length: 5 }).map((_, i) => (
                 <div key={i} className="space-y-3">
-                  <Skeleton className="aspect-square rounded-2xl bg-[#1D1D1F]" />
-                  <Skeleton className="h-4 w-16 mx-auto bg-[#1D1D1F]" />
+                  <Skeleton className="aspect-square rounded-2xl bg-[var(--theme-card)]" />
+                  <Skeleton className="h-4 w-16 mx-auto bg-[var(--theme-card)]" />
                 </div>
               ))}
             </div>
@@ -168,7 +168,7 @@ export default function HomePage() {
                     ${idx === 2 ? 'animate-fade-up-delay-2' : ''}
                     ${idx === 3 ? 'animate-fade-up-delay-3' : ''}
                     ${idx === 4 ? 'animate-fade-up-delay-4' : ''}
-                    group relative bg-[#1D1D1F] rounded-2xl overflow-hidden
+                    group relative bg-[var(--theme-card)] rounded-2xl overflow-hidden
                     hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(255,87,34,0.15)]
                     transition-all duration-500 text-left
                   `}
@@ -184,7 +184,7 @@ export default function HomePage() {
                     />
                   </div>
                   <div className="p-4">
-                    <p className="text-sm font-medium text-white group-hover:text-[#FF5722] transition-colors duration-300">
+                    <p className="text-sm font-medium text-white group-hover:text-[var(--theme-primary)] transition-colors duration-300">
                       {cat.name}
                     </p>
                     <p className="text-xs text-white/40 mt-0.5">
@@ -217,9 +217,9 @@ export default function HomePage() {
             <div className="flex gap-4 overflow-hidden">
               {Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="shrink-0 w-[200px] md:w-[240px] space-y-3">
-                  <Skeleton className="aspect-square rounded-2xl bg-[#1D1D1F]" />
-                  <Skeleton className="h-4 w-3/4 bg-[#1D1D1F]" />
-                  <Skeleton className="h-5 w-1/2 bg-[#1D1D1F]" />
+                  <Skeleton className="aspect-square rounded-2xl bg-[var(--theme-card)]" />
+                  <Skeleton className="h-4 w-3/4 bg-[var(--theme-card)]" />
+                  <Skeleton className="h-5 w-1/2 bg-[var(--theme-card)]" />
                 </div>
               ))}
             </div>
@@ -230,7 +230,7 @@ export default function HomePage() {
           ) : (
             <div className="relative group/featured">
               {/* Dark card container */}
-              <div className="bg-[#1D1D1F] rounded-3xl p-6 md:p-8">
+              <div className="bg-[var(--theme-card)] rounded-3xl p-6 md:p-8">
                 <div
                   ref={scrollRef}
                   className="flex gap-4 md:gap-5 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2"
@@ -285,7 +285,7 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════ */}
       <section className="bg-black py-6 md:py-8">
         <div className="max-w-[1280px] mx-auto px-4">
-          <div className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] rounded-2xl px-6 py-5 md:py-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-8 text-center sm:text-left shadow-[0_8px_32px_rgba(255,87,34,0.25)]">
+          <div className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] rounded-2xl px-6 py-5 md:py-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-8 text-center sm:text-left shadow-[0_8px_32px_rgba(255,87,34,0.25)]">
             <span className="text-white text-sm md:text-base font-semibold flex items-center gap-2">
               <span className="text-lg">🚚</span>
               Free Shipping on Orders Above ₹999
@@ -323,9 +323,9 @@ export default function HomePage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="space-y-3">
-                  <Skeleton className="aspect-square rounded-2xl bg-[#1D1D1F]" />
-                  <Skeleton className="h-4 w-3/4 bg-[#1D1D1F]" />
-                  <Skeleton className="h-5 w-1/2 bg-[#1D1D1F]" />
+                  <Skeleton className="aspect-square rounded-2xl bg-[var(--theme-card)]" />
+                  <Skeleton className="h-4 w-3/4 bg-[var(--theme-card)]" />
+                  <Skeleton className="h-5 w-1/2 bg-[var(--theme-card)]" />
                 </div>
               ))}
             </div>
@@ -399,7 +399,7 @@ export default function HomePage() {
                   `}
                 >
                   {/* Icon with gradient circle */}
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#FF5722] to-[#FF2D55] flex items-center justify-center mx-auto mb-5 shadow-[0_8px_24px_rgba(255,87,34,0.3)]">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--theme-primary)] to-[var(--theme-secondary)] flex items-center justify-center mx-auto mb-5 shadow-[0_8px_24px_rgba(255,87,34,0.3)]">
                     <Icon className="size-7 text-white" />
                   </div>
                   <h3 className="text-lg font-semibold text-white mb-2">

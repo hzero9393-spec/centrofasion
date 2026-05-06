@@ -17,17 +17,17 @@ interface DashboardData {
   ordersByWeek: { week: string; orders: string }[];
 }
 
-const PIE_COLORS = ['#28A745', '#FF5722', '#FFC107', '#DC3545', '#6366F1'];
+const PIE_COLORS = ['#28A745', 'var(--theme-primary)', '#FFC107', '#DC3545', '#6366F1'];
 
 /* ---------- Custom tooltip for all charts ---------- */
 const DarkTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ name: string; value: number; color?: string }>; label?: string }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-[#2A2A2E] border border-white/10 rounded-xl px-4 py-3 shadow-xl">
-      {label && <p className="text-xs text-[#86868B] mb-1.5">{label}</p>}
+    <div className="bg-[var(--theme-card)] border border-white/10 rounded-xl px-4 py-3 shadow-xl">
+      {label && <p className="text-xs text-[var(--theme-text-muted)] mb-1.5">{label}</p>}
       {payload.map((item, i) => (
-        <p key={i} className="text-sm text-[#F5F5F7] font-medium">
-          {item.name && <span className="text-[#86868B] mr-1.5">{item.name}:</span>}
+        <p key={i} className="text-sm text-[var(--theme-text)] font-medium">
+          {item.name && <span className="text-[var(--theme-text-muted)] mr-1.5">{item.name}:</span>}
           {item.name === 'Revenue'
             ? `₹${item.value.toLocaleString('en-IN')}`
             : item.value.toLocaleString('en-IN')}
@@ -49,7 +49,7 @@ const StatusPie = ({ data }: { data: { name: string; value: number; color: strin
         outerRadius={90}
         dataKey="value"
         strokeWidth={2}
-        stroke="#1D1D1F"
+        stroke="var(--theme-card)"
       >
         {data.map((entry, i) => (
           <Cell key={i} fill={entry.color} />
@@ -62,7 +62,7 @@ const StatusPie = ({ data }: { data: { name: string; value: number; color: strin
       <Legend
         wrapperStyle={{ paddingTop: 12 }}
         formatter={(value: string) => (
-          <span className="text-xs text-[#86868B]">{value}</span>
+          <span className="text-xs text-[var(--theme-text-muted)]">{value}</span>
         )}
       />
     </PieChart>
@@ -102,7 +102,7 @@ export default function AdminDashboard() {
 
   const orderStatusData = [
     { name: 'Delivered', value: 45, color: '#28A745' },
-    { name: 'Shipped', value: 25, color: '#FF5722' },
+    { name: 'Shipped', value: 25, color: 'var(--theme-primary)' },
     { name: 'Processing', value: 20, color: '#FFC107' },
     { name: 'Cancelled', value: 10, color: '#DC3545' },
   ];
@@ -117,14 +117,14 @@ export default function AdminDashboard() {
       <div className="space-y-6">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl p-5">
+            <div key={i} className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-5">
               <DarkSkeleton className="h-24 w-full" />
             </div>
           ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {[...Array(2)].map((_, i) => (
-            <div key={i} className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl p-6">
+            <div key={i} className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
               <DarkSkeleton className="h-72 w-full" />
             </div>
           ))}
@@ -143,19 +143,19 @@ export default function AdminDashboard() {
           return (
             <div
               key={kpi.label}
-              className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl p-5 hover:bg-white/[0.03] transition-colors"
+              className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-5 hover:bg-white/[0.03] transition-colors"
             >
               <div className="flex items-start justify-between">
                 <div className="space-y-2">
-                  <p className="text-sm text-[#86868B]">{kpi.label}</p>
-                  <p className="text-2xl font-bold text-[#F5F5F7] tracking-tight">
+                  <p className="text-sm text-[var(--theme-text-muted)]">{kpi.label}</p>
+                  <p className="text-2xl font-bold text-[var(--theme-text)] tracking-tight">
                     {isCurrency
                       ? `₹${kpi.value.toLocaleString('en-IN')}`
                       : kpi.value.toLocaleString('en-IN')}
                   </p>
                 </div>
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/5">
-                  <Icon className="h-5 w-5 text-[#86868B]" />
+                  <Icon className="h-5 w-5 text-[var(--theme-text-muted)]" />
                 </div>
               </div>
               <div className="flex items-center gap-1 mt-3">
@@ -167,7 +167,7 @@ export default function AdminDashboard() {
                 <span className={`text-xs font-medium ${kpi.trend >= 0 ? 'text-[#28A745]' : 'text-[#DC3545]'}`}>
                   {kpi.trend >= 0 ? '+' : ''}{kpi.trend}%
                 </span>
-                <span className="text-xs text-[#86868B] ml-0.5">vs last month</span>
+                <span className="text-xs text-[var(--theme-text-muted)] ml-0.5">vs last month</span>
               </div>
             </div>
           );
@@ -177,27 +177,27 @@ export default function AdminDashboard() {
       {/* ===== Charts Row ===== */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Revenue Trend */}
-        <div className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl p-6">
-          <h3 className="text-base font-semibold text-[#F5F5F7] mb-5">Revenue Trend</h3>
+        <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
+          <h3 className="text-base font-semibold text-[var(--theme-text)] mb-5">Revenue Trend</h3>
           {revenueData.length > 0 ? (
             <ResponsiveContainer width="100%" height={260}>
               <AreaChart data={revenueData}>
                 <defs>
                   <linearGradient id="revenueGradDark" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#FF5722" stopOpacity={0.3} />
-                    <stop offset="50%" stopColor="#FF5722" stopOpacity={0.1} />
-                    <stop offset="100%" stopColor="#FF5722" stopOpacity={0} />
+                    <stop offset="0%" stopColor="var(--theme-primary)" stopOpacity={0.3} />
+                    <stop offset="50%" stopColor="var(--theme-primary)" stopOpacity={0.1} />
+                    <stop offset="100%" stopColor="var(--theme-primary)" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" vertical={false} />
                 <XAxis
                   dataKey="month"
-                  tick={{ fontSize: 12, fill: '#86868B' }}
+                  tick={{ fontSize: 12, fill: 'var(--theme-text-muted)' }}
                   axisLine={false}
                   tickLine={false}
                 />
                 <YAxis
-                  tick={{ fontSize: 12, fill: '#86868B' }}
+                  tick={{ fontSize: 12, fill: 'var(--theme-text-muted)' }}
                   axisLine={false}
                   tickLine={false}
                   tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`}
@@ -207,22 +207,22 @@ export default function AdminDashboard() {
                   type="monotone"
                   dataKey="revenue"
                   name="Revenue"
-                  stroke="#FF5722"
+                  stroke="var(--theme-primary)"
                   strokeWidth={2.5}
                   fill="url(#revenueGradDark)"
                 />
               </AreaChart>
             </ResponsiveContainer>
           ) : (
-            <div className="h-[260px] flex items-center justify-center text-[#86868B] text-sm">
+            <div className="h-[260px] flex items-center justify-center text-[var(--theme-text-muted)] text-sm">
               No revenue data yet
             </div>
           )}
         </div>
 
         {/* Order Status Distribution */}
-        <div className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl p-6">
-          <h3 className="text-base font-semibold text-[#F5F5F7] mb-5">Order Status</h3>
+        <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
+          <h3 className="text-base font-semibold text-[var(--theme-text)] mb-5">Order Status</h3>
           <StatusPie data={orderStatusData} />
         </div>
       </div>
@@ -230,12 +230,12 @@ export default function AdminDashboard() {
       {/* ===== Bottom Row ===== */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Top Selling Products */}
-        <div className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl p-6">
-          <h3 className="text-base font-semibold text-[#F5F5F7] mb-4">Top Selling Products</h3>
+        <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
+          <h3 className="text-base font-semibold text-[var(--theme-text)] mb-4">Top Selling Products</h3>
           <div className="overflow-x-auto max-h-96 overflow-y-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-[#86868B] border-b border-white/[0.06]">
+                <tr className="text-left text-[var(--theme-text-muted)] border-b border-white/[0.06]">
                   <th className="pb-3 font-medium">#</th>
                   <th className="pb-3 font-medium">Product</th>
                   <th className="pb-3 font-medium text-right">Units</th>
@@ -249,13 +249,13 @@ export default function AdminDashboard() {
                     className="border-b border-white/[0.04] last:border-0 hover:bg-white/5 transition-colors"
                   >
                     <td className="py-3 text-white/40">{i + 1}</td>
-                    <td className="py-3 font-medium text-[#F5F5F7] max-w-[160px] truncate">
+                    <td className="py-3 font-medium text-[var(--theme-text)] max-w-[160px] truncate">
                       {p.product_name}
                     </td>
-                    <td className="py-3 text-right text-[#F5F5F7]">
+                    <td className="py-3 text-right text-[var(--theme-text)]">
                       {Number(p.sold).toLocaleString('en-IN')}
                     </td>
-                    <td className="py-3 text-right font-medium text-[#F5F5F7]">
+                    <td className="py-3 text-right font-medium text-[var(--theme-text)]">
                       ₹{Number(p.revenue).toLocaleString('en-IN')}
                     </td>
                   </tr>
@@ -266,28 +266,28 @@ export default function AdminDashboard() {
         </div>
 
         {/* Top Categories */}
-        <div className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl p-6">
-          <h3 className="text-base font-semibold text-[#F5F5F7] mb-5">Top Categories</h3>
+        <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
+          <h3 className="text-base font-semibold text-[var(--theme-text)] mb-5">Top Categories</h3>
           {categoryData.length > 0 ? (
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={categoryData} layout="vertical">
                 <defs>
                   <linearGradient id="barGrad" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stopColor="#FF5722" />
-                    <stop offset="100%" stopColor="#FF2D55" />
+                    <stop offset="0%" stopColor="var(--theme-primary)" />
+                    <stop offset="100%" stopColor="var(--theme-secondary)" />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" horizontal={false} />
                 <XAxis
                   type="number"
-                  tick={{ fontSize: 12, fill: '#86868B' }}
+                  tick={{ fontSize: 12, fill: 'var(--theme-text-muted)' }}
                   axisLine={false}
                   tickLine={false}
                 />
                 <YAxis
                   type="category"
                   dataKey="name"
-                  tick={{ fontSize: 12, fill: '#86868B' }}
+                  tick={{ fontSize: 12, fill: 'var(--theme-text-muted)' }}
                   axisLine={false}
                   tickLine={false}
                   width={100}
@@ -297,7 +297,7 @@ export default function AdminDashboard() {
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <div className="h-[220px] flex items-center justify-center text-[#86868B] text-sm">
+            <div className="h-[220px] flex items-center justify-center text-[var(--theme-text-muted)] text-sm">
               No category data yet
             </div>
           )}
@@ -309,7 +309,7 @@ export default function AdminDashboard() {
         <div className="bg-[#FFC107]/5 border border-[#FFC107]/20 rounded-2xl p-6">
           <div className="flex items-center gap-2 mb-4">
             <AlertTriangle className="h-5 w-5 text-[#FFC107]" />
-            <h3 className="text-base font-semibold text-[#F5F5F7]">Low Stock Alert</h3>
+            <h3 className="text-base font-semibold text-[var(--theme-text)]">Low Stock Alert</h3>
           </div>
           {lowStock.length > 0 ? (
             <div className="space-y-2">
@@ -320,14 +320,14 @@ export default function AdminDashboard() {
                 >
                   <div className="flex items-center gap-2.5">
                     <div className="w-2 h-2 rounded-full bg-[#DC3545]" />
-                    <span className="text-sm text-[#F5F5F7] font-medium">{p.product_name}</span>
+                    <span className="text-sm text-[var(--theme-text)] font-medium">{p.product_name}</span>
                   </div>
                   <span className="text-sm text-[#DC3545] font-medium">{Number(p.sold)} units</span>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-sm text-[#86868B]">All products are well stocked!</p>
+            <p className="text-sm text-[var(--theme-text-muted)]">All products are well stocked!</p>
           )}
         </div>
       )}

@@ -38,7 +38,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#1D1D1F] text-white mt-auto">
+    <footer className="bg-[var(--theme-card)] text-white mt-auto">
       {/* Subtle top gradient border */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
@@ -51,7 +51,7 @@ export default function Footer() {
               onClick={() => navigate('home')}
               className="text-2xl font-bold tracking-tight transition-opacity hover:opacity-80"
             >
-              <span className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
                 ClothFasion
               </span>
             </button>
@@ -63,21 +63,21 @@ export default function Footer() {
             <div className="flex items-center gap-3 mt-6">
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[#FF5722] hover:to-[#FF2D55] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#FF5722]/20"
+                className="w-10 h-10 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[var(--theme-primary)] hover:to-[var(--theme-secondary)] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[var(--theme-primary)]/20"
                 aria-label="Instagram"
               >
                 <Instagram className="size-[18px] text-white/60 hover:text-white transition-colors" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[#FF5722] hover:to-[#FF2D55] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#FF5722]/20"
+                className="w-10 h-10 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[var(--theme-primary)] hover:to-[var(--theme-secondary)] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[var(--theme-primary)]/20"
                 aria-label="Facebook"
               >
                 <Facebook className="size-[18px] text-white/60 hover:text-white transition-colors" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[#FF5722] hover:to-[#FF2D55] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#FF5722]/20"
+                className="w-10 h-10 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[var(--theme-primary)] hover:to-[var(--theme-secondary)] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[var(--theme-primary)]/20"
                 aria-label="Twitter"
               >
                 <Twitter className="size-[18px] text-white/60 hover:text-white transition-colors" />
@@ -168,7 +168,7 @@ export default function Footer() {
                   <div className="fixed inset-0 z-40" onClick={() => setShowThemes(false)} />
 
                   {/* Theme Dropdown */}
-                  <div className="absolute bottom-full right-0 mb-2 z-50 w-[280px] rounded-2xl border border-white/[0.1] bg-[#1D1D1F]/95 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] p-3 animate-fade-up">
+                  <div className="absolute bottom-full right-0 mb-2 z-50 w-[280px] rounded-2xl border border-white/[0.1] bg-[var(--theme-card)]/95 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] p-3 animate-fade-up">
                     <p className="text-xs font-medium text-white/50 px-1 mb-2">Choose Theme</p>
                     <div className="grid grid-cols-4 gap-2">
                       {THEMES.map((theme) => {

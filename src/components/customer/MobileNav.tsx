@@ -38,7 +38,7 @@ export default function MobileNav() {
             >
               {/* Active gradient indicator bar at top */}
               {isActive && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[3px] rounded-b-full bg-gradient-to-r from-[#FF5722] to-[#FF2D55]" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-[3px] rounded-b-full bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)]" />
               )}
               <div className="relative">
                 <Icon
@@ -46,7 +46,7 @@ export default function MobileNav() {
                   strokeWidth={isActive ? 2.5 : 1.8}
                 />
                 {tab.badge && (
-                  <span className="absolute -top-1.5 -right-2.5 bg-gradient-to-r from-[#FF5722] to-[#FF2D55] text-white text-[9px] font-bold min-w-[16px] h-[16px] flex items-center justify-center px-1 rounded-full shadow-lg shadow-[#FF5722]/30">
+                  <span className="absolute -top-1.5 -right-2.5 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] text-white text-[9px] font-bold min-w-[16px] h-[16px] flex items-center justify-center px-1 rounded-full shadow-lg shadow-[var(--theme-primary)]">
                     {tab.badge > 99 ? '99+' : tab.badge}
                   </span>
                 )}

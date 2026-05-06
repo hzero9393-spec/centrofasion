@@ -171,3 +171,28 @@ Stage Summary:
 - Signup: Name + Mobile + Email + Password → Create account
 - Email column added to customers table via auto-migration
 - Clean dark glassmorphism UI matching Apple-inspired theme
+
+---
+Task ID: 10
+Agent: Main Agent
+Task: Fix theme system - make theme switching work across entire website (customer + admin)
+
+Work Log:
+- Updated ThemeProvider.tsx: Added persist.rehydrate() on mount for proper localStorage restoration
+- Updated HydrationGate.tsx: Added useThemeStore.persist.rehydrate() call
+- Rewrote globals.css: All theme-dependent colors now use CSS variables (--theme-primary, --theme-secondary, --theme-text, --theme-text-muted, --theme-card)
+- Updated all glassmorphism, glow, gradient, and hover utility classes to use CSS variables
+- Replaced hardcoded hex colors in ALL customer components (Header, HomePage, Footer, MobileNav, ProductCard, ShopPage, ProductDetailPage, CartPage, CheckoutPage, ProfilePage, AuthPages)
+- Replaced hardcoded hex colors in ALL admin components (AdminLayout, AdminDashboard, AdminProducts, AdminCategories, AdminCustomers, AdminOrders, AdminOrderDetail, AdminCustomerDetail, AdminReturns, AdminReports, AdminInvoice, AdminProfile, AdminSettings, AdminLoginPage)
+- Color mappings: #FF5722 → var(--theme-primary), #FF2D55 → var(--theme-secondary), #F5F5F7 → var(--theme-text), #86868B → var(--theme-text-muted), #1D1D1F → var(--theme-card)
+- Theme picker UI already existed in Footer.tsx - now fully functional with 12 theme options
+- Static semantic colors preserved: #FF453A (destructive), #DC3545 (danger), #28A745 (success), #FFC107 (warning)
+- ESLint: zero errors
+- Dev server: both / and /admin compile and render with 200 status
+
+Stage Summary:
+- Theme switching now works across the ENTIRE website (both customer and admin sides)
+- 12 themes available: Sunset, Ocean, Forest, Berry, Rose, Coral, Amber, Teal, Midnight, Indigo, Sage, Slate
+- Theme picker in Footer (customer side) - click "Theme" button to select
+- All buttons, gradients, text accents, card backgrounds, chart colors respond to theme changes
+- Smooth transitions between themes (0.3s ease)

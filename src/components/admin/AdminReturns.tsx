@@ -75,8 +75,8 @@ export default function AdminReturns() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <h1 className="text-2xl font-semibold text-[#F5F5F7] tracking-tight">Return Orders</h1>
-        <Badge variant="secondary" className="bg-white/5 text-[#86868B] border border-white/10 hover:bg-white/10">
+        <h1 className="text-2xl font-semibold text-[var(--theme-text)] tracking-tight">Return Orders</h1>
+        <Badge variant="secondary" className="bg-white/5 text-[var(--theme-text-muted)] border border-white/10 hover:bg-white/10">
           {returns.length} total
         </Badge>
       </div>
@@ -96,12 +96,12 @@ export default function AdminReturns() {
           ))}
         </div>
       ) : returns.length === 0 ? (
-        <Card className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl">
+        <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl">
           <CardContent className="py-20 text-center">
             <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mb-4">
               <RotateCcw className="h-8 w-8 text-white/20" />
             </div>
-            <p className="text-[#86868B] text-sm">No return requests at this time</p>
+            <p className="text-[var(--theme-text-muted)] text-sm">No return requests at this time</p>
             <p className="text-white/30 text-xs mt-1">Return requests will appear here when customers submit them</p>
           </CardContent>
         </Card>
@@ -110,13 +110,13 @@ export default function AdminReturns() {
           {returns.map((r) => {
             const status = getStatus(r.status);
             return (
-              <Card key={r.id} className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl hover:border-white/[0.12] transition-colors">
+              <Card key={r.id} className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl hover:border-white/[0.12] transition-colors">
                 <CardContent className="p-5 space-y-4">
                   {/* Top row */}
                   <div className="flex items-start justify-between">
                     <div className="min-w-0 flex-1">
-                      <p className="font-medium text-[#F5F5F7] truncate">{r.product_name || 'Product'}</p>
-                      <p className="text-sm text-[#86868B] mt-0.5">Order: {r.order_id?.slice(0, 8) || '—'}</p>
+                      <p className="font-medium text-[var(--theme-text)] truncate">{r.product_name || 'Product'}</p>
+                      <p className="text-sm text-[var(--theme-text-muted)] mt-0.5">Order: {r.order_id?.slice(0, 8) || '—'}</p>
                     </div>
                     <Badge variant="secondary" className={`${status.bg} ${status.text} border-0 gap-1.5 shrink-0`}>
                       {status.icon}
@@ -126,8 +126,8 @@ export default function AdminReturns() {
 
                   {/* Reason */}
                   <div className="bg-white/[0.03] rounded-xl p-3.5 border border-white/[0.05]">
-                    <p className="text-[10px] uppercase tracking-widest text-[#86868B] mb-1.5">Reason</p>
-                    <p className="text-sm text-[#F5F5F7]/80 leading-relaxed">{r.reason || 'No reason provided'}</p>
+                    <p className="text-[10px] uppercase tracking-widest text-[var(--theme-text-muted)] mb-1.5">Reason</p>
+                    <p className="text-sm text-[var(--theme-text)]/80 leading-relaxed">{r.reason || 'No reason provided'}</p>
                   </div>
 
                   {/* Date */}
@@ -160,7 +160,7 @@ export default function AdminReturns() {
                     {r.status === 'Approved' && (
                       <Button
                         size="sm"
-                        className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:opacity-90 text-white flex-1 transition-opacity"
+                        className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] hover:opacity-90 text-white flex-1 transition-opacity"
                         onClick={() => handleAction(r.id, 'Return Shipping', 'Marked as shipping')}
                       >
                         <Truck className="h-4 w-4 mr-1.5" />

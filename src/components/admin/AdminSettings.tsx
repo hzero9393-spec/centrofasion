@@ -39,20 +39,20 @@ export default function AdminSettings() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-[#F5F5F7] tracking-tight">Settings</h1>
-        <p className="text-sm text-[#86868B] mt-1">Manage your account and application preferences</p>
+        <h1 className="text-2xl font-semibold text-[var(--theme-text)] tracking-tight">Settings</h1>
+        <p className="text-sm text-[var(--theme-text-muted)] mt-1">Manage your account and application preferences</p>
       </div>
 
       {/* General Settings */}
-      <Card className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl overflow-hidden">
+      <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl overflow-hidden">
         <CardContent className="p-0">
           <div className="flex items-center gap-3 px-6 py-5">
             <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
-              <Settings className="h-5 w-5 text-[#86868B]" />
+              <Settings className="h-5 w-5 text-[var(--theme-text-muted)]" />
             </div>
             <div>
-              <h3 className="font-medium text-[#F5F5F7]">General Settings</h3>
-              <p className="text-xs text-[#86868B] mt-0.5">Application preferences and configuration</p>
+              <h3 className="font-medium text-[var(--theme-text)]">General Settings</h3>
+              <p className="text-xs text-[var(--theme-text-muted)] mt-0.5">Application preferences and configuration</p>
             </div>
           </div>
 
@@ -67,10 +67,10 @@ export default function AdminSettings() {
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className="text-[#86868B]">{item.icon}</div>
+                  <div className="text-[var(--theme-text-muted)]">{item.icon}</div>
                   <div>
-                    <p className="text-sm font-medium text-[#F5F5F7]">{item.title}</p>
-                    <p className="text-xs text-[#86868B] mt-0.5">{item.description}</p>
+                    <p className="text-sm font-medium text-[var(--theme-text)]">{item.title}</p>
+                    <p className="text-xs text-[var(--theme-text-muted)] mt-0.5">{item.description}</p>
                   </div>
                 </div>
                 <ChevronRight className="h-4 w-4 text-white/20" />
@@ -81,15 +81,15 @@ export default function AdminSettings() {
       </Card>
 
       {/* Account Settings */}
-      <Card className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl overflow-hidden">
+      <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl overflow-hidden">
         <CardContent className="p-0">
           <div className="flex items-center gap-3 px-6 py-5">
             <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
               <Shield className="h-5 w-5 text-red-400" />
             </div>
             <div>
-              <h3 className="font-medium text-[#F5F5F7]">Account Settings</h3>
-              <p className="text-xs text-[#86868B] mt-0.5">Manage your admin account session</p>
+              <h3 className="font-medium text-[var(--theme-text)]">Account Settings</h3>
+              <p className="text-xs text-[var(--theme-text-muted)] mt-0.5">Manage your admin account session</p>
             </div>
           </div>
 
@@ -97,8 +97,8 @@ export default function AdminSettings() {
 
           <div className="px-6 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <p className="text-sm text-[#F5F5F7]">Sign out of your admin account</p>
-              <p className="text-xs text-[#86868B] mt-0.5">You will need to sign in again to access the admin panel</p>
+              <p className="text-sm text-[var(--theme-text)]">Sign out of your admin account</p>
+              <p className="text-xs text-[var(--theme-text-muted)] mt-0.5">You will need to sign in again to access the admin panel</p>
             </div>
             <Button
               onClick={handleLogout}

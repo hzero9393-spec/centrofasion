@@ -146,7 +146,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         ref={cardRef}
         className={cn(
           'relative cursor-pointer rounded-2xl overflow-hidden',
-          'bg-[#1D1D1F] border border-white/5 hover:border-white/10',
+          'bg-[var(--theme-card)] border border-white/5 hover:border-white/10',
           'transition-[box-shadow,border-color] duration-500 cubic-bezier(0.4, 0, 0.2, 1)',
           'hover:-translate-y-2',
           'hover:shadow-[0_20px_60px_rgba(255,87,34,0.2)]'
@@ -197,7 +197,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           {/* Discount badge */}
           {discount && discount > 0 && (
-            <span className="absolute top-3 left-3 z-10 bg-gradient-to-r from-[#FF5722] to-[#FF2D55] text-white rounded-full text-[10px] font-bold px-2.5 py-0.5 shadow-lg shadow-orange-500/20">
+            <span className="absolute top-3 left-3 z-10 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] text-white rounded-full text-[10px] font-bold px-2.5 py-0.5 shadow-lg shadow-orange-500/20">
               {discount}% OFF
             </span>
           )}
@@ -218,8 +218,8 @@ export default function ProductCard({ product }: ProductCardProps) {
               className={cn(
                 'size-4 transition-colors duration-200',
                 isWishlisted
-                  ? 'fill-[#FF2D55] text-[#FF2D55]'
-                  : 'text-white/70 hover:text-[#FF2D55]'
+                  ? 'fill-[var(--theme-secondary)] text-[var(--theme-secondary)]'
+                  : 'text-white/70 hover:text-[var(--theme-secondary)]'
               )}
             />
           </button>
@@ -229,7 +229,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             <button
               onClick={handleQuickAdd}
               className={cn(
-                'w-full bg-gradient-to-r from-[#FF5722] to-[#FF2D55]',
+                'w-full bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)]',
                 'text-white rounded-xl py-2.5',
                 'text-xs font-semibold',
                 'hover:opacity-90 active:opacity-80',
@@ -255,7 +255,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           )}
 
           {/* Product Name */}
-          <h3 className="text-sm font-medium text-[#F5F5F7] line-clamp-2 mb-2 leading-snug min-h-[2.5rem]">
+          <h3 className="text-sm font-medium text-[var(--theme-text)] line-clamp-2 mb-2 leading-snug min-h-[2.5rem]">
             {product.name}
           </h3>
 
@@ -270,7 +270,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                   ₹{product.wholesale_price.toLocaleString('en-IN')}
                 </span>
                 {discount && discount > 0 && (
-                  <span className="text-[10px] font-semibold text-[#FF5722]">
+                  <span className="text-[10px] font-semibold text-[var(--theme-primary)]">
                     {discount}% off
                   </span>
                 )}

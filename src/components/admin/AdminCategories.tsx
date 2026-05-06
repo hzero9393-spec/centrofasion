@@ -107,14 +107,14 @@ export default function AdminCategories() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h1 className="text-xl font-semibold text-[#F5F5F7]">Categories</h1>
-          <Badge className="bg-white/5 text-[#86868B] border border-white/10 hover:bg-white/5">
+          <h1 className="text-xl font-semibold text-[var(--theme-text)]">Categories</h1>
+          <Badge className="bg-white/5 text-[var(--theme-text-muted)] border border-white/10 hover:bg-white/5">
             {categories.length}
           </Badge>
         </div>
         <Button
           onClick={openAdd}
-          className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:from-[#E64A19] hover:to-[#E6234D] text-white gap-2 border-0 shadow-lg shadow-[#FF5722]/20"
+          className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] hover:from-[var(--theme-primary)] hover:to-[#E6234D] text-white gap-2 border-0 shadow-lg shadow-[var(--theme-primary)]/20"
         >
           <Plus className="h-4 w-4" /> Add Category
         </Button>
@@ -124,7 +124,7 @@ export default function AdminCategories() {
       {loading ? (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl overflow-hidden">
+            <div key={i} className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl overflow-hidden">
               <Skeleton className="h-40 w-full bg-white/5 rounded-none" />
               <div className="p-4 space-y-2">
                 <Skeleton className="h-4 w-3/4 bg-white/5 rounded-xl" />
@@ -134,12 +134,12 @@ export default function AdminCategories() {
           ))}
         </div>
       ) : categories.length === 0 ? (
-        <div className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl">
+        <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl">
           <div className="py-16 text-center">
             <div className="h-14 w-14 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mb-4">
               <Grid3X3 className="h-7 w-7 text-white/20" />
             </div>
-            <p className="text-[#F5F5F7] font-medium">No categories yet</p>
+            <p className="text-[var(--theme-text)] font-medium">No categories yet</p>
             <p className="text-sm text-white/40 mt-1">Create your first category to get started</p>
           </div>
         </div>
@@ -148,7 +148,7 @@ export default function AdminCategories() {
           {categories.map((c) => (
             <div
               key={c.id}
-              className="bg-[#1D1D1F] border border-white/[0.08] rounded-2xl overflow-hidden group hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20 transition-all duration-300"
+              className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl overflow-hidden group hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20 transition-all duration-300"
             >
               {/* Image */}
               <div className="h-36 bg-white/[0.03] relative overflow-hidden">
@@ -160,12 +160,12 @@ export default function AdminCategories() {
                   </div>
                 )}
                 {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1D1D1F] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--theme-card)] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 {/* Hover Actions */}
                 <div className="absolute top-2.5 right-2.5 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0">
                   <Button
                     size="icon"
-                    className="h-7 w-7 bg-black/60 backdrop-blur-sm border border-white/10 text-[#F5F5F7] hover:bg-white/20 shadow-lg rounded-lg"
+                    className="h-7 w-7 bg-black/60 backdrop-blur-sm border border-white/10 text-[var(--theme-text)] hover:bg-white/20 shadow-lg rounded-lg"
                     onClick={() => openEdit(c)}
                   >
                     <Pencil className="h-3.5 w-3.5" />
@@ -181,10 +181,10 @@ export default function AdminCategories() {
               </div>
               {/* Content */}
               <div className="p-4">
-                <h3 className="font-medium text-[#F5F5F7] group-hover:text-white transition-colors">{c.name}</h3>
+                <h3 className="font-medium text-[var(--theme-text)] group-hover:text-white transition-colors">{c.name}</h3>
                 <Badge
                   variant="secondary"
-                  className="mt-2 bg-white/5 text-[#86868B] text-xs border border-white/[0.06] hover:bg-white/5"
+                  className="mt-2 bg-white/5 text-[var(--theme-text-muted)] text-xs border border-white/[0.06] hover:bg-white/5"
                 >
                   {c.product_count} products
                 </Badge>
@@ -196,27 +196,27 @@ export default function AdminCategories() {
 
       {/* Add/Edit Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-md bg-[#1D1D1F] border border-white/10 rounded-2xl [&>button]:text-white/50 hover:[&>button]:text-white">
+        <DialogContent className="max-w-md bg-[var(--theme-card)] border border-white/10 rounded-2xl [&>button]:text-white/50 hover:[&>button]:text-white">
           <DialogHeader>
-            <DialogTitle className="text-[#F5F5F7]">{editId ? 'Edit Category' : 'Add Category'}</DialogTitle>
+            <DialogTitle className="text-[var(--theme-text)]">{editId ? 'Edit Category' : 'Add Category'}</DialogTitle>
           </DialogHeader>
           <div className="grid gap-5 py-2">
             <div className="grid gap-2">
-              <Label className="text-[#86868B]">Category Name *</Label>
+              <Label className="text-[var(--theme-text-muted)]">Category Name *</Label>
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g., T-Shirts"
-                className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[#FF5722]/50 rounded-xl"
+                className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[var(--theme-primary)] rounded-xl"
               />
             </div>
             <div className="grid gap-2">
-              <Label className="text-[#86868B]">Image URL</Label>
+              <Label className="text-[var(--theme-text-muted)]">Image URL</Label>
               <Input
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
                 placeholder="https://..."
-                className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[#FF5722]/50 rounded-xl"
+                className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[var(--theme-primary)] rounded-xl"
               />
             </div>
             {image && (
@@ -236,7 +236,7 @@ export default function AdminCategories() {
             <Button
               onClick={handleSave}
               disabled={saving}
-              className="bg-gradient-to-r from-[#FF5722] to-[#FF2D55] hover:from-[#E64A19] hover:to-[#E6234D] text-white border-0 shadow-lg shadow-[#FF5722]/20 rounded-xl"
+              className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] hover:from-[var(--theme-primary)] hover:to-[#E6234D] text-white border-0 shadow-lg shadow-[var(--theme-primary)]/20 rounded-xl"
             >
               {saving ? 'Saving...' : 'Save Category'}
             </Button>
@@ -246,10 +246,10 @@ export default function AdminCategories() {
 
       {/* Delete Dialog */}
       <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <AlertDialogContent className="bg-[#1D1D1F] border border-white/10 rounded-2xl">
+        <AlertDialogContent className="bg-[var(--theme-card)] border border-white/10 rounded-2xl">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-[#F5F5F7]">Delete Category</AlertDialogTitle>
-            <AlertDialogDescription className="text-[#86868B]">
+            <AlertDialogTitle className="text-[var(--theme-text)]">Delete Category</AlertDialogTitle>
+            <AlertDialogDescription className="text-[var(--theme-text-muted)]">
               Are you sure you want to delete this category? This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
