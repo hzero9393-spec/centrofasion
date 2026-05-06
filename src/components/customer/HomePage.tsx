@@ -55,9 +55,9 @@ export default function HomePage() {
         const featuredData = await featuredRes.json();
         const trendingData = await trendingRes.json();
         const catData = await catRes.json();
-        setFeaturedProducts(featuredData.products || []);
-        setTrendingProducts(trendingData.products || []);
-        setCategories(catData || []);
+        setFeaturedProducts(Array.isArray(featuredData.products) ? featuredData.products : []);
+        setTrendingProducts(Array.isArray(trendingData.products) ? trendingData.products : []);
+        setCategories(Array.isArray(catData) ? catData : []);
       } catch (err) {
         console.error('Failed to fetch home data:', err);
       } finally {
