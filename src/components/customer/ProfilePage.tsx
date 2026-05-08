@@ -835,7 +835,7 @@ export default function ProfilePage() {
                              useThemeStore.getState().activeThemeId === theme.id
                                ? 'border-[var(--theme-primary)] bg-[var(--theme-primary)]/10'
                                : 'border-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.03)]'
-                           }} transition-all duration-200 cursor-pointer">
+                           } transition-all duration-200 cursor-pointer`}>
                            <div className="h-10 w-full rounded-t-lg flex items-center justify-center mb-2" style={{ background: theme.colors.gradient }}>
                              <div className="flex space-x-1">
                                <div className="w-2 h-2 rounded-full" style={{ background: theme.colors.primary }} />
