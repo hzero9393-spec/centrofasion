@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigation } from '@/stores/navigation';
 import { useCart } from '@/stores/cart';
 import { useAuth } from '@/stores/auth';
+import { useThemeStore } from '@/stores/theme';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
@@ -32,17 +33,20 @@ import {
   Settings,
   UserCircle,
   ChevronRight,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import type { Product } from './SharedTypes';
 
 /* ------------------------------------------------------------------ */
-/*  Apple.com-inspired floating glass header for ClothFasion           */
+/*  Modern theme-aware e-commerce header for ClothFasion               */
 /* ------------------------------------------------------------------ */
 
 export default function Header() {
   const { currentPage, navigate, pageParams } = useNavigation();
   const { getItemCount } = useCart();
   const { customer, isCustomerLoggedIn, logoutCustomer } = useAuth();
+  const { darkMode, toggleDarkMode } = useThemeStore();
 
   // --- state ---
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -186,10 +190,10 @@ export default function Header() {
   return (
     <>
       <header
-        className={`sticky top-0 z-50 w-full transition-all duration-500 ease-out border-b border-white/[0.06] ${
+        className={`sticky top-0 z-50 w-full transition-all duration-500 ease-out border-b border-[var(--theme-border)] ${
           scrolled
-            ? 'bg-black/80 backdrop-blur-2xl shadow-[0_1px_0_0_rgba(255,255,255,0.04)]'
-            : 'bg-black/70 backdrop-blur-xl'
+            ? 'bg-[var(--theme-bg)]/80 backdrop-blur-xl shadow-sm'
+            : 'bg-[var(--theme-bg)]/70 backdrop-blur-xl'
         }`}
       >
         {/* ==================== DESKTOP ==================== */}
@@ -202,10 +206,10 @@ export default function Header() {
                 className="mr-8 flex shrink-0 items-center gap-0 outline-none"
                 aria-label="ClothFasion Home"
               >
-                <span className="text-[17px] font-semibold tracking-tight text-white">
+                <span className="text-[17px] font-semibold tracking-tight text-[var(--theme-text)]">
                   Cloth
                 </span>
-                <span className="text-[17px] font-semibold tracking-tight bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
+                <span className="text-[17px] font-semibold tracking-tight text-gradient">
                   Fasion
                 </span>
               </button>
@@ -218,8 +222,8 @@ export default function Header() {
                     onClick={() => handleNavClick(link.page, link.params)}
                     className={`text-[11px] font-normal tracking-wide transition-colors duration-300 outline-none ${
                       isActive(link.page, link.params)
-                        ? 'text-white'
-                        : 'text-white/50 hover:text-white'
+                        ? 'text-[var(--theme-text)]'
+                        : 'text-[var(--theme-text-muted)] hover:text-[var(--theme-text)]'
                     }`}
                   >
                     {link.label}
@@ -234,7 +238,7 @@ export default function Header() {
               <div ref={searchRef} className="relative">
                 <form onSubmit={handleSearch}>
                   <div className="group relative">
-                    <Search className="pointer-events-none absolute left-3 top-1/2 size-[14px] -translate-y-1/2 text-white/30 transition-colors group-focus-within:text-white/60" />
+                    <Search className="pointer-events-none absolute left-3 top-1/2 size-[14px] -translate-y-1/2 text-[var(--theme-text-muted)] transition-colors group-focus-within:text-[var(--theme-text-secondary)]" />
                     <Input
                       type="text"
                       placeholder="Search"
@@ -244,14 +248,14 @@ export default function Header() {
                         setShowSuggestions(true);
                       }}
                       onFocus={() => setShowSuggestions(true)}
-                      className="h-[30px] w-[180px] rounded-full border border-white/[0.08] bg-white/[0.04] pl-8 pr-3 text-[12px] text-white placeholder:text-white/30 focus-visible:w-[260px] focus-visible:border-white/[0.15] focus-visible:bg-white/[0.07] focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none transition-all duration-300"
+                      className="h-[30px] w-[180px] rounded-full border border-[var(--theme-border)] bg-[var(--theme-surface)] pl-8 pr-3 text-[12px] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] focus-visible:w-[260px] focus-visible:border-[var(--theme-text-muted)] focus-visible:bg-[var(--theme-surface-hover)] focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none transition-all duration-300"
                     />
                   </div>
                 </form>
 
                 {/* Autocomplete Dropdown */}
                 {showSuggestions && searchQuery.trim().length >= 2 && (
-                  <div className="absolute top-full left-0 mt-2 w-[320px] rounded-2xl border border-white/[0.08] bg-[var(--theme-card)]/95 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden animate-in fade-in-0 zoom-in-95 slide-in-from-top-1 duration-200">
+                  <div className="absolute top-full left-0 mt-2 w-[320px] rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card)]/95 backdrop-blur-2xl shadow-lg overflow-hidden animate-in fade-in-0 zoom-in-95 slide-in-from-top-1 duration-200">
                     <div className="max-h-[340px] overflow-y-auto overscroll-contain">
                       {searchResults.length > 0 ? (
                         <div className="py-1.5">
@@ -263,9 +267,9 @@ export default function Header() {
                                 setShowSuggestions(false);
                                 setSearchQuery('');
                               }}
-                              className="flex w-full items-center gap-3 px-3.5 py-2.5 text-left transition-colors hover:bg-white/[0.04] rounded-xl mx-1.5 w-[calc(100%-12px)]"
+                              className="flex w-full items-center gap-3 px-3.5 py-2.5 text-left transition-colors hover:bg-[var(--theme-surface)] rounded-xl mx-1.5 w-[calc(100%-12px)]"
                             >
-                              <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-white/[0.06] bg-white/[0.03]">
+                              <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-[var(--theme-border-subtle)] bg-[var(--theme-surface)]">
                                 <img
                                   src={
                                     product.images[0] ||
@@ -276,14 +280,14 @@ export default function Header() {
                                 />
                               </div>
                               <div className="min-w-0 flex-1">
-                                <p className="truncate text-[13px] font-medium text-white/90">
+                                <p className="truncate text-[13px] font-medium text-[var(--theme-text)]">
                                   {product.name}
                                 </p>
-                                <p className="mt-0.5 text-[11px] text-white/35">
+                                <p className="mt-0.5 text-[11px] text-[var(--theme-text-muted)]">
                                   {product.category_name}
                                 </p>
                               </div>
-                              <p className="shrink-0 text-[13px] font-semibold text-white/70">
+                              <p className="shrink-0 text-[13px] font-semibold text-[var(--theme-text-secondary)]">
                                 ₹{product.price.toLocaleString('en-IN')}
                               </p>
                             </button>
@@ -291,7 +295,7 @@ export default function Header() {
                         </div>
                       ) : (
                         <div className="px-4 py-10 text-center">
-                          <p className="text-[13px] text-white/30">
+                          <p className="text-[13px] text-[var(--theme-text-muted)]">
                             No results for &ldquo;{searchQuery}&rdquo;
                           </p>
                         </div>
@@ -299,14 +303,14 @@ export default function Header() {
                     </div>
 
                     {searchResults.length > 0 && (
-                      <div className="border-t border-white/[0.06]">
+                      <div className="border-t border-[var(--theme-border)]">
                         <button
                           onClick={() => {
                             navigate('shop', { search: searchQuery.trim() });
                             setShowSuggestions(false);
                             setSearchQuery('');
                           }}
-                          className="flex w-full items-center justify-center gap-1 py-2.5 text-[12px] font-medium text-[var(--theme-primary)] transition-colors hover:bg-white/[0.04]"
+                          className="flex w-full items-center justify-center gap-1 py-2.5 text-[12px] font-medium text-[var(--theme-primary)] transition-colors hover:bg-[var(--theme-surface)]"
                         >
                           View all results for &ldquo;{searchQuery}&rdquo;
                         </button>
@@ -317,7 +321,7 @@ export default function Header() {
               </div>
 
               {/* ---- Divider ---- */}
-              <div className="mx-3 h-5 w-px bg-white/[0.08]" />
+              <div className="mx-3 h-5 w-px bg-[var(--theme-border)]" />
 
               {/* ---- Action Icons ---- */}
               <div className="flex items-center gap-0.5">
@@ -330,7 +334,7 @@ export default function Header() {
                       ? navigate('profile', { tab: 'wishlist' })
                       : navigate('login')
                   }
-                  className="h-8 w-8 text-white/60 hover:text-white hover:bg-white/[0.04] transition-colors duration-200"
+                  className="h-8 w-8 text-[var(--theme-text-secondary)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] transition-colors duration-200"
                 >
                   <Heart className="size-[17px]" />
                   <span className="sr-only">Wishlist</span>
@@ -341,15 +345,33 @@ export default function Header() {
                   variant="ghost"
                   size="icon"
                   onClick={() => navigate('cart')}
-                  className="relative h-8 w-8 text-white/60 hover:text-white hover:bg-white/[0.04] transition-colors duration-200"
+                  className="relative h-8 w-8 text-[var(--theme-text-secondary)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] transition-colors duration-200"
                 >
                   <ShoppingCart className="size-[17px]" />
                   {cartCount > 0 && (
-                    <span className="absolute -top-0.5 -right-0.5 flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] px-[5px] text-[10px] font-bold leading-none text-white shadow-[0_2px_8px_rgba(255,45,85,0.4)]">
+                    <span className="absolute -top-0.5 -right-0.5 flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-[var(--theme-primary)] px-[5px] text-[10px] font-bold leading-none text-white shadow-[0_2px_8px_var(--theme-glow)]">
                       {cartCount > 99 ? '99+' : cartCount}
                     </span>
                   )}
                   <span className="sr-only">Cart</span>
+                </Button>
+
+                {/* Dark Mode Toggle */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleDarkMode}
+                  className="h-8 w-8 text-[var(--theme-text-secondary)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] transition-colors duration-200"
+                  aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                >
+                  {darkMode ? (
+                    <Sun className="size-[17px]" />
+                  ) : (
+                    <Moon className="size-[17px]" />
+                  )}
+                  <span className="sr-only">
+                    {darkMode ? 'Light mode' : 'Dark mode'}
+                  </span>
                 </Button>
 
                 {/* User */}
@@ -359,9 +381,9 @@ export default function Header() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 transition-colors duration-200 hover:bg-white/[0.04]"
+                        className="h-8 w-8 transition-colors duration-200 hover:bg-[var(--theme-surface)]"
                       >
-                        <div className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-gradient-to-br from-[var(--theme-primary)] to-[var(--theme-secondary)] text-[11px] font-bold text-white shadow-[0_2px_8px_rgba(255,45,85,0.25)]">
+                        <div className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-gradient-to-br from-[var(--theme-primary)] to-[var(--theme-secondary)] text-[11px] font-bold text-white shadow-[0_2px_8px_var(--theme-glow)]">
                           {customer.first_name?.[0]?.toUpperCase() || 'U'}
                         </div>
                       </Button>
@@ -369,48 +391,48 @@ export default function Header() {
                     <DropdownMenuContent
                       align="end"
                       sideOffset={8}
-                      className="w-[220px] rounded-2xl border border-white/[0.08] bg-[var(--theme-card)] p-1.5 shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
+                      className="w-[220px] rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card)] p-1.5 shadow-lg"
                     >
                       {/* User info card */}
-                      <div className="mb-1.5 rounded-xl bg-white/[0.04] px-3 py-2.5">
-                        <p className="text-[13px] font-semibold text-white/90">
+                      <div className="mb-1.5 rounded-xl bg-[var(--theme-surface)] px-3 py-2.5">
+                        <p className="text-[13px] font-semibold text-[var(--theme-text)]">
                           {customer.first_name} {customer.last_name}
                         </p>
-                        <p className="mt-0.5 text-[11px] text-white/35">
+                        <p className="mt-0.5 text-[11px] text-[var(--theme-text-muted)]">
                           {customer.mobile}
                         </p>
                       </div>
 
                       <DropdownMenuItem
                         onClick={() => navigate('profile')}
-                        className="flex cursor-pointer items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] text-white/70 outline-none transition-colors hover:bg-white/[0.04] hover:text-white focus:bg-white/[0.04] focus:text-white data-[highlighted]:bg-white/[0.04] data-[highlighted]:text-white"
+                        className="flex cursor-pointer items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] text-[var(--theme-text-secondary)] outline-none transition-colors hover:bg-[var(--theme-surface)] hover:text-[var(--theme-text)] focus:bg-[var(--theme-surface)] focus:text-[var(--theme-text)] data-[highlighted]:bg-[var(--theme-surface)] data-[highlighted]:text-[var(--theme-text)]"
                       >
-                        <UserCircle className="size-[15px] text-white/30" />
+                        <UserCircle className="size-[15px] text-[var(--theme-text-muted)]" />
                         My Profile
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => navigate('profile', { tab: 'orders' })}
-                        className="flex cursor-pointer items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] text-white/70 outline-none transition-colors hover:bg-white/[0.04] hover:text-white focus:bg-white/[0.04] focus:text-white data-[highlighted]:bg-white/[0.04] data-[highlighted]:text-white"
+                        className="flex cursor-pointer items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] text-[var(--theme-text-secondary)] outline-none transition-colors hover:bg-[var(--theme-surface)] hover:text-[var(--theme-text)] focus:bg-[var(--theme-surface)] focus:text-[var(--theme-text)] data-[highlighted]:bg-[var(--theme-surface)] data-[highlighted]:text-[var(--theme-text)]"
                       >
-                        <Package className="size-[15px] text-white/30" />
+                        <Package className="size-[15px] text-[var(--theme-text-muted)]" />
                         My Orders
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => navigate('profile', { tab: 'wishlist' })}
-                        className="flex cursor-pointer items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] text-white/70 outline-none transition-colors hover:bg-white/[0.04] hover:text-white focus:bg-white/[0.04] focus:text-white data-[highlighted]:bg-white/[0.04] data-[highlighted]:text-white"
+                        className="flex cursor-pointer items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] text-[var(--theme-text-secondary)] outline-none transition-colors hover:bg-[var(--theme-surface)] hover:text-[var(--theme-text)] focus:bg-[var(--theme-surface)] focus:text-[var(--theme-text)] data-[highlighted]:bg-[var(--theme-surface)] data-[highlighted]:text-[var(--theme-text)]"
                       >
-                        <Heart className="size-[15px] text-white/30" />
+                        <Heart className="size-[15px] text-[var(--theme-text-muted)]" />
                         My Wishlist
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => navigate('profile', { tab: 'settings' })}
-                        className="flex cursor-pointer items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] text-white/70 outline-none transition-colors hover:bg-white/[0.04] hover:text-white focus:bg-white/[0.04] focus:text-white data-[highlighted]:bg-white/[0.04] data-[highlighted]:text-white"
+                        className="flex cursor-pointer items-center gap-2.5 rounded-xl px-3 py-2 text-[13px] text-[var(--theme-text-secondary)] outline-none transition-colors hover:bg-[var(--theme-surface)] hover:text-[var(--theme-text)] focus:bg-[var(--theme-surface)] focus:text-[var(--theme-text)] data-[highlighted]:bg-[var(--theme-surface)] data-[highlighted]:text-[var(--theme-text)]"
                       >
-                        <Settings className="size-[15px] text-white/30" />
+                        <Settings className="size-[15px] text-[var(--theme-text-muted)]" />
                         Settings
                       </DropdownMenuItem>
 
-                      <DropdownMenuSeparator className="my-1 h-px bg-white/[0.06]" />
+                      <DropdownMenuSeparator className="my-1 h-px bg-[var(--theme-border)]" />
 
                       <DropdownMenuItem
                         onClick={handleLogout}
@@ -426,7 +448,7 @@ export default function Header() {
                     variant="ghost"
                     size="icon"
                     onClick={() => navigate('login')}
-                    className="h-8 w-8 text-white/60 hover:text-white hover:bg-white/[0.04] transition-colors duration-200"
+                    className="h-8 w-8 text-[var(--theme-text-secondary)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] transition-colors duration-200"
                   >
                     <User className="size-[17px]" />
                     <span className="sr-only">Account</span>
@@ -446,7 +468,7 @@ export default function Header() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="-ml-2 h-9 w-9 text-white/60 hover:text-white hover:bg-white/[0.04] transition-colors"
+                  className="-ml-2 h-9 w-9 text-[var(--theme-text-secondary)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] transition-colors"
                 >
                   <Menu className="size-5" />
                   <span className="sr-only">Menu</span>
@@ -455,24 +477,24 @@ export default function Header() {
 
               <SheetContent
                 side="left"
-                className="w-[280px] border-r border-white/[0.08] bg-[var(--theme-card)]/[0.98] p-0 backdrop-blur-2xl"
+                className="w-[280px] border-r border-[var(--theme-border)] bg-[var(--theme-card)] p-0 backdrop-blur-2xl"
               >
                 {/* Sheet header */}
-                <SheetHeader className="border-b border-white/[0.06] px-5 py-4">
+                <SheetHeader className="border-b border-[var(--theme-border)] px-5 py-4">
                   <SheetTitle className="flex items-center gap-0 text-left">
-                    <span className="text-[18px] font-semibold tracking-tight text-white">
+                    <span className="text-[18px] font-semibold tracking-tight text-[var(--theme-text)]">
                       Cloth
                     </span>
-                    <span className="text-[18px] font-semibold tracking-tight bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
+                    <span className="text-[18px] font-semibold tracking-tight text-gradient">
                       Fasion
                     </span>
                   </SheetTitle>
                 </SheetHeader>
 
                 {/* Mobile Search */}
-                <div ref={mobileSearchRef} className="border-b border-white/[0.06] px-4 py-3">
+                <div ref={mobileSearchRef} className="border-b border-[var(--theme-border)] px-4 py-3">
                   <div className="group relative">
-                    <Search className="pointer-events-none absolute left-3 top-1/2 size-[14px] -translate-y-1/2 text-white/30 transition-colors group-focus-within:text-white/60" />
+                    <Search className="pointer-events-none absolute left-3 top-1/2 size-[14px] -translate-y-1/2 text-[var(--theme-text-muted)] transition-colors group-focus-within:text-[var(--theme-text-secondary)]" />
                     <Input
                       type="text"
                       placeholder="Search products..."
@@ -482,14 +504,14 @@ export default function Header() {
                         setShowMobileSuggestions(true);
                       }}
                       onFocus={() => setShowMobileSuggestions(true)}
-                      className="h-9 rounded-xl border border-white/[0.08] bg-white/[0.04] pl-8 pr-3 text-[13px] text-white placeholder:text-white/30 focus-visible:border-white/[0.15] focus-visible:bg-white/[0.07] focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-300"
+                      className="h-9 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-surface)] pl-8 pr-3 text-[13px] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] focus-visible:border-[var(--theme-text-muted)] focus-visible:bg-[var(--theme-surface-hover)] focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-300"
                     />
                   </div>
 
                   {showMobileSuggestions &&
                     mobileSearchQuery.trim().length >= 2 &&
                     mobileSearchResults.length > 0 && (
-                      <div className="mt-2 max-h-[260px] overflow-y-auto overscroll-contain rounded-xl border border-white/[0.08] bg-[var(--theme-card)]/95 backdrop-blur-2xl shadow-[0_16px_48px_rgba(0,0,0,0.5)]">
+                      <div className="mt-2 max-h-[260px] overflow-y-auto overscroll-contain rounded-xl border border-[var(--theme-border)] bg-[var(--theme-card)] shadow-lg">
                         {mobileSearchResults.map((product) => (
                           <button
                             key={product.id}
@@ -499,9 +521,9 @@ export default function Header() {
                               setMobileSearchQuery('');
                               setMobileOpen(false);
                             }}
-                            className="flex w-full items-center gap-3 px-3 py-2.5 text-left transition-colors hover:bg-white/[0.04]"
+                            className="flex w-full items-center gap-3 px-3 py-2.5 text-left transition-colors hover:bg-[var(--theme-surface)]"
                           >
-                            <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-white/[0.06] bg-white/[0.03]">
+                            <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-[var(--theme-border-subtle)] bg-[var(--theme-surface)]">
                               <img
                                 src={product.images[0] || ''}
                                 alt={product.name}
@@ -509,10 +531,10 @@ export default function Header() {
                               />
                             </div>
                             <div className="min-w-0 flex-1">
-                              <p className="truncate text-[12px] font-medium text-white/90">
+                              <p className="truncate text-[12px] font-medium text-[var(--theme-text)]">
                                 {product.name}
                               </p>
-                              <p className="mt-0.5 text-[11px] font-semibold text-white/60">
+                              <p className="mt-0.5 text-[11px] font-semibold text-[var(--theme-text-secondary)]">
                                 ₹{product.price.toLocaleString('en-IN')}
                               </p>
                             </div>
@@ -525,7 +547,7 @@ export default function Header() {
                             setMobileSearchQuery('');
                             setMobileOpen(false);
                           }}
-                          className="w-full border-t border-white/[0.06] py-2.5 text-center text-[12px] font-medium text-[var(--theme-primary)] transition-colors hover:bg-white/[0.04]"
+                          className="w-full border-t border-[var(--theme-border)] py-2.5 text-center text-[12px] font-medium text-[var(--theme-primary)] transition-colors hover:bg-[var(--theme-surface)]"
                         >
                           View all results
                         </button>
@@ -541,42 +563,42 @@ export default function Header() {
                       onClick={() => handleNavClick(link.page, link.params)}
                       className={`flex items-center justify-between rounded-xl px-3 py-[11px] text-[14px] transition-colors duration-200 ${
                         isActive(link.page, link.params)
-                          ? 'bg-white/[0.06] text-white font-medium'
-                          : 'text-white/60 hover:bg-white/[0.04] hover:text-white/90'
+                          ? 'bg-[var(--theme-surface)] text-[var(--theme-text)] font-medium'
+                          : 'text-[var(--theme-text-secondary)] hover:bg-[var(--theme-surface)] hover:text-[var(--theme-text)]'
                       }`}
                     >
                       {link.label}
-                      <ChevronRight className="size-[14px] opacity-20" />
+                      <ChevronRight className="size-[14px] opacity-40" />
                     </button>
                   ))}
 
-                  <Separator className="my-2 h-px bg-white/[0.06]" />
+                  <Separator className="my-2 h-px bg-[var(--theme-border)]" />
 
                   {isCustomerLoggedIn() && customer ? (
                     <>
                       <button
                         onClick={() => handleNavClick('profile')}
-                        className="flex items-center justify-between rounded-xl px-3 py-[11px] text-[14px] text-white/60 transition-colors hover:bg-white/[0.04] hover:text-white/90"
+                        className="flex items-center justify-between rounded-xl px-3 py-[11px] text-[14px] text-[var(--theme-text-secondary)] transition-colors hover:bg-[var(--theme-surface)] hover:text-[var(--theme-text)]"
                       >
                         My Account
-                        <ChevronRight className="size-[14px] opacity-20" />
+                        <ChevronRight className="size-[14px] opacity-40" />
                       </button>
                       <button
                         onClick={() => handleNavClick('profile', { tab: 'orders' })}
-                        className="flex items-center justify-between rounded-xl px-3 py-[11px] text-[14px] text-white/60 transition-colors hover:bg-white/[0.04] hover:text-white/90"
+                        className="flex items-center justify-between rounded-xl px-3 py-[11px] text-[14px] text-[var(--theme-text-secondary)] transition-colors hover:bg-[var(--theme-surface)] hover:text-[var(--theme-text)]"
                       >
                         My Orders
-                        <ChevronRight className="size-[14px] opacity-20" />
+                        <ChevronRight className="size-[14px] opacity-40" />
                       </button>
                       <button
                         onClick={() => handleNavClick('profile', { tab: 'wishlist' })}
-                        className="flex items-center justify-between rounded-xl px-3 py-[11px] text-[14px] text-white/60 transition-colors hover:bg-white/[0.04] hover:text-white/90"
+                        className="flex items-center justify-between rounded-xl px-3 py-[11px] text-[14px] text-[var(--theme-text-secondary)] transition-colors hover:bg-[var(--theme-surface)] hover:text-[var(--theme-text)]"
                       >
                         My Wishlist
-                        <ChevronRight className="size-[14px] opacity-20" />
+                        <ChevronRight className="size-[14px] opacity-40" />
                       </button>
 
-                      <Separator className="my-2 h-px bg-white/[0.06]" />
+                      <Separator className="my-2 h-px bg-[var(--theme-border)]" />
 
                       <button
                         onClick={() => {
@@ -592,19 +614,19 @@ export default function Header() {
                   ) : (
                     <button
                       onClick={() => handleNavClick('login')}
-                      className="mx-1 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] px-4 py-[11px] text-[14px] font-semibold text-white shadow-[0_4px_16px_rgba(255,45,85,0.25)] transition-all duration-300 hover:from-[var(--theme-primary)] hover:to-[var(--theme-secondary)]"
+                      className="mx-1 flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] px-4 py-[11px] text-[14px] font-semibold text-white shadow-[0_4px_16px_var(--theme-glow)] transition-all duration-300 hover:opacity-90"
                     >
                       <User className="size-4" />
                       Login / Sign Up
                     </button>
                   )}
 
-                  <Separator className="my-2 h-px bg-white/[0.06]" />
+                  <Separator className="my-2 h-px bg-[var(--theme-border)]" />
 
                   <a
                     href="/admin"
                     onClick={() => setMobileOpen(false)}
-                    className="rounded-xl px-3 py-[11px] text-[12px] text-white/20 transition-colors hover:bg-white/[0.04] hover:text-white/40"
+                    className="rounded-xl px-3 py-[11px] text-[12px] text-[var(--theme-text-muted)] transition-colors hover:bg-[var(--theme-surface)] hover:text-[var(--theme-text-secondary)]"
                   >
                     Admin Panel
                   </a>
@@ -618,10 +640,10 @@ export default function Header() {
               className="flex shrink-0 items-center gap-0 outline-none"
               aria-label="ClothFasion Home"
             >
-              <span className="text-[16px] font-semibold tracking-tight text-white">
+              <span className="text-[16px] font-semibold tracking-tight text-[var(--theme-text)]">
                 Cloth
               </span>
-              <span className="text-[16px] font-semibold tracking-tight bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
+              <span className="text-[16px] font-semibold tracking-tight text-gradient">
                 Fasion
               </span>
             </button>
@@ -638,7 +660,7 @@ export default function Header() {
                   ? navigate('profile', { tab: 'wishlist' })
                   : navigate('login')
               }
-              className="h-9 w-9 text-white/60 hover:text-white hover:bg-white/[0.04] transition-colors"
+              className="h-9 w-9 text-[var(--theme-text-secondary)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] transition-colors"
             >
               <Heart className="size-[18px]" />
               <span className="sr-only">Wishlist</span>
@@ -649,15 +671,33 @@ export default function Header() {
               variant="ghost"
               size="icon"
               onClick={() => navigate('cart')}
-              className="relative h-9 w-9 text-white/60 hover:text-white hover:bg-white/[0.04] transition-colors"
+              className="relative h-9 w-9 text-[var(--theme-text-secondary)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] transition-colors"
             >
               <ShoppingCart className="size-[18px]" />
               {cartCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] px-[5px] text-[10px] font-bold leading-none text-white shadow-[0_2px_8px_rgba(255,45,85,0.4)]">
+                <span className="absolute -top-0.5 -right-0.5 flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-[var(--theme-primary)] px-[5px] text-[10px] font-bold leading-none text-white shadow-[0_2px_8px_var(--theme-glow)]">
                   {cartCount > 99 ? '99+' : cartCount}
                 </span>
               )}
               <span className="sr-only">Cart</span>
+            </Button>
+
+            {/* Dark Mode Toggle (mobile) */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleDarkMode}
+              className="h-9 w-9 text-[var(--theme-text-secondary)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] transition-colors"
+              aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {darkMode ? (
+                <Sun className="size-[18px]" />
+              ) : (
+                <Moon className="size-[18px]" />
+              )}
+              <span className="sr-only">
+                {darkMode ? 'Light mode' : 'Dark mode'}
+              </span>
             </Button>
 
             {/* User (mobile — icon only) */}
@@ -666,7 +706,7 @@ export default function Header() {
                 variant="ghost"
                 size="icon"
                 onClick={() => navigate('profile')}
-                className="h-9 w-9 transition-colors hover:bg-white/[0.04]"
+                className="h-9 w-9 transition-colors hover:bg-[var(--theme-surface)]"
               >
                 <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-gradient-to-br from-[var(--theme-primary)] to-[var(--theme-secondary)] text-[10px] font-bold text-white">
                   {customer.first_name?.[0]?.toUpperCase() || 'U'}
@@ -677,7 +717,7 @@ export default function Header() {
                 variant="ghost"
                 size="icon"
                 onClick={() => navigate('login')}
-                className="h-9 w-9 text-white/60 hover:text-white hover:bg-white/[0.04] transition-colors"
+                className="h-9 w-9 text-[var(--theme-text-secondary)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] transition-colors"
               >
                 <User className="size-[18px]" />
                 <span className="sr-only">Account</span>

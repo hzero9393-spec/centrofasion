@@ -45,93 +45,102 @@
 }
 
 /* ============================================================
-   :root — Apple.com Inspired Dark Theme (uses CSS variables)
+   :root — LIGHT MODE (Luxe Minimal)
    ============================================================ */
 :root {
   --radius: 0.75rem;
-  --background: #000000;
-  --foreground: #F5F5F7;
-  --card: var(--theme-card, #1D1D1F);
-  --card-foreground: #F5F5F7;
-  --popover: #1D1D1F;
-  --popover-foreground: #F5F5F7;
-  --primary: var(--theme-primary, #FF5722);
-  --primary-foreground: #000000;
-  --secondary: #1D1D1F;
-  --secondary-foreground: #F5F5F7;
-  --muted: #1D1D1F;
-  --muted-foreground: #86868B;
-  --accent: var(--theme-primary, #FF5722);
+  --background: #FAF9F7;
+  --foreground: #1A1A2E;
+  --card: #FFFFFF;
+  --card-foreground: #1A1A2E;
+  --popover: #FFFFFF;
+  --popover-foreground: #1A1A2E;
+  --primary: var(--theme-primary, #E85D04);
+  --primary-foreground: #FFFFFF;
+  --secondary: #F3F1EE;
+  --secondary-foreground: #1A1A2E;
+  --muted: #F3F1EE;
+  --muted-foreground: #8B8680;
+  --accent: var(--theme-primary, #E85D04);
   --accent-foreground: #FFFFFF;
-  --destructive: #DC3545;
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: var(--theme-primary, #FF5722);
-  --chart-1: var(--theme-primary, #FF5722);
-  --chart-2: #F5F5F7;
-  --chart-3: #28A745;
-  --chart-4: #FFC107;
-  --chart-5: #3B82F6;
-  --sidebar: #0A0A0A;
-  --sidebar-foreground: #F5F5F7;
-  --sidebar-primary: var(--theme-primary, #FF5722);
+  --destructive: #DC2626;
+  --border: #E8E5E0;
+  --input: #E8E5E0;
+  --ring: var(--theme-primary, #E85D04);
+  --chart-1: var(--theme-primary, #E85D04);
+  --chart-2: #1A1A2E;
+  --chart-3: #16A34A;
+  --chart-4: #D97706;
+  --chart-5: #0D9488;
+  --sidebar: #F3F1EE;
+  --sidebar-foreground: #1A1A2E;
+  --sidebar-primary: var(--theme-primary, #E85D04);
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #1D1D1F;
-  --sidebar-accent-foreground: #F5F5F7;
-  --sidebar-border: rgba(255, 255, 255, 0.1);
-  --sidebar-ring: var(--theme-primary, #FF5722);
+  --sidebar-accent: #F3F1EE;
+  --sidebar-accent-foreground: #1A1A2E;
+  --sidebar-border: #E8E5E0;
+  --sidebar-ring: var(--theme-primary, #E85D04);
 
-  /* Apple 3D Design Tokens */
-  --glass-bg: rgba(255, 255, 255, 0.08);
-  --glass-bg-dark: rgba(255, 255, 255, 0.04);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-blur: 20px;
-  --surface-hover: rgba(255, 255, 255, 0.05);
-  --depth-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-  --depth-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
-  --depth-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
-  --depth-shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.6), 0 8px 16px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
-  --perspective: 1000px;
-  --parallax-scale: 1;
-  --parallax-rotate-x: 0deg;
-  --parallax-rotate-y: 0deg;
+  /* Semantic tokens — Light */
+  --theme-bg: #FAF9F7;
+  --theme-card: #FFFFFF;
+  --theme-card-hover: #F5F3F0;
+  --theme-text: #1A1A2E;
+  --theme-text-secondary: #52525B;
+  --theme-text-muted: #8B8680;
+  --theme-border: #E8E5E0;
+  --theme-border-subtle: #F3F1EE;
+  --theme-surface: #F3F1EE;
+  --theme-surface-hover: #E8E5E0;
 }
 
 /* ============================================================
-   .dark — Slightly softer dark for variant contexts
+   .dark — DARK MODE (Luxe Minimal)
    ============================================================ */
 .dark {
-  --background: #0A0A0A;
-  --foreground: #F5F5F7;
-  --card: var(--theme-card, #1D1D1F);
-  --card-foreground: #F5F5F7;
-  --popover: #1D1D1F;
-  --popover-foreground: #F5F5F7;
-  --primary: #F5F5F7;
-  --primary-foreground: #000000;
-  --secondary: #1D1D1F;
-  --secondary-foreground: #F5F5F7;
-  --muted: #1D1D1F;
-  --muted-foreground: #86868B;
-  --accent: var(--theme-primary, #FF5722);
+  --background: #0F0F0F;
+  --foreground: #F0EDE8;
+  --card: #1A1A1A;
+  --card-foreground: #F0EDE8;
+  --popover: #1A1A1A;
+  --popover-foreground: #F0EDE8;
+  --primary: var(--theme-primary, #E85D04);
+  --primary-foreground: #FFFFFF;
+  --secondary: #222222;
+  --secondary-foreground: #F0EDE8;
+  --muted: #1E1E1E;
+  --muted-foreground: #9B9590;
+  --accent: var(--theme-primary, #E85D04);
   --accent-foreground: #FFFFFF;
-  --destructive: #DC3545;
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: var(--theme-primary, #FF5722);
-  --chart-1: var(--theme-primary, #FF5722);
-  --chart-2: #F5F5F7;
-  --chart-3: #28A745;
-  --chart-4: #FFC107;
-  --chart-5: #3B82F6;
-  --sidebar: #050505;
-  --sidebar-foreground: #F5F5F7;
-  --sidebar-primary: var(--theme-primary, #FF5722);
+  --destructive: #EF4444;
+  --border: #2A2A2A;
+  --input: #2A2A2A;
+  --ring: var(--theme-primary, #E85D04);
+  --chart-1: var(--theme-primary, #E85D04);
+  --chart-2: #F0EDE8;
+  --chart-3: #22C55E;
+  --chart-4: #FACC15;
+  --chart-5: #2DD4BF;
+  --sidebar: #0F0F0F;
+  --sidebar-foreground: #F0EDE8;
+  --sidebar-primary: var(--theme-primary, #E85D04);
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #1D1D1F;
-  --sidebar-accent-foreground: #F5F5F7;
-  --sidebar-border: rgba(255, 255, 255, 0.08);
-  --sidebar-ring: var(--theme-primary, #FF5722);
+  --sidebar-accent: #1E1E1E;
+  --sidebar-accent-foreground: #F0EDE8;
+  --sidebar-border: #2A2A2A;
+  --sidebar-ring: var(--theme-primary, #E85D04);
+
+  /* Semantic tokens — Dark */
+  --theme-bg: #0F0F0F;
+  --theme-card: #1A1A1A;
+  --theme-card-hover: #222222;
+  --theme-text: #F0EDE8;
+  --theme-text-secondary: #B0AAA2;
+  --theme-text-muted: #9B9590;
+  --theme-border: #2A2A2A;
+  --theme-border-subtle: #1E1E1E;
+  --theme-surface: #1E1E1E;
+  --theme-surface-hover: #2A2A2A;
 }
 
 /* ============================================================
@@ -142,17 +151,15 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-black antialiased;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    color: var(--theme-text, #F5F5F7);
   }
 }
 
 /* ============================================================
-   Apple-Inspired Typography
+   Typography
    ============================================================ */
 h1 {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -172,109 +179,53 @@ h3 {
   letter-spacing: -0.015em;
   line-height: 1.2;
 }
-h4, h5, h6 {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  line-height: 1.3;
-}
 
 /* ============================================================
-   Custom Scrollbar — Dark Theme
+   Scrollbar
    ============================================================ */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--theme-text-muted);
   border-radius: 4px;
+  opacity: 0.5;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--theme-text-secondary);
 }
-
-/* Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
-}
+* { scrollbar-width: thin; scrollbar-color: var(--theme-text-muted) transparent; }
 
 /* ============================================================
-   @keyframes — Animation Library
+   Animations
    ============================================================ */
-
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px) translateZ(0); }
-  50% { transform: translateY(-10px) translateZ(20px); }
-}
-
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.9); }
+  from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
 }
-
-@keyframes glowPulse {
-  0%, 100% { box-shadow: 0 0 10px var(--theme-glow, rgba(255, 87, 34, 0.2)); }
-  50% { box-shadow: 0 0 30px var(--theme-glow, rgba(255, 87, 34, 0.5)); }
-}
-
-@keyframes gradientGlow {
-  0%, 100% { box-shadow: 0 0 10px var(--theme-glow, rgba(255, 87, 34, 0.2)); }
-  50% { box-shadow: 0 0 25px var(--theme-glow, rgba(255, 87, 34, 0.4)); }
-}
-
-@keyframes cardEntrance {
-  from { opacity: 0; transform: perspective(1000px) rotateX(8deg) translateY(20px) scale(0.95); }
-  to { opacity: 1; transform: perspective(1000px) rotateX(0deg) translateY(0) scale(1); }
-}
-
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
-
 @keyframes cartBounce {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.25); }
 }
-
-@keyframes scalePulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
-}
-
-@keyframes meshMove {
-  0% { background-position: 0% 50%; }
-  25% { background-position: 100% 50%; }
-  50% { background-position: 100% 0%; }
-  75% { background-position: 0% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 @keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-30px); }
+  from { opacity: 0; transform: translateX(-20px); }
   to { opacity: 1; transform: translateX(0); }
 }
-
 @keyframes slideInRight {
-  from { opacity: 0; transform: translateX(30px); }
+  from { opacity: 0; transform: translateX(20px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
-/* ============================================================
-   Animation Utility Classes
-   ============================================================ */
-.animate-fade-up { animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
-.animate-float { animation: float 6s ease-in-out infinite; }
-.animate-glow { animation: glowPulse 3s ease-in-out infinite; }
-.animate-scale-in { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
-.animate-card-entrance { animation: cardEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
-.animate-gradient-glow { animation: gradientGlow 3s ease-in-out infinite; }
-.animate-scale-pulse { animation: scalePulse 2s ease-in-out infinite; }
+.animate-fade-up { animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-scale-in { animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.cart-bounce { animation: cartBounce 0.3s ease; }
 
 .stagger-1 { animation-delay: 0.05s; }
 .stagger-2 { animation-delay: 0.1s; }
@@ -282,354 +233,204 @@ h4, h5, h6 {
 .stagger-4 { animation-delay: 0.2s; }
 .stagger-5 { animation-delay: 0.25s; }
 .stagger-6 { animation-delay: 0.3s; }
-.stagger-7 { animation-delay: 0.35s; }
-.stagger-8 { animation-delay: 0.4s; }
 
 /* ============================================================
-   Glassmorphism Classes
+   Float Animations (Luxe Minimal — decorative)
    ============================================================ */
-.glass {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes floatReverse {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
 }
 
-.glass-dark {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.glass-accent {
-  background: color-mix(in srgb, var(--theme-primary, #FF5722) 8%, transparent);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid color-mix(in srgb, var(--theme-primary, #FF5722) 20%, transparent);
-}
-
-.glass-btn {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-float-slow { animation: floatSlow 5s ease-in-out infinite; }
+.animate-float-reverse { animation: floatReverse 3s ease-in-out infinite; }
 
 /* ============================================================
-   3D Card System
-   ============================================================ */
-.card-3d {
-  perspective: 1000px;
-  transform-style: preserve-3d;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4),
-              0 2px 4px rgba(0, 0, 0, 0.3);
-  will-change: transform;
-}
-
-.card-3d:hover {
-  transform: perspective(1000px) rotateX(-2deg) rotateY(2deg) translateZ(10px) translateY(-4px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
-              0 8px 16px rgba(0, 0, 0, 0.4),
-              0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.card-3d-interactive {
-  perspective: 1000px;
-  transform-style: preserve-3d;
-  transition: transform 0.15s ease-out,
-              box-shadow 0.3s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  will-change: transform;
-}
-
-/* ============================================================
-   Depth Shadow Utilities
-   ============================================================ */
-.depth-sm { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2); }
-.depth-md { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3); }
-.depth-lg { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2); }
-.depth-xl { box-shadow: 0 16px 64px rgba(0, 0, 0, 0.6), 0 8px 16px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3); }
-
-/* ============================================================
-   Glow Effects — Theme-aware
-   ============================================================ */
-.glow-primary {
-  box-shadow: 0 0 20px var(--theme-glow, rgba(255, 87, 34, 0.4)),
-              0 0 60px color-mix(in srgb, var(--theme-primary, #FF5722) 15%, transparent);
-}
-
-.glow-gradient {
-  box-shadow: 0 0 20px color-mix(in srgb, var(--theme-primary, #FF5722) 30%, transparent),
-              0 0 40px color-mix(in srgb, var(--theme-secondary, #FF2D55) 20%, transparent);
-}
-
-/* ============================================================
-   Text Gradient Utilities — Theme-aware
+   Text Gradient — Theme-aware
    ============================================================ */
 .text-gradient {
-  background: linear-gradient(135deg, var(--theme-primary, #FF5722), var(--theme-secondary, #FF2D55));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-gradient-primary {
-  background: linear-gradient(135deg, var(--theme-primary, #FF5722), var(--theme-secondary, #FF2D55));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-gradient-subtle {
-  background: linear-gradient(135deg, var(--theme-text, #F5F5F7), var(--theme-text-muted, #86868B));
+  background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 /* ============================================================
-   Section Backgrounds
-   ============================================================ */
-.section-dark { background: #0A0A0A; }
-.section-gradient { background: linear-gradient(180deg, #000000 0%, #0A0A0A 50%, #000000 100%); }
-.section-gradient-accent {
-  background: linear-gradient(180deg, #000000 0%, color-mix(in srgb, var(--theme-primary, #FF5722) 3%, #000000) 50%, #000000 100%);
-}
-
-.section-mesh {
-  background:
-    radial-gradient(ellipse at 20% 50%, color-mix(in srgb, var(--theme-primary, #FF5722) 6%, transparent) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, color-mix(in srgb, var(--theme-secondary, #FF2D55) 4%, transparent) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
-    #000000;
-  background-size: 200% 200%;
-}
-
-.section-mesh-animated {
-  background:
-    radial-gradient(ellipse at 20% 50%, color-mix(in srgb, var(--theme-primary, #FF5722) 6%, transparent) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, color-mix(in srgb, var(--theme-secondary, #FF2D55) 4%, transparent) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
-    #000000;
-  background-size: 200% 200%;
-  animation: meshMove 15s ease infinite;
-}
-
-/* ============================================================
-   Hover Interaction Utilities
-   ============================================================ */
-.hover-lift {
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.hover-lift:hover {
-  transform: translateY(-6px) translateZ(10px);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5),
-              0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.hover-glow { transition: box-shadow 0.35s ease; }
-.hover-glow:hover {
-  box-shadow: 0 0 20px var(--theme-glow, rgba(255, 87, 34, 0.4)),
-              0 0 60px color-mix(in srgb, var(--theme-primary, #FF5722) 15%, transparent);
-}
-
-.hover-surface { transition: background 0.25s ease; }
-.hover-surface:hover { background: rgba(255, 255, 255, 0.05); }
-
-.hover-scale { transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
-.hover-scale:hover { transform: scale(1.02); }
-
-/* ============================================================
-   Product Card — Enhanced 3D
+   Product Card Hover
    ============================================================ */
 .product-card {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  transform-style: preserve-3d;
-  will-change: transform;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .product-card:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
-              0 8px 16px rgba(0, 0, 0, 0.4),
-              0 0 0 1px rgba(255, 255, 255, 0.08);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
 }
-.product-card:hover .product-img { transform: scale(1.05) translateZ(10px); }
+.dark .product-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+.product-card:hover .product-img { transform: scale(1.05); }
 .product-card:hover .quick-actions { opacity: 1; transform: translateY(0); }
-.product-img { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-.quick-actions { opacity: 0; transform: translateY(8px); transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+.product-img { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.quick-actions { opacity: 0; transform: translateY(8px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
 
 /* ============================================================
-   Button Interactions — Enhanced
-   ============================================================ */
-.btn-scale { transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
-.btn-scale:hover { transform: scale(0.98); }
-.btn-scale:active { transform: scale(0.96); }
-
-.btn-3d {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-.btn-3d:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3); }
-.btn-3d:active { transform: translateY(1px); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); }
-
-.cart-bounce { animation: cartBounce 0.3s ease; }
-
-/* ============================================================
-   Skeleton Shimmer — Dark Theme
+   Skeleton Shimmer
    ============================================================ */
 .skeleton-shimmer {
-  background: linear-gradient(90deg, var(--theme-card, #1D1D1F) 25%, #2A2A2E 50%, var(--theme-card, #1D1D1F) 75%);
+  background: linear-gradient(90deg, var(--theme-surface) 25%, var(--theme-surface-hover) 50%, var(--theme-surface) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 8px;
 }
 
 /* ============================================================
-   Status Badges — Original (for any bg)
+   Status Badges (work on both light/dark)
    ============================================================ */
-.badge-pending { background: #FFF8E1; color: #F57F17; }
-.badge-confirmed { background: #E3F2FD; color: #1565C0; }
-.badge-packing { background: #F3E5F5; color: #7B1FA2; }
-.badge-shipping { background: #FFF3E0; color: #E65100; }
-.badge-delivered { background: #E8F5E9; color: #2E7D32; }
-.badge-cancelled { background: #FFEBEE; color: #C62828; }
-.badge-returned { background: #F3E5F5; color: #6A1B9A; }
+.badge-pending { background: #FEF3C7; color: #92400E; }
+.badge-confirmed { background: #DBEAFE; color: #1E40AF; }
+.badge-packing { background: #F3E8FF; color: #6B21A8; }
+.badge-shipping { background: #FFEDD5; color: #9A3412; }
+.badge-delivered { background: #D1FAE5; color: #065F46; }
+.badge-cancelled { background: #FEE2E2; color: #991B1B; }
+.badge-returned { background: #F3E8FF; color: #6B21A8; }
 
-/* Status Badges — Dark Variants (for dark backgrounds) */
-.badge-dark-pending { background: rgba(255, 193, 7, 0.15); color: #FFC107; border: 1px solid rgba(255, 193, 7, 0.25); }
-.badge-dark-confirmed { background: rgba(59, 130, 246, 0.15); color: #60A5FA; border: 1px solid rgba(59, 130, 246, 0.25); }
-.badge-dark-packing { background: rgba(168, 85, 247, 0.15); color: #C084FC; border: 1px solid rgba(168, 85, 247, 0.25); }
-.badge-dark-shipping { background: rgba(255, 87, 34, 0.15); color: #FF8A50; border: 1px solid rgba(255, 87, 34, 0.25); }
-.badge-dark-delivered { background: rgba(40, 167, 69, 0.15); color: #4ADE80; border: 1px solid rgba(40, 167, 69, 0.25); }
-.badge-dark-cancelled { background: rgba(220, 53, 69, 0.15); color: #F87171; border: 1px solid rgba(220, 53, 69, 0.25); }
-.badge-dark-returned { background: rgba(168, 85, 247, 0.15); color: #C084FC; border: 1px solid rgba(168, 85, 247, 0.25); }
-
-/* ============================================================
-   Filter Section — Dark Theme
-   ============================================================ */
-.filter-section {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 16px;
-  margin-bottom: 16px;
-}
-.filter-section:last-child { border-bottom: none; }
+.dark .badge-pending { background: rgba(245, 158, 11, 0.15); color: #FBBF24; }
+.dark .badge-confirmed { background: rgba(59, 130, 246, 0.15); color: #60A5FA; }
+.dark .badge-packing { background: rgba(168, 85, 247, 0.15); color: #C084FC; }
+.dark .badge-shipping { background: rgba(249, 115, 22, 0.15); color: #FB923C; }
+.dark .badge-delivered { background: rgba(34, 197, 94, 0.15); color: #4ADE80; }
+.dark .badge-cancelled { background: rgba(239, 68, 68, 0.15); color: #F87171; }
+.dark .badge-returned { background: rgba(168, 85, 247, 0.15); color: #C084FC; }
 
 /* ============================================================
-   Checkout Progress Bar — Dark Theme
+   Checkout Steps
    ============================================================ */
-.checkout-step { position: relative; }
 .checkout-step.completed .step-circle {
-  background: #28A745; border-color: #28A745; box-shadow: 0 0 12px rgba(40, 167, 69, 0.3);
+  background: #16A34A; border-color: #16A34A;
 }
 .checkout-step.active .step-circle {
-  background: var(--theme-primary, #FF5722); border-color: var(--theme-primary, #FF5722);
-  box-shadow: 0 0 16px var(--theme-glow, rgba(255, 87, 34, 0.4));
+  background: var(--theme-primary); border-color: var(--theme-primary);
 }
 .step-circle {
   width: 32px; height: 32px; border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  border: 2px solid var(--theme-border);
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 600; color: #86868B;
-  background: var(--theme-card, #1D1D1F);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-size: 13px; font-weight: 600; color: var(--theme-text-muted);
+  background: var(--theme-card);
+  transition: all 0.3s ease;
 }
-.step-line { height: 2px; flex: 1; background: rgba(255, 255, 255, 0.1); transition: background 0.3s ease; }
-.step-line.completed { background: #28A745; box-shadow: 0 0 8px rgba(40, 167, 69, 0.2); }
+.step-line { height: 2px; flex: 1; background: var(--theme-border); }
+.step-line.completed { background: #16A34A; }
 
 /* ============================================================
    Discount Tag
    ============================================================ */
 .discount-tag {
-  background: linear-gradient(135deg, #28A745, #20E070);
+  background: linear-gradient(135deg, #16A34A, #22C55E);
   color: white; font-size: 11px; font-weight: 600;
   padding: 2px 6px; border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
 }
 
 /* ============================================================
-   Carousel Dots — Theme-aware
+   Carousel Dots
    ============================================================ */
 .carousel-dot {
   width: 8px; height: 8px; border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: pointer;
+  background: var(--theme-text-muted);
+  transition: all 0.3s ease; cursor: pointer;
 }
 .carousel-dot.active {
   width: 24px; border-radius: 4px;
-  background: var(--theme-primary, #FF5722);
-  box-shadow: 0 0 12px var(--theme-glow, rgba(255, 87, 34, 0.4));
+  background: var(--theme-primary);
 }
 
 /* ============================================================
-   Admin Table Row — Dark Theme
+   Selection
    ============================================================ */
-.admin-row { transition: background 0.2s ease; }
-.admin-row:hover { background: rgba(255, 255, 255, 0.05); }
-
-/* ============================================================
-   Image Lightbox
-   ============================================================ */
-.lightbox-overlay {
-  position: fixed; inset: 0; z-index: 100;
-  background: rgba(0, 0, 0, 0.92);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  display: flex; align-items: center; justify-content: center;
-  cursor: zoom-out;
+::selection {
+  background: color-mix(in srgb, var(--theme-primary) 25%, transparent);
+  color: inherit;
 }
 
 /* ============================================================
-   Parallax-Ready Container
+   Hover Lift
    ============================================================ */
-.parallax-container { perspective: 1200px; perspective-origin: center; overflow: hidden; }
-.parallax-layer { transform-style: preserve-3d; will-change: transform; }
-
-/* ============================================================
-   Gradient Border Utility — Theme-aware
-   ============================================================ */
-.border-gradient { position: relative; }
-.border-gradient::before {
-  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
-  background: linear-gradient(135deg, var(--theme-primary, #FF5722), var(--theme-secondary, #FF2D55));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor; mask-composite: exclude;
-  pointer-events: none;
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+.dark .hover-lift:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
 }
 
 /* ============================================================
-   Focus Ring — Theme-aware accent
+   Focus Ring
    ============================================================ */
 .focus-ring:focus-visible {
-  outline: 2px solid var(--theme-primary, #FF5722);
+  outline: 2px solid var(--theme-primary);
   outline-offset: 2px;
 }
 
 /* ============================================================
-   Noise Texture Overlay (subtle)
-   ============================================================ */
-.noise-overlay::after {
-  content: ''; position: absolute; inset: 0; opacity: 0.02;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  background-repeat: repeat; pointer-events: none; z-index: 1;
-}
-
-/* ============================================================
-   Selection Styling — Theme-aware
-   ============================================================ */
-::selection {
-  background: color-mix(in srgb, var(--theme-primary, #FF5722) 30%, transparent);
-  color: #F5F5F7;
-}
-
-/* ============================================================
-   Dot pattern overlay utility
+   Dot Pattern Overlay
    ============================================================ */
 .dot-pattern {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-image: radial-gradient(var(--theme-border) 1px, transparent 1px);
   background-size: 20px 20px;
 }
+
+/* ============================================================
+   Glass Button (Luxe Minimal — translucent CTA)
+   ============================================================ */
+.glass-btn {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.25s ease;
+}
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+.dark .glass-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.dark .glass-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* ============================================================
+   Button Scale (CTA hover effect)
+   ============================================================ */
+.btn-scale {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+}
+.btn-scale:hover {
+  transform: scale(1.03);
+}
+.btn-scale:active {
+  transform: scale(0.98);
+}
+
+/* ============================================================
+   Hide Scrollbar Utility
+   ============================================================ */
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }

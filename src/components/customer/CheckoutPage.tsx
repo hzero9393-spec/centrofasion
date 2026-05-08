@@ -141,8 +141,8 @@ export default function CheckoutPage() {
       <div className="w-16 h-16 rounded-full bg-[var(--theme-primary)]/10 flex items-center justify-center mx-auto mb-6">
         <CreditCard className="size-8 text-[var(--theme-primary)]" />
       </div>
-      <h2 className="text-xl font-bold text-cf-text mb-2">Login to Continue</h2>
-      <p className="text-sm text-[#5A6B7F] mb-6">Please login to proceed with your order</p>
+      <h2 className="text-xl font-bold text-[var(--theme-text)] mb-2">Login to Continue</h2>
+      <p className="text-sm text-[var(--theme-text-muted)] mb-6">Please login to proceed with your order</p>
       <Button
         onClick={() => navigate('login')}
         className="bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)] text-white h-12 px-8 rounded-lg text-sm font-bold"
@@ -155,28 +155,28 @@ export default function CheckoutPage() {
   // Step 2: Address form
   const renderAddressStep = () => (
     <div className="max-w-2xl mx-auto">
-      <h2 className="text-lg font-bold text-cf-text mb-6 flex items-center gap-2">
+      <h2 className="text-lg font-bold text-[var(--theme-text)] mb-6 flex items-center gap-2">
         <MapPin className="size-5 text-[var(--theme-primary)]" />
         Delivery Address
       </h2>
-      <div className="bg-white rounded-xl border border-[#E4E7EC] p-6 space-y-4">
+      <div className="bg-[var(--theme-card)] rounded-xl border border-[var(--theme-border)] p-6 space-y-4">
         {/* Name */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <Label className="text-sm font-medium text-cf-text mb-1.5 block">First Name *</Label>
+            <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">First Name *</Label>
             <Input
               value={address.first_name}
               onChange={(e) => handleAddressChange('first_name', e.target.value)}
-              className="h-11 rounded-lg border-[#E4E7EC]"
+              className="h-11 rounded-lg border-[var(--theme-border)]"
               placeholder="First name"
             />
           </div>
           <div>
-            <Label className="text-sm font-medium text-cf-text mb-1.5 block">Last Name *</Label>
+            <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">Last Name *</Label>
             <Input
               value={address.last_name}
               onChange={(e) => handleAddressChange('last_name', e.target.value)}
-              className="h-11 rounded-lg border-[#E4E7EC]"
+              className="h-11 rounded-lg border-[var(--theme-border)]"
               placeholder="Last name"
             />
           </div>
@@ -184,12 +184,12 @@ export default function CheckoutPage() {
 
         {/* Mobile */}
         <div>
-          <Label className="text-sm font-medium text-cf-text mb-1.5 block">Mobile Number *</Label>
+          <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">Mobile Number *</Label>
           <Input
             type="tel"
             value={address.mobile}
             onChange={(e) => handleAddressChange('mobile', e.target.value.replace(/\D/g, '').slice(0, 10))}
-            className="h-11 rounded-lg border-[#E4E7EC]"
+            className="h-11 rounded-lg border-[var(--theme-border)]"
             placeholder="10-digit mobile number"
             maxLength={10}
           />
@@ -198,20 +198,20 @@ export default function CheckoutPage() {
         {/* Pincode & State */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <Label className="text-sm font-medium text-cf-text mb-1.5 block">Pincode *</Label>
+            <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">Pincode *</Label>
             <Input
               type="text"
               value={address.pincode}
               onChange={(e) => handleAddressChange('pincode', e.target.value.replace(/\D/g, '').slice(0, 6))}
-              className="h-11 rounded-lg border-[#E4E7EC]"
+              className="h-11 rounded-lg border-[var(--theme-border)]"
               placeholder="6-digit pincode"
               maxLength={6}
             />
           </div>
           <div>
-            <Label className="text-sm font-medium text-cf-text mb-1.5 block">State *</Label>
+            <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">State *</Label>
             <Select value={address.state} onValueChange={(v) => handleAddressChange('state', v)}>
-              <SelectTrigger className="h-11 rounded-lg border-[#E4E7EC]">
+              <SelectTrigger className="h-11 rounded-lg border-[var(--theme-border)]">
                 <SelectValue placeholder="Select State" />
               </SelectTrigger>
               <SelectContent className="max-h-[240px]">
@@ -225,33 +225,33 @@ export default function CheckoutPage() {
 
         {/* District */}
         <div>
-          <Label className="text-sm font-medium text-cf-text mb-1.5 block">District / City *</Label>
+          <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">District / City *</Label>
           <Input
             value={address.district}
             onChange={(e) => handleAddressChange('district', e.target.value)}
-            className="h-11 rounded-lg border-[#E4E7EC]"
+            className="h-11 rounded-lg border-[var(--theme-border)]"
             placeholder="Enter your district or city"
           />
         </div>
 
         {/* Full Address */}
         <div>
-          <Label className="text-sm font-medium text-cf-text mb-1.5 block">Full Address *</Label>
+          <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">Full Address *</Label>
           <Textarea
             value={address.fullAddress}
             onChange={(e) => handleAddressChange('fullAddress', e.target.value)}
-            className="min-h-[80px] rounded-lg border-[#E4E7EC] resize-none"
+            className="min-h-[80px] rounded-lg border-[var(--theme-border)] resize-none"
             placeholder="Enter your complete address (house no, street, area)"
           />
         </div>
 
         {/* Landmark */}
         <div>
-          <Label className="text-sm font-medium text-cf-text mb-1.5 block">Nearby Landmark</Label>
+          <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">Nearby Landmark</Label>
           <Input
             value={address.landmark}
             onChange={(e) => handleAddressChange('landmark', e.target.value)}
-            className="h-11 rounded-lg border-[#E4E7EC]"
+            className="h-11 rounded-lg border-[var(--theme-border)]"
             placeholder="Nearby landmark (optional)"
           />
         </div>
@@ -264,7 +264,7 @@ export default function CheckoutPage() {
             onCheckedChange={(checked) => handleAddressChange('saveAddress', checked as boolean)}
             className="rounded data-[state=checked]:bg-[var(--theme-primary)] data-[state=checked]:border-[var(--theme-primary)]"
           />
-          <Label htmlFor="saveAddress" className="text-sm text-[#5A6B7F] cursor-pointer">
+          <Label htmlFor="saveAddress" className="text-sm text-[var(--theme-text-muted)] cursor-pointer">
             Save this address for future orders
           </Label>
         </div>
@@ -282,7 +282,7 @@ export default function CheckoutPage() {
   // Step 3: Payment
   const renderPaymentStep = () => (
     <div className="max-w-2xl mx-auto">
-      <h2 className="text-lg font-bold text-cf-text mb-6 flex items-center gap-2">
+      <h2 className="text-lg font-bold text-[var(--theme-text)] mb-6 flex items-center gap-2">
         <CreditCard className="size-5 text-[var(--theme-primary)]" />
         Payment Method
       </h2>
@@ -293,17 +293,17 @@ export default function CheckoutPage() {
           <label
             className={`flex items-center gap-4 p-5 rounded-xl border-2 cursor-pointer transition-all ${
               paymentMethod === 'cod'
-                ? 'border-[var(--theme-primary)] bg-[#FFF8F5]'
-                : 'border-[#E4E7EC] bg-white hover:border-[#5A6B7F]'
+                ? 'border-[var(--theme-primary)] bg-[var(--theme-primary)]/10'
+                : 'border-[var(--theme-border)] bg-[var(--theme-card)] hover:border-[var(--theme-text-muted)]'
             }`}
           >
             <RadioGroupItem value="cod" id="cod" />
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <Truck className="size-5 text-[#28A745]" />
-                <span className="text-sm font-bold text-cf-text">Cash on Delivery</span>
+                <span className="text-sm font-bold text-[var(--theme-text)]">Cash on Delivery</span>
               </div>
-              <p className="text-xs text-[#5A6B7F] mt-1">Pay when your order is delivered to your doorstep</p>
+              <p className="text-xs text-[var(--theme-text-muted)] mt-1">Pay when your order is delivered to your doorstep</p>
             </div>
           </label>
 
@@ -311,55 +311,55 @@ export default function CheckoutPage() {
           <label
             className={`flex items-center gap-4 p-5 rounded-xl border-2 cursor-pointer transition-all ${
               paymentMethod === 'upi'
-                ? 'border-[var(--theme-primary)] bg-[#FFF8F5]'
-                : 'border-[#E4E7EC] bg-white hover:border-[#5A6B7F]'
+                ? 'border-[var(--theme-primary)] bg-[var(--theme-primary)]/10'
+                : 'border-[var(--theme-border)] bg-[var(--theme-card)] hover:border-[var(--theme-text-muted)]'
             }`}
           >
             <RadioGroupItem value="upi" id="upi" />
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <CreditCard className="size-5 text-[#3B82F6]" />
-                <span className="text-sm font-bold text-cf-text">UPI Payment</span>
+                <span className="text-sm font-bold text-[var(--theme-text)]">UPI Payment</span>
               </div>
-              <p className="text-xs text-[#5A6B7F] mt-1">Pay using any UPI app (GPay, PhonePe, Paytm)</p>
+              <p className="text-xs text-[var(--theme-text-muted)] mt-1">Pay using any UPI app (GPay, PhonePe, Paytm)</p>
             </div>
           </label>
         </RadioGroup>
 
         {/* QR Code placeholder */}
         {paymentMethod === 'upi' && (
-          <div className="bg-white rounded-xl border border-[#E4E7EC] p-6 text-center">
-            <div className="w-48 h-48 bg-[#F5F7FA] rounded-xl flex items-center justify-center mx-auto mb-3 border border-dashed border-[#E4E7EC]">
+          <div className="bg-[var(--theme-card)] rounded-xl border border-[var(--theme-border)] p-6 text-center">
+            <div className="w-48 h-48 bg-[var(--theme-surface)] rounded-xl flex items-center justify-center mx-auto mb-3 border border-dashed border-[var(--theme-border)]">
               <div className="text-center">
                 <div className="grid grid-cols-5 gap-1 w-20 mx-auto">
                   {Array.from({ length: 25 }).map((_, i) => (
-                    <div key={i} className="w-3 h-3 bg-[#0A1B2A] rounded-sm" />
+                    <div key={i} className="w-3 h-3 bg-[var(--theme-primary)] rounded-sm" />
                   ))}
                 </div>
-                <p className="text-[10px] text-[#5A6B7F] mt-2">QR Code</p>
+                <p className="text-[10px] text-[var(--theme-text-muted)] mt-2">QR Code</p>
               </div>
             </div>
-            <p className="text-sm text-[#5A6B7F]">Scan QR code to pay</p>
-            <p className="text-lg font-bold text-cf-text mt-1">₹{total.toLocaleString('en-IN')}</p>
+            <p className="text-sm text-[var(--theme-text-muted)]">Scan QR code to pay</p>
+            <p className="text-lg font-bold text-[var(--theme-text)] mt-1">₹{total.toLocaleString('en-IN')}</p>
           </div>
         )}
 
         {/* Order summary mini */}
-        <div className="bg-white rounded-xl border border-[#E4E7EC] p-5">
-          <h3 className="text-sm font-bold text-cf-text mb-3">Order Summary</h3>
+        <div className="bg-[var(--theme-card)] rounded-xl border border-[var(--theme-border)] p-5">
+          <h3 className="text-sm font-bold text-[var(--theme-text)] mb-3">Order Summary</h3>
           <div className="space-y-2 text-sm">
-            <div className="flex justify-between text-[#5A6B7F]">
+            <div className="flex justify-between text-[var(--theme-text-muted)]">
               <span>Items ({items.length})</span>
-              <span className="text-cf-text font-medium">₹{subtotal.toLocaleString('en-IN')}</span>
+              <span className="text-[var(--theme-text)] font-medium">₹{subtotal.toLocaleString('en-IN')}</span>
             </div>
-            <div className="flex justify-between text-[#5A6B7F]">
+            <div className="flex justify-between text-[var(--theme-text-muted)]">
               <span>Delivery</span>
-              <span className={deliveryFee === 0 ? 'text-[#28A745] font-medium' : 'text-cf-text font-medium'}>
+              <span className={deliveryFee === 0 ? 'text-[#28A745] font-medium' : 'text-[var(--theme-text)] font-medium'}>
                 {deliveryFee === 0 ? 'FREE' : `₹${deliveryFee}`}
               </span>
             </div>
             <Separator />
-            <div className="flex justify-between font-bold text-cf-text text-base">
+            <div className="flex justify-between font-bold text-[var(--theme-text)] text-base">
               <span>Total</span>
               <span>₹{total.toLocaleString('en-IN')}</span>
             </div>
@@ -393,32 +393,32 @@ export default function CheckoutPage() {
         <div className="absolute inset-0 rounded-full bg-[#28A745]/20 animate-ping" />
       </div>
 
-      <h2 className="text-2xl font-bold text-cf-text mb-2">Order Placed Successfully!</h2>
-      <p className="text-sm text-[#5A6B7F] mb-6">
+      <h2 className="text-2xl font-bold text-[var(--theme-text)] mb-2">Order Placed Successfully!</h2>
+      <p className="text-sm text-[var(--theme-text-muted)] mb-6">
         Your order has been confirmed and will be delivered soon.
       </p>
 
-      <div className="bg-white rounded-xl border border-[#E4E7EC] p-5 mb-6">
+      <div className="bg-[var(--theme-card)] rounded-xl border border-[var(--theme-border)] p-5 mb-6">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-[#5A6B7F]">Order ID</span>
-          <span className="text-sm font-bold text-cf-text">#{orderNumber}</span>
+          <span className="text-sm text-[var(--theme-text-muted)]">Order ID</span>
+          <span className="text-sm font-bold text-[var(--theme-text)]">#{orderNumber}</span>
         </div>
         <Separator className="my-3" />
         <div className="flex items-center justify-between">
-          <span className="text-sm text-[#5A6B7F]">Total Amount</span>
+          <span className="text-sm text-[var(--theme-text-muted)]">Total Amount</span>
           <span className="text-sm font-bold text-[#28A745]">₹{total.toLocaleString('en-IN')}</span>
         </div>
         <Separator className="my-3" />
         <div className="flex items-center justify-between">
-          <span className="text-sm text-[#5A6B7F]">Payment</span>
-          <span className="text-sm font-medium text-cf-text">{paymentMethod === 'cod' ? 'Cash on Delivery' : 'UPI'}</span>
+          <span className="text-sm text-[var(--theme-text-muted)]">Payment</span>
+          <span className="text-sm font-medium text-[var(--theme-text)]">{paymentMethod === 'cod' ? 'Cash on Delivery' : 'UPI'}</span>
         </div>
       </div>
 
       <div className="flex flex-col gap-3">
         <Button
           onClick={() => navigate('profile')}
-          className="w-full h-12 bg-[#0A1B2A] hover:bg-[#0A1B2A]/90 text-white rounded-lg text-sm font-bold btn-scale"
+          className="w-full h-12 bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)]/90 text-white rounded-lg text-sm font-bold btn-scale"
         >
           <Truck className="size-4 mr-2" />
           Track Order
@@ -426,7 +426,7 @@ export default function CheckoutPage() {
         <Button
           onClick={() => navigate('shop')}
           variant="outline"
-          className="w-full h-12 border-[#E4E7EC] text-cf-text rounded-lg text-sm font-bold btn-scale"
+          className="w-full h-12 border-[var(--theme-border)] text-[var(--theme-text)] rounded-lg text-sm font-bold btn-scale"
         >
           Continue Shopping
         </Button>
@@ -442,7 +442,7 @@ export default function CheckoutPage() {
           <div className="flex items-center gap-1 mb-8 max-w-2xl mx-auto">
             <button
               onClick={currentStep > 1 ? () => setCurrentStep(currentStep - 1) : goBack}
-              className="flex items-center gap-1 text-sm text-[#5A6B7F] hover:text-cf-text transition-colors mr-4"
+              className="flex items-center gap-1 text-sm text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] transition-colors mr-4"
             >
               <ArrowLeft className="size-4" />
               <span className="hidden sm:inline">Back</span>
@@ -465,7 +465,7 @@ export default function CheckoutPage() {
                       {status === 'completed' ? <Check className="size-3.5" strokeWidth={3} /> : stepNum}
                     </div>
                     <span className={`text-[10px] mt-1.5 font-medium hidden sm:block ${
-                      status === 'active' ? 'text-[var(--theme-primary)]' : status === 'completed' ? 'text-[#28A745]' : 'text-[#5A6B7F]/50'
+                      status === 'active' ? 'text-[var(--theme-primary)]' : status === 'completed' ? 'text-[#28A745]' : 'text-[var(--theme-text-muted)]/50'
                     }`}>
                       {step}
                     </span>

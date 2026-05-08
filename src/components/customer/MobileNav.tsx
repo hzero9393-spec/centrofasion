@@ -23,7 +23,7 @@ export default function MobileNav() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-black/80 backdrop-blur-xl border-t border-white/5 pb-[env(safe-area-inset-bottom)]">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[var(--theme-card)]/90 backdrop-blur-xl border-t border-[var(--theme-border)] pb-[env(safe-area-inset-bottom)]">
       <div className="flex items-center justify-around h-14 px-2">
         {tabs.map((tab) => {
           const isActive = currentPage === tab.page;
@@ -33,7 +33,7 @@ export default function MobileNav() {
               key={tab.label}
               onClick={() => navigate(tab.page)}
               className={`relative flex flex-col items-center justify-center gap-0.5 w-full h-full transition-colors duration-200 ${
-                isActive ? 'text-white' : 'text-white/40'
+                isActive ? 'text-[var(--theme-primary)]' : 'text-[var(--theme-text-muted)]'
               }`}
             >
               {/* Active gradient indicator bar at top */}

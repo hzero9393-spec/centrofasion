@@ -146,7 +146,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         ref={cardRef}
         className={cn(
           'relative cursor-pointer rounded-2xl overflow-hidden',
-          'bg-[var(--theme-card)] border border-white/5 hover:border-white/10',
+          'bg-[var(--theme-card)] border border-[var(--theme-border)] hover:border-[var(--theme-border-subtle)]',
           'transition-[box-shadow,border-color] duration-500 cubic-bezier(0.4, 0, 0.2, 1)',
           'hover:-translate-y-2',
           'hover:shadow-[0_20px_60px_rgba(255,87,34,0.2)]'
@@ -168,7 +168,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="relative aspect-square bg-[#0A0A0A] overflow-hidden">
           {/* Loading skeleton */}
           {!imgLoaded && (
-            <div className="absolute inset-0 animate-pulse bg-white/5" />
+            <div className="absolute inset-0 animate-pulse bg-[var(--theme-surface)]" />
           )}
 
           {/* First image */}
@@ -219,7 +219,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 'size-4 transition-colors duration-200',
                 isWishlisted
                   ? 'fill-[var(--theme-secondary)] text-[var(--theme-secondary)]'
-                  : 'text-white/70 hover:text-[var(--theme-secondary)]'
+                  : 'text-[var(--theme-text)] hover:text-[var(--theme-secondary)]'
               )}
             />
           </button>
@@ -249,7 +249,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="p-4">
           {/* Brand / Category */}
           {product.category_name && (
-            <p className="text-[11px] text-white/40 uppercase tracking-wider font-medium mb-1.5">
+            <p className="text-[11px] text-[var(--theme-text-muted)] uppercase tracking-wider font-medium mb-1.5">
               {product.category_name}
             </p>
           )}
@@ -261,12 +261,12 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           {/* Price Row */}
           <div className="flex items-center gap-2 flex-wrap mb-2">
-            <span className="text-base font-bold text-white">
+            <span className="text-base font-bold text-[var(--theme-text)]">
               ₹{product.price.toLocaleString('en-IN')}
             </span>
             {product.wholesale_price && product.wholesale_price > product.price && (
               <>
-                <span className="text-sm text-white/40 line-through">
+                <span className="text-sm text-[var(--theme-text-muted)] line-through">
                   ₹{product.wholesale_price.toLocaleString('en-IN')}
                 </span>
                 {discount && discount > 0 && (
@@ -280,11 +280,11 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           {/* Rating */}
           <div className="flex items-center gap-1.5">
-            <div className="flex items-center gap-0.5 bg-white/10 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-              <Star className="size-2.5 fill-white text-white" />
+            <div className="flex items-center gap-0.5 bg-[var(--theme-surface)] text-[var(--theme-text)] text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+              <Star className="size-2.5 fill-[var(--theme-text)] text-[var(--theme-text)]" />
               <span>4.2</span>
             </div>
-            <span className="text-[11px] text-white/40">(1.2k)</span>
+            <span className="text-[11px] text-[var(--theme-text-muted)]">(1.2k)</span>
           </div>
         </div>
       </div>

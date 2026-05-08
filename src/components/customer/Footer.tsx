@@ -38,9 +38,9 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[var(--theme-card)] text-white mt-auto">
+    <footer className="bg-[var(--theme-card)] text-[var(--theme-text)] mt-auto">
       {/* Subtle top gradient border */}
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-[var(--theme-border)] to-transparent" />
 
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         {/* Grid Layout */}
@@ -55,7 +55,7 @@ export default function Footer() {
                 ClothFasion
               </span>
             </button>
-            <p className="text-sm text-white/40 mt-3 leading-relaxed max-w-[300px]">
+            <p className="text-sm text-[var(--theme-text-muted)] mt-3 leading-relaxed max-w-[300px]">
               Your one-stop destination for premium fashion. Trending styles, quality fabrics, and unbeatable prices.
             </p>
 
@@ -63,31 +63,31 @@ export default function Footer() {
             <div className="flex items-center gap-3 mt-6">
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[var(--theme-primary)] hover:to-[var(--theme-secondary)] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[var(--theme-primary)]/20"
+                className="w-10 h-10 rounded-full bg-[var(--theme-surface)] hover:bg-gradient-to-r hover:from-[var(--theme-primary)] hover:to-[var(--theme-secondary)] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[var(--theme-primary)]/20"
                 aria-label="Instagram"
               >
-                <Instagram className="size-[18px] text-white/60 hover:text-white transition-colors" />
+                <Instagram className="size-[18px] text-[var(--theme-text-muted)] hover:text-white transition-colors" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[var(--theme-primary)] hover:to-[var(--theme-secondary)] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[var(--theme-primary)]/20"
+                className="w-10 h-10 rounded-full bg-[var(--theme-surface)] hover:bg-gradient-to-r hover:from-[var(--theme-primary)] hover:to-[var(--theme-secondary)] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[var(--theme-primary)]/20"
                 aria-label="Facebook"
               >
-                <Facebook className="size-[18px] text-white/60 hover:text-white transition-colors" />
+                <Facebook className="size-[18px] text-[var(--theme-text-muted)] hover:text-white transition-colors" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[var(--theme-primary)] hover:to-[var(--theme-secondary)] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[var(--theme-primary)]/20"
+                className="w-10 h-10 rounded-full bg-[var(--theme-surface)] hover:bg-gradient-to-r hover:from-[var(--theme-primary)] hover:to-[var(--theme-secondary)] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[var(--theme-primary)]/20"
                 aria-label="Twitter"
               >
-                <Twitter className="size-[18px] text-white/60 hover:text-white transition-colors" />
+                <Twitter className="size-[18px] text-[var(--theme-text-muted)] hover:text-white transition-colors" />
               </a>
             </div>
           </div>
 
           {/* Column 2: Shop */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white/80 mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--theme-text)] mb-4">
               Shop
             </h4>
             <ul className="space-y-3">
@@ -95,7 +95,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <button
                     onClick={link.action}
-                    className="text-sm text-white/40 hover:text-white transition-colors duration-200"
+                    className="text-sm text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] transition-colors duration-200"
                   >
                     {link.label}
                   </button>
@@ -106,7 +106,7 @@ export default function Footer() {
 
           {/* Column 3: Support */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white/80 mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--theme-text)] mb-4">
               Support
             </h4>
             <ul className="space-y-3">
@@ -114,7 +114,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <button
                     onClick={link.action}
-                    className="text-sm text-white/40 hover:text-white transition-colors duration-200"
+                    className="text-sm text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] transition-colors duration-200"
                   >
                     {link.label}
                   </button>
@@ -125,7 +125,7 @@ export default function Footer() {
 
           {/* Column 4: Policies */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white/80 mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--theme-text)] mb-4">
               Policies
             </h4>
             <ul className="space-y-3">
@@ -133,7 +133,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <button
                     onClick={link.action}
-                    className="text-sm text-white/40 hover:text-white transition-colors duration-200"
+                    className="text-sm text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] transition-colors duration-200"
                   >
                     {link.label}
                   </button>
@@ -145,9 +145,9 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-white/5">
+      <div className="border-t border-[var(--theme-border)]">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/30">
+          <p className="text-xs text-[var(--theme-text-muted)]">
             © 2024 ClothFasion. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
@@ -155,7 +155,7 @@ export default function Footer() {
             <div className="relative">
               <button
                 onClick={() => setShowThemes(!showThemes)}
-                className="flex items-center gap-2 text-white/30 hover:text-white/60 transition-colors px-3 py-1.5 rounded-lg hover:bg-white/5"
+                className="flex items-center gap-2 text-[var(--theme-text-muted)] hover:text-[var(--theme-text-secondary)] transition-colors px-3 py-1.5 rounded-lg hover:bg-[var(--theme-surface)]"
               >
                 <Palette className="size-4" />
                 <span className="text-xs font-medium">Theme</span>
@@ -168,8 +168,8 @@ export default function Footer() {
                   <div className="fixed inset-0 z-40" onClick={() => setShowThemes(false)} />
 
                   {/* Theme Dropdown */}
-                  <div className="absolute bottom-full right-0 mb-2 z-50 w-[280px] rounded-2xl border border-white/[0.1] bg-[var(--theme-card)]/95 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] p-3 animate-fade-up">
-                    <p className="text-xs font-medium text-white/50 px-1 mb-2">Choose Theme</p>
+                  <div className="absolute bottom-full right-0 mb-2 z-50 w-[280px] rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-card)]/95 backdrop-blur-2xl shadow-lg p-3 animate-fade-up">
+                    <p className="text-xs font-medium text-[var(--theme-text-muted)] px-1 mb-2">Choose Theme</p>
                     <div className="grid grid-cols-4 gap-2">
                       {THEMES.map((theme) => {
                         const isActive = activeThemeId === theme.id;
@@ -177,7 +177,7 @@ export default function Footer() {
                           <button
                             key={theme.id}
                             onClick={() => { handleApplyTheme(theme.id, theme.name); setShowThemes(false); }}
-                            className={`relative group rounded-xl p-1.5 transition-all duration-200 hover:scale-105 ${isActive ? 'ring-2 ring-white/30 bg-white/10' : 'bg-white/5 hover:bg-white/10'}`}
+                            className={`relative group rounded-xl p-1.5 transition-all duration-200 hover:scale-105 ${isActive ? 'ring-2 ring-[var(--theme-primary)]/30 bg-[var(--theme-surface)]' : 'bg-[var(--theme-surface)] hover:bg-[var(--theme-surface-hover)]'}`}
                             title={theme.name}
                           >
                             <div className="grid grid-cols-2 gap-0.5">
@@ -194,7 +194,7 @@ export default function Footer() {
                                 <Check className="size-2.5 text-white" />
                               </div>
                             )}
-                            <p className="text-[9px] text-white/40 mt-1 text-center truncate group-hover:text-white/70">{theme.name}</p>
+                            <p className="text-[9px] text-[var(--theme-text-muted)] mt-1 text-center truncate group-hover:text-[var(--theme-text-secondary)]">{theme.name}</p>
                           </button>
                         );
                       })}
@@ -204,11 +204,11 @@ export default function Footer() {
               )}
             </div>
 
-            <div className="flex items-center gap-2 text-white/30 hover:text-white/50 transition-colors">
+            <div className="flex items-center gap-2 text-[var(--theme-text-muted)] hover:text-[var(--theme-text-secondary)] transition-colors">
               <CreditCard className="size-4" />
               <span className="text-xs">Secure Payments</span>
             </div>
-            <div className="flex items-center gap-2 text-white/30 hover:text-white/50 transition-colors">
+            <div className="flex items-center gap-2 text-[var(--theme-text-muted)] hover:text-[var(--theme-text-secondary)] transition-colors">
               <Truck className="size-4" />
               <span className="text-xs">Fast Delivery</span>
             </div>

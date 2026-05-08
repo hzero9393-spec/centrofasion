@@ -10,8 +10,8 @@ const emptySubscribe = () => () => {};
 function useHydrated() {
   return useSyncExternalStore(
     emptySubscribe,
-    () => true,  // Client: always hydrated
-    () => false  // Server: never hydrated
+    () => true,
+    () => false
   );
 }
 
@@ -26,12 +26,10 @@ export function HydrationGate({ children }: { children: React.ReactNode }) {
 
   if (!hydrated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black">
+      <div className="min-h-screen flex items-center justify-center bg-[var(--theme-bg)]">
         <div className="flex flex-col items-center gap-4">
-          <div className="relative">
-            <div className="w-12 h-12 rounded-full border-4 border-white/10 border-t-[var(--theme-primary,#FF5722)] animate-spin" />
-          </div>
-          <p className="text-sm font-medium text-white/50">Loading ClothFasion...</p>
+          <div className="w-10 h-10 rounded-full border-3 border-[var(--theme-border)] border-t-[var(--theme-primary)] animate-spin" />
+          <p className="text-sm font-medium text-[var(--theme-text-muted)]">Loading ClothStore...</p>
         </div>
       </div>
     );

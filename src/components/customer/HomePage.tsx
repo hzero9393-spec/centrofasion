@@ -78,28 +78,28 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="pb-20 md:pb-0 bg-black">
+    <div className="pb-20 md:pb-0 bg-[var(--theme-bg)]">
       {/* ═══════════════════════════════════════ */}
-      {/* Section 1: Hero — Cinematic Full-Screen */}
+      {/* Section 1: Hero — Luxe Minimal */}
       {/* ═══════════════════════════════════════ */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-black via-[#0A0A0A] to-[#111111]">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[var(--theme-bg)]">
         {/* Dot pattern overlay */}
-        <div className="absolute inset-0 dot-pattern opacity-40" />
+        <div className="absolute inset-0 dot-pattern opacity-20" />
 
-        {/* Decorative gradient orbs */}
-        <div className="absolute top-[10%] right-[5%] w-[500px] h-[500px] md:w-[700px] md:h-[700px] rounded-full bg-gradient-to-br from-[var(--theme-primary)]/25 to-[var(--theme-secondary)]/10 blur-[120px] animate-float pointer-events-none" />
-        <div className="absolute bottom-[10%] left-[0%] w-[400px] h-[400px] md:w-[550px] md:h-[550px] rounded-full bg-gradient-to-tr from-[var(--theme-secondary)]/20 to-[var(--theme-primary)]/5 blur-[100px] animate-float-slow pointer-events-none" />
-        <div className="absolute top-[50%] left-[40%] w-[300px] h-[300px] rounded-full bg-gradient-to-r from-[var(--theme-primary)]/10 to-[var(--theme-secondary)]/10 blur-[80px] animate-float-reverse pointer-events-none" />
+        {/* Decorative gradient orbs — theme colored */}
+        <div className="absolute top-[10%] right-[5%] w-[500px] h-[500px] md:w-[700px] md:h-[700px] rounded-full bg-gradient-to-br from-[var(--theme-primary)]/20 to-[var(--theme-secondary)]/8 blur-[120px] animate-float pointer-events-none" />
+        <div className="absolute bottom-[10%] left-[0%] w-[400px] h-[400px] md:w-[550px] md:h-[550px] rounded-full bg-gradient-to-tr from-[var(--theme-secondary)]/15 to-[var(--theme-primary)]/5 blur-[100px] animate-float-slow pointer-events-none" />
+        <div className="absolute top-[50%] left-[40%] w-[300px] h-[300px] rounded-full bg-gradient-to-r from-[var(--theme-primary)]/8 to-[var(--theme-secondary)]/8 blur-[80px] animate-float-reverse pointer-events-none" />
 
         {/* Content */}
         <div className="relative z-10 max-w-[1280px] mx-auto px-4 text-center">
-          <h1 className="animate-fade-up text-[40px] sm:text-[52px] md:text-[80px] font-bold tracking-tight text-white leading-[1.05] mb-6">
+          <h1 className="animate-fade-up text-[40px] sm:text-[52px] md:text-[80px] font-bold tracking-tight text-[var(--theme-text)] leading-[1.05] mb-6">
             Discover Your{' '}
             <span className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent">
               Style
             </span>
           </h1>
-          <p className="animate-fade-up animate-fade-up-delay-1 text-white/60 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="animate-fade-up animate-fade-up-delay-1 text-[var(--theme-text-muted)] text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
             Explore the latest trends in fashion with our curated collection.
             Premium quality, timeless design.
           </p>
@@ -107,7 +107,7 @@ export default function HomePage() {
             <Button
               onClick={() => navigate('shop')}
               size="lg"
-              className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] hover:opacity-90 text-white rounded-full px-8 py-4 text-base font-semibold shadow-[0_8px_32px_rgba(255,87,34,0.35)] transition-all duration-300 hover:shadow-[0_12px_48px_rgba(255,87,34,0.5)] hover:scale-[1.02] btn-scale"
+              className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] hover:opacity-90 text-white rounded-full px-8 py-4 text-base font-semibold shadow-[0_8px_32px_var(--theme-glow,rgba(232,93,4,0.3))] transition-all duration-300 hover:shadow-[0_12px_48px_var(--theme-glow,rgba(232,93,4,0.4))] hover:scale-[1.02] btn-scale"
             >
               Shop Now
               <ArrowRight className="ml-2 size-4" />
@@ -116,7 +116,7 @@ export default function HomePage() {
               onClick={() => navigate('shop', { sort: 'newest' })}
               variant="ghost"
               size="lg"
-              className="text-white/70 hover:text-white rounded-full px-8 py-4 text-base font-medium hover:bg-white/10 transition-all duration-300"
+              className="text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] rounded-full px-8 py-4 text-base font-medium hover:bg-[var(--theme-surface-hover)] transition-all duration-300"
             >
               New Arrivals
             </Button>
@@ -124,24 +124,24 @@ export default function HomePage() {
 
           {/* Scroll indicator */}
           <div className="animate-fade-up animate-fade-up-delay-4 mt-16 md:mt-24">
-            <div className="w-6 h-10 rounded-full border-2 border-white/20 mx-auto flex items-start justify-center p-1.5">
-              <div className="w-1 h-2.5 rounded-full bg-white/50 animate-bounce" />
+            <div className="w-6 h-10 rounded-full border-2 border-[var(--theme-border)] mx-auto flex items-start justify-center p-1.5">
+              <div className="w-1 h-2.5 rounded-full bg-[var(--theme-text-muted)] animate-bounce" />
             </div>
           </div>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════ */}
-      {/* Section 2: Category Grid — 3D Cards     */}
+      {/* Section 2: Category Grid — Themed Cards */}
       {/* ═══════════════════════════════════════ */}
-      <section className="bg-black py-16 md:py-24">
+      <section className="bg-[var(--theme-bg)] py-16 md:py-24">
         <div className="max-w-[1280px] mx-auto px-4">
           {/* Title */}
           <div className="text-center mb-10 md:mb-14">
-            <h2 className="animate-fade-up text-3xl md:text-5xl font-bold text-white tracking-tight mb-3">
+            <h2 className="animate-fade-up text-3xl md:text-5xl font-bold text-[var(--theme-text)] tracking-tight mb-3">
               Shop by Category
             </h2>
-            <p className="animate-fade-up animate-fade-up-delay-1 text-white/50 text-base md:text-lg">
+            <p className="animate-fade-up animate-fade-up-delay-1 text-[var(--theme-text-muted)] text-base md:text-lg">
               Browse our curated collections
             </p>
           </div>
@@ -151,8 +151,8 @@ export default function HomePage() {
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               {Array.from({ length: 5 }).map((_, i) => (
                 <div key={i} className="space-y-3">
-                  <Skeleton className="aspect-square rounded-2xl bg-[var(--theme-card)]" />
-                  <Skeleton className="h-4 w-16 mx-auto bg-[var(--theme-card)]" />
+                  <Skeleton className="aspect-square rounded-2xl bg-[var(--theme-surface)]" />
+                  <Skeleton className="h-4 w-16 mx-auto bg-[var(--theme-surface)]" />
                 </div>
               ))}
             </div>
@@ -168,8 +168,8 @@ export default function HomePage() {
                     ${idx === 2 ? 'animate-fade-up-delay-2' : ''}
                     ${idx === 3 ? 'animate-fade-up-delay-3' : ''}
                     ${idx === 4 ? 'animate-fade-up-delay-4' : ''}
-                    group relative bg-[var(--theme-card)] rounded-2xl overflow-hidden
-                    hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(255,87,34,0.15)]
+                    group relative bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl overflow-hidden
+                    hover:scale-[1.02] hover:shadow-[0_20px_60px_var(--theme-glow,rgba(232,93,4,0.12))]
                     transition-all duration-500 text-left
                   `}
                 >
@@ -184,10 +184,10 @@ export default function HomePage() {
                     />
                   </div>
                   <div className="p-4">
-                    <p className="text-sm font-medium text-white group-hover:text-[var(--theme-primary)] transition-colors duration-300">
+                    <p className="text-sm font-medium text-[var(--theme-text)] group-hover:text-[var(--theme-primary)] transition-colors duration-300">
                       {cat.name}
                     </p>
-                    <p className="text-xs text-white/40 mt-0.5">
+                    <p className="text-xs text-[var(--theme-text-muted)] mt-0.5">
                       {cat.product_count} items
                     </p>
                   </div>
@@ -201,14 +201,14 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════ */}
       {/* Section 3: Featured Products — Horizontal Scroll */}
       {/* ═══════════════════════════════════════════ */}
-      <section className="bg-black py-16 md:py-24">
+      <section className="bg-[var(--theme-surface)] py-16 md:py-24">
         <div className="max-w-[1280px] mx-auto px-4">
           {/* Title */}
           <div className="text-center mb-10 md:mb-14">
-            <h2 className="animate-fade-up text-3xl md:text-5xl font-bold text-white tracking-tight mb-3">
+            <h2 className="animate-fade-up text-3xl md:text-5xl font-bold text-[var(--theme-text)] tracking-tight mb-3">
               Handpicked For You
             </h2>
-            <p className="animate-fade-up animate-fade-up-delay-1 text-white/50 text-base md:text-lg">
+            <p className="animate-fade-up animate-fade-up-delay-1 text-[var(--theme-text-muted)] text-base md:text-lg">
               Our editors&apos; top picks
             </p>
           </div>
@@ -225,11 +225,11 @@ export default function HomePage() {
             </div>
           ) : featuredProducts.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-white/40 text-sm">No featured products available yet.</p>
+              <p className="text-[var(--theme-text-muted)] text-sm">No featured products available yet.</p>
             </div>
           ) : (
             <div className="relative group/featured">
-              {/* Dark card container */}
+              {/* Themed card container */}
               <div className="bg-[var(--theme-card)] rounded-3xl p-6 md:p-8">
                 <div
                   ref={scrollRef}
@@ -249,14 +249,14 @@ export default function HomePage() {
               {/* Scroll buttons */}
               <button
                 onClick={() => scrollCarousel('left')}
-                className="glass-btn absolute left-3 md:-left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white opacity-0 group-hover/featured:opacity-100 transition-opacity duration-300 z-10"
+                className="glass-btn absolute left-3 md:-left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-[var(--theme-text)] opacity-0 group-hover/featured:opacity-100 transition-opacity duration-300 z-10"
                 aria-label="Scroll left"
               >
                 <ChevronLeft className="size-5" />
               </button>
               <button
                 onClick={() => scrollCarousel('right')}
-                className="glass-btn absolute right-3 md:-right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white opacity-0 group-hover/featured:opacity-100 transition-opacity duration-300 z-10"
+                className="glass-btn absolute right-3 md:-right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-[var(--theme-text)] opacity-0 group-hover/featured:opacity-100 transition-opacity duration-300 z-10"
                 aria-label="Scroll right"
               >
                 <ChevronRight className="size-5" />
@@ -270,7 +270,7 @@ export default function HomePage() {
               <Button
                 variant="ghost"
                 onClick={() => navigate('shop', { featured: 'true' })}
-                className="text-white/60 hover:text-white text-sm font-medium hover:bg-white/10 rounded-full px-6 py-2 transition-all duration-300"
+                className="text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] text-sm font-medium hover:bg-[var(--theme-surface-hover)] rounded-full px-6 py-2 transition-all duration-300"
               >
                 View All Featured
                 <ArrowRight className="ml-1.5 size-4" />
@@ -283,9 +283,9 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════ */}
       {/* Section 4: Banner Strip                */}
       {/* ═══════════════════════════════════════ */}
-      <section className="bg-black py-6 md:py-8">
+      <section className="bg-[var(--theme-bg)] py-6 md:py-8">
         <div className="max-w-[1280px] mx-auto px-4">
-          <div className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] rounded-2xl px-6 py-5 md:py-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-8 text-center sm:text-left shadow-[0_8px_32px_rgba(255,87,34,0.25)]">
+          <div className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] rounded-2xl px-6 py-5 md:py-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-8 text-center sm:text-left shadow-[0_8px_32px_var(--theme-glow,rgba(232,93,4,0.25))]">
             <span className="text-white text-sm md:text-base font-semibold flex items-center gap-2">
               <span className="text-lg">🚚</span>
               Free Shipping on Orders Above ₹999
@@ -307,14 +307,14 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════ */}
       {/* Section 5: Trending Now Grid           */}
       {/* ═══════════════════════════════════════ */}
-      <section className="bg-black py-16 md:py-24">
+      <section className="bg-[var(--theme-bg)] py-16 md:py-24">
         <div className="max-w-[1280px] mx-auto px-4">
           {/* Title */}
           <div className="text-center mb-10 md:mb-14">
-            <h2 className="animate-fade-up text-3xl md:text-5xl font-bold text-white tracking-tight mb-3">
+            <h2 className="animate-fade-up text-3xl md:text-5xl font-bold text-[var(--theme-text)] tracking-tight mb-3">
               Trending Now
             </h2>
-            <p className="animate-fade-up animate-fade-up-delay-1 text-white/50 text-base md:text-lg">
+            <p className="animate-fade-up animate-fade-up-delay-1 text-[var(--theme-text-muted)] text-base md:text-lg">
               What&apos;s hot right now
             </p>
           </div>
@@ -331,7 +331,7 @@ export default function HomePage() {
             </div>
           ) : trendingProducts.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-white/40 text-sm">No trending products available yet.</p>
+              <p className="text-[var(--theme-text-muted)] text-sm">No trending products available yet.</p>
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
@@ -357,7 +357,7 @@ export default function HomePage() {
               <Button
                 variant="ghost"
                 onClick={() => navigate('shop', { sort: 'newest' })}
-                className="text-white/60 hover:text-white text-sm font-medium hover:bg-white/10 rounded-full px-6 py-2 transition-all duration-300"
+                className="text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] text-sm font-medium hover:bg-[var(--theme-surface-hover)] rounded-full px-6 py-2 transition-all duration-300"
               >
                 View All Trending
                 <ArrowRight className="ml-1.5 size-4" />
@@ -368,16 +368,16 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════════════════════════════════════ */}
-      {/* Section 6: Why Choose Us — 3D Floating Cards   */}
+      {/* Section 6: Why Choose Us — Themed Cards       */}
       {/* ═══════════════════════════════════════════════ */}
-      <section className="bg-gradient-to-b from-black to-[#0A0A0A] py-16 md:py-24">
+      <section className="bg-[var(--theme-surface)] py-16 md:py-24">
         <div className="max-w-[1280px] mx-auto px-4">
           {/* Title */}
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="animate-fade-up text-3xl md:text-5xl font-bold text-white tracking-tight mb-3">
+            <h2 className="animate-fade-up text-3xl md:text-5xl font-bold text-[var(--theme-text)] tracking-tight mb-3">
               Why Choose Us
             </h2>
-            <p className="animate-fade-up animate-fade-up-delay-1 text-white/50 text-base md:text-lg">
+            <p className="animate-fade-up animate-fade-up-delay-1 text-[var(--theme-text-muted)] text-base md:text-lg">
               We make shopping easy and delightful
             </p>
           </div>
@@ -392,20 +392,20 @@ export default function HomePage() {
                     animate-fade-up
                     ${idx === 1 ? 'animate-fade-up-delay-1' : ''}
                     ${idx === 2 ? 'animate-fade-up-delay-2' : ''}
-                    bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 md:p-8
-                    hover:bg-white/10 hover:-translate-y-1
+                    bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-6 md:p-8
+                    hover:bg-[var(--theme-card-hover)] hover:-translate-y-1
                     transition-all duration-300 text-center
-                    hover:shadow-[0_20px_60px_rgba(255,87,34,0.08)]
+                    hover:shadow-[0_20px_60px_var(--theme-glow,rgba(232,93,4,0.08))]
                   `}
                 >
                   {/* Icon with gradient circle */}
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--theme-primary)] to-[var(--theme-secondary)] flex items-center justify-center mx-auto mb-5 shadow-[0_8px_24px_rgba(255,87,34,0.3)]">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--theme-primary)] to-[var(--theme-secondary)] flex items-center justify-center mx-auto mb-5 shadow-[0_8px_24px_var(--theme-glow,rgba(232,93,4,0.25))]">
                     <Icon className="size-7 text-white" />
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">
+                  <h3 className="text-lg font-semibold text-[var(--theme-text)] mb-2">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-white/50 leading-relaxed">
+                  <p className="text-sm text-[var(--theme-text-muted)] leading-relaxed">
                     {item.description}
                   </p>
                 </div>

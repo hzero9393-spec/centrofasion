@@ -260,7 +260,7 @@ export default function ProfilePage() {
       <>
         <AuthModal open={authModalOpen} onOpenChange={setAuthModalOpen} />
         <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-          <p className="text-sm text-[#5A6B7F]">Please login to view your profile</p>
+          <p className="text-sm text-[var(--theme-text-muted)]">Please login to view your profile</p>
         </div>
       </>
     );
@@ -310,7 +310,7 @@ export default function ProfilePage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-24 md:pb-8">
       {/* Back */}
-      <button onClick={goBack} className="flex items-center gap-1.5 text-sm text-[#5A6B7F] hover:text-cf-text mb-6 transition-colors">
+      <button onClick={goBack} className="flex items-center gap-1.5 text-sm text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] mb-6 transition-colors">
         <ChevronLeft className="size-4" />
         Back
       </button>
@@ -324,7 +324,7 @@ export default function ProfilePage() {
               key={item.id}
               onClick={() => setActiveTab(item.id)}
               className={`shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
-                activeTab === item.id ? 'bg-[var(--theme-primary)]/10 text-[var(--theme-primary)]' : 'text-[#5A6B7F] hover:bg-[#F5F7FA]'
+                activeTab === item.id ? 'bg-[var(--theme-primary)]/10 text-[var(--theme-primary)]' : 'text-[var(--theme-text-muted)] hover:bg-[var(--theme-surface)]'
               }`}
             >
               <Icon className="size-3.5" />
@@ -337,8 +337,8 @@ export default function ProfilePage() {
       <div className="flex gap-6">
         {/* Desktop sidebar */}
         <aside className="hidden md:block w-56 shrink-0">
-          <div className="sticky top-24 bg-white rounded-xl border border-[#E4E7EC] shadow-sm overflow-hidden">
-            <div className="p-5 border-b border-[#E4E7EC]">
+          <div className="sticky top-24 bg-[var(--theme-card)] rounded-xl border border-[var(--theme-border)] shadow-sm overflow-hidden">
+            <div className="p-5 border-b border-[var(--theme-border)]">
               <div className="flex items-center gap-3">
                 <Avatar className="size-12 rounded-full">
                   <AvatarImage src={customer.avatar || undefined} />
@@ -347,8 +347,8 @@ export default function ProfilePage() {
                   </AvatarFallback>
                 </Avatar>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-cf-text truncate">{customer.first_name} {customer.last_name}</p>
-                  <p className="text-xs text-[#5A6B7F] truncate">{customer.mobile}</p>
+                  <p className="text-sm font-semibold text-[var(--theme-text)] truncate">{customer.first_name} {customer.last_name}</p>
+                  <p className="text-xs text-[var(--theme-text-muted)] truncate">{customer.mobile}</p>
                 </div>
               </div>
             </div>
@@ -360,13 +360,13 @@ export default function ProfilePage() {
                     key={item.id}
                     onClick={() => setActiveTab(item.id)}
                     className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                      activeTab === item.id ? 'bg-[var(--theme-primary)]/10 text-[var(--theme-primary)]' : 'text-[#5A6B7F] hover:bg-[#F5F7FA]'
+                      activeTab === item.id ? 'bg-[var(--theme-primary)]/10 text-[var(--theme-primary)]' : 'text-[var(--theme-text-muted)] hover:bg-[var(--theme-surface)]'
                     }`}
                   >
                     <Icon className="size-4" />
                     {item.label}
                     {item.id === 'orders' && orders.length > 0 && (
-                      <Badge variant="secondary" className="ml-auto text-[10px] px-1.5 h-5 min-w-5 flex items-center justify-center rounded-full bg-[#F5F7FA]">
+                      <Badge variant="secondary" className="ml-auto text-[10px] px-1.5 h-5 min-w-5 flex items-center justify-center rounded-full bg-[var(--theme-surface)]">
                         {orders.length}
                       </Badge>
                     )}
@@ -382,7 +382,7 @@ export default function ProfilePage() {
           {/* Dashboard Tab */}
           {activeTab === 'dashboard' && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-cf-text">Dashboard</h2>
+              <h2 className="text-xl font-bold text-[var(--theme-text)]">Dashboard</h2>
 
               {/* Stat cards */}
               <div className="grid grid-cols-3 gap-4">
@@ -391,27 +391,27 @@ export default function ProfilePage() {
                   { label: 'Returned', value: stats.returned, color: '#FFC107', bg: '#FFF8E1' },
                   { label: 'Cancelled', value: stats.cancelled, color: '#DC3545', bg: '#FFEBEE' },
                 ].map((s) => (
-                  <Card key={s.label} className="border border-[#E4E7EC]">
+                  <Card key={s.label} className="border border-[var(--theme-border)]">
                     <CardContent className="p-4 text-center">
                       <div className="w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-2" style={{ backgroundColor: s.bg }}>
                         <Package className="size-5" style={{ color: s.color }} />
                       </div>
-                      <p className="text-2xl font-bold text-cf-text">{s.value}</p>
-                      <p className="text-xs text-[#5A6B7F]">{s.label}</p>
+                      <p className="text-2xl font-bold text-[var(--theme-text)]">{s.value}</p>
+                      <p className="text-xs text-[var(--theme-text-muted)]">{s.label}</p>
                     </CardContent>
                   </Card>
                 ))}
               </div>
 
               {/* Monthly spending chart */}
-              <Card className="border border-[#E4E7EC]">
+              <Card className="border border-[var(--theme-border)]">
                 <CardContent className="p-5">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-sm font-bold text-cf-text flex items-center gap-2">
+                    <h3 className="text-sm font-bold text-[var(--theme-text)] flex items-center gap-2">
                       <TrendingUp className="size-4 text-[var(--theme-primary)]" />
                       Monthly Spending
                     </h3>
-                    <span className="text-xs text-[#5A6B7F]">Last 6 months</span>
+                    <span className="text-xs text-[var(--theme-text-muted)]">Last 6 months</span>
                   </div>
                   <div className="h-52">
                     <ResponsiveContainer width="100%" height="100%">
@@ -435,26 +435,26 @@ export default function ProfilePage() {
               </Card>
 
               {/* Recent orders */}
-              <Card className="border border-[#E4E7EC]">
+              <Card className="border border-[var(--theme-border)]">
                 <CardContent className="p-5">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-sm font-bold text-cf-text">Recent Orders</h3>
+                    <h3 className="text-sm font-bold text-[var(--theme-text)]">Recent Orders</h3>
                     <button onClick={() => setActiveTab('orders')} className="text-xs text-[var(--theme-primary)] font-medium hover:underline">View All</button>
                   </div>
                   {orders.length === 0 ? (
-                    <p className="text-sm text-[#5A6B7F]">No orders yet.</p>
+                    <p className="text-sm text-[var(--theme-text-muted)]">No orders yet.</p>
                   ) : (
                     <div className="space-y-3">
                       {orders.slice(0, 3).map((order) => (
-                        <div key={order.id} className="flex items-center justify-between py-2 border-b border-[#E4E7EC] last:border-0">
+                        <div key={order.id} className="flex items-center justify-between py-2 border-b border-[var(--theme-border)] last:border-0">
                           <div>
-                            <p className="text-sm font-medium text-cf-text">#{order.order_number}</p>
-                            <p className="text-xs text-[#5A6B7F]">
+                            <p className="text-sm font-medium text-[var(--theme-text)]">#{order.order_number}</p>
+                            <p className="text-xs text-[var(--theme-text-muted)]">
                               {new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                             </p>
                           </div>
                           <div className="text-right">
-                            <p className="text-sm font-bold text-cf-text">₹{order.total.toLocaleString('en-IN')}</p>
+                            <p className="text-sm font-bold text-[var(--theme-text)]">₹{order.total.toLocaleString('en-IN')}</p>
                             <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-md ${statusBadgeClass[order.status] || ''}`}>
                               {order.status}
                             </span>
@@ -471,7 +471,7 @@ export default function ProfilePage() {
           {/* Orders Tab */}
           {activeTab === 'orders' && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-cf-text">My Orders</h2>
+              <h2 className="text-xl font-bold text-[var(--theme-text)]">My Orders</h2>
 
               {/* Status filter */}
               <div className="flex overflow-x-auto gap-2 pb-1 scrollbar-none">
@@ -482,7 +482,7 @@ export default function ProfilePage() {
                     className={`shrink-0 px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
                       orderFilter === status
                         ? 'bg-[var(--theme-primary)] text-white'
-                        : 'bg-white text-[#5A6B7F] border border-[#E4E7EC] hover:border-[#5A6B7F]'
+                        : 'bg-[var(--theme-card)] text-[var(--theme-text-muted)] border border-[var(--theme-border)] hover:border-[#5A6B7F]'
                     }`}
                   >
                     {status}
@@ -493,31 +493,31 @@ export default function ProfilePage() {
               {filteredOrders.length === 0 ? (
                 <div className="text-center py-12">
                   <Package className="size-12 text-[#E4E7EC] mx-auto mb-3" />
-                  <p className="text-sm text-[#5A6B7F]">No orders found</p>
+                  <p className="text-sm text-[var(--theme-text-muted)]">No orders found</p>
                 </div>
               ) : (
                 <div className="space-y-3">
                   {filteredOrders.map((order) => {
                     const isExpanded = expandedOrder === order.id;
                     return (
-                      <Card key={order.id} className="border border-[#E4E7EC] overflow-hidden">
+                      <Card key={order.id} className="border border-[var(--theme-border)] overflow-hidden">
                         <CardContent className="p-0">
                           {/* Order header */}
                           <div className="p-4 sm:p-5">
                             <div className="flex items-start justify-between mb-3">
                               <div>
                                 <div className="flex items-center gap-2 flex-wrap">
-                                  <h3 className="text-sm font-bold text-cf-text">#{order.order_number}</h3>
+                                  <h3 className="text-sm font-bold text-[var(--theme-text)]">#{order.order_number}</h3>
                                   <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-md ${statusBadgeClass[order.status] || ''}`}>
                                     {order.status}
                                   </span>
                                 </div>
-                                <p className="text-xs text-[#5A6B7F] mt-1">
+                                <p className="text-xs text-[var(--theme-text-muted)] mt-1">
                                   {new Date(order.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                                 </p>
                               </div>
                               <div className="text-right">
-                                <p className="text-base font-bold text-cf-text">₹{order.total.toLocaleString('en-IN')}</p>
+                                <p className="text-base font-bold text-[var(--theme-text)]">₹{order.total.toLocaleString('en-IN')}</p>
                                 <button
                                   onClick={() => setExpandedOrder(isExpanded ? null : order.id)}
                                   className="flex items-center gap-1 text-xs text-[var(--theme-primary)] font-medium mt-1 hover:underline"
@@ -530,7 +530,7 @@ export default function ProfilePage() {
 
                             {/* Order timeline (when expanded) */}
                             {isExpanded && (
-                              <div className="mt-4 pt-4 border-t border-[#E4E7EC]">
+                              <div className="mt-4 pt-4 border-t border-[var(--theme-border)]">
                                 {order.status !== 'Cancelled' && order.status !== 'Returned' && (
                                   <div className="flex items-center justify-between mb-5 px-2">
                                     {statusSteps.map((step, i) => {
@@ -541,12 +541,12 @@ export default function ProfilePage() {
                                             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold transition-all ${
                                               st === 'completed'
                                                 ? 'bg-[#28A745] text-white'
-                                                : 'bg-[#F5F7FA] text-[#5A6B7F]/40 border border-[#E4E7EC]'
+                                                : 'bg-[var(--theme-surface)] text-[var(--theme-text-muted)]/40 border border-[var(--theme-border)]'
                                             }`}>
                                               {st === 'completed' ? <CheckCircle className="size-4" /> : i + 1}
                                             </div>
                                             <span className={`text-[10px] mt-1.5 font-medium text-center ${
-                                              st === 'completed' ? 'text-[#28A745]' : 'text-[#5A6B7F]/40'
+                                              st === 'completed' ? 'text-[#28A745]' : 'text-[var(--theme-text-muted)]/40'
                                             }`}>
                                               {step}
                                             </span>
@@ -603,20 +603,20 @@ export default function ProfilePage() {
           {/* Wishlist Tab */}
           {activeTab === 'wishlist' && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-cf-text">My Wishlist</h2>
+              <h2 className="text-xl font-bold text-[var(--theme-text)]">My Wishlist</h2>
               {wishlist.length === 0 ? (
                 <div className="text-center py-12">
                   <Heart className="size-12 text-[#E4E7EC] mx-auto mb-3" />
-                  <p className="text-sm text-[#5A6B7F] mb-3">Your wishlist is empty</p>
-                  <Button onClick={() => navigate('shop')} variant="outline" className="rounded-lg text-sm border-[#E4E7EC]">
+                  <p className="text-sm text-[var(--theme-text-muted)] mb-3">Your wishlist is empty</p>
+                  <Button onClick={() => navigate('shop')} variant="outline" className="rounded-lg text-sm border-[var(--theme-border)]">
                     Browse Products
                   </Button>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {wishlist.map((item) => (
-                    <Card key={item.id} className="border border-[#E4E7EC] overflow-hidden product-card">
-                      <div className="aspect-square bg-[#F5F7FA] relative overflow-hidden">
+                    <Card key={item.id} className="border border-[var(--theme-border)] overflow-hidden product-card">
+                      <div className="aspect-square bg-[var(--theme-surface)] relative overflow-hidden">
                         <img
                           src={item.image || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=300&fit=crop'}
                           alt={item.name}
@@ -624,8 +624,8 @@ export default function ProfilePage() {
                         />
                       </div>
                       <CardContent className="p-3">
-                        <h3 className="text-sm font-medium text-cf-text line-clamp-1">{item.name}</h3>
-                        <p className="text-sm font-bold text-cf-text mt-1">₹{item.price.toLocaleString('en-IN')}</p>
+                        <h3 className="text-sm font-medium text-[var(--theme-text)] line-clamp-1">{item.name}</h3>
+                        <p className="text-sm font-bold text-[var(--theme-text)] mt-1">₹{item.price.toLocaleString('en-IN')}</p>
                         <div className="flex gap-2 mt-3">
                           <Button
                             size="sm"
@@ -638,7 +638,7 @@ export default function ProfilePage() {
                           <Button
                             size="sm"
                             variant="outline"
-                            className="h-8 text-xs rounded-lg border-[#E4E7EC] hover:bg-red-50 hover:text-[#DC3545] hover:border-[#DC3545]"
+                            className="h-8 text-xs rounded-lg border-[var(--theme-border)] hover:bg-red-500/10 hover:text-[#DC3545] hover:border-[#DC3545]"
                             onClick={() => handleRemoveFromWishlist(item)}
                           >
                             <XCircle className="size-3" />
@@ -655,35 +655,35 @@ export default function ProfilePage() {
           {/* Returns Tab */}
           {activeTab === 'returns' && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold text-cf-text">My Returns</h2>
+              <h2 className="text-xl font-bold text-[var(--theme-text)]">My Returns</h2>
               {returns.length === 0 ? (
                 <div className="text-center py-12">
                   <RotateCcw className="size-12 text-[#E4E7EC] mx-auto mb-3" />
-                  <p className="text-sm text-[#5A6B7F]">No return requests yet</p>
+                  <p className="text-sm text-[var(--theme-text-muted)]">No return requests yet</p>
                 </div>
               ) : (
-                <Card className="border border-[#E4E7EC] overflow-hidden">
+                <Card className="border border-[var(--theme-border)] overflow-hidden">
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr className="bg-[#F5F7FA] border-b border-[#E4E7EC]">
-                          <th className="text-left py-3 px-4 font-semibold text-cf-text">Product</th>
-                          <th className="text-left py-3 px-4 font-semibold text-cf-text">Reason</th>
-                          <th className="text-left py-3 px-4 font-semibold text-cf-text">Status</th>
-                          <th className="text-left py-3 px-4 font-semibold text-cf-text">Date</th>
+                        <tr className="bg-[var(--theme-surface)] border-b border-[var(--theme-border)]">
+                          <th className="text-left py-3 px-4 font-semibold text-[var(--theme-text)]">Product</th>
+                          <th className="text-left py-3 px-4 font-semibold text-[var(--theme-text)]">Reason</th>
+                          <th className="text-left py-3 px-4 font-semibold text-[var(--theme-text)]">Status</th>
+                          <th className="text-left py-3 px-4 font-semibold text-[var(--theme-text)]">Date</th>
                         </tr>
                       </thead>
                       <tbody>
                         {returns.map((ret) => (
-                          <tr key={ret.id} className="border-b border-[#E4E7EC] last:border-0 hover:bg-[#FAFBFC]">
-                            <td className="py-3 px-4 font-medium text-cf-text">{ret.product_name}</td>
-                            <td className="py-3 px-4 text-[#5A6B7F]">{ret.reason}</td>
+                          <tr key={ret.id} className="border-b border-[var(--theme-border)] last:border-0 hover:bg-[var(--theme-surface)]">
+                            <td className="py-3 px-4 font-medium text-[var(--theme-text)]">{ret.product_name}</td>
+                            <td className="py-3 px-4 text-[var(--theme-text-muted)]">{ret.reason}</td>
                             <td className="py-3 px-4">
                               <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-md ${statusBadgeClass[ret.status] || ''}`}>
                                 {ret.status}
                               </span>
                             </td>
-                            <td className="py-3 px-4 text-[#5A6B7F]">
+                            <td className="py-3 px-4 text-[var(--theme-text-muted)]">
                               {new Date(ret.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                             </td>
                           </tr>
@@ -700,7 +700,7 @@ export default function ProfilePage() {
           {activeTab === 'personal' && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-cf-text">Personal Details</h2>
+                <h2 className="text-xl font-bold text-[var(--theme-text)]">Personal Details</h2>
                 <Button
                   variant={editMode ? 'default' : 'outline'}
                   size="sm"
@@ -715,7 +715,7 @@ export default function ProfilePage() {
               </div>
 
               {/* Avatar */}
-              <div className="flex items-center gap-4 p-5 bg-white rounded-xl border border-[#E4E7EC]">
+              <div className="flex items-center gap-4 p-5 bg-[var(--theme-card)] rounded-xl border border-[var(--theme-border)]">
                 <Avatar className="size-20 rounded-full">
                   <AvatarImage src={customer.avatar || undefined} />
                   <AvatarFallback className="bg-[var(--theme-primary)]/10 text-[var(--theme-primary)] text-xl font-semibold">
@@ -723,8 +723,8 @@ export default function ProfilePage() {
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="font-bold text-cf-text text-lg">{profileData?.first_name} {profileData?.last_name}</p>
-                  <div className="flex items-center gap-1.5 text-sm text-[#5A6B7F] mt-0.5">
+                  <p className="font-bold text-[var(--theme-text)] text-lg">{profileData?.first_name} {profileData?.last_name}</p>
+                  <div className="flex items-center gap-1.5 text-sm text-[var(--theme-text-muted)] mt-0.5">
                     <Phone className="size-3.5" />
                     {customer.mobile}
                   </div>
@@ -732,34 +732,34 @@ export default function ProfilePage() {
               </div>
 
               {/* Form */}
-              <Card className="border border-[#E4E7EC]">
+              <Card className="border border-[var(--theme-border)]">
                 <CardContent className="p-5 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label className="text-sm font-medium text-cf-text mb-1.5 block">First Name</Label>
-                      <Input value={editForm.first_name} onChange={(e) => setEditForm({ ...editForm, first_name: e.target.value })} disabled={!editMode} className="h-10 rounded-lg border-[#E4E7EC]" />
+                      <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">First Name</Label>
+                      <Input value={editForm.first_name} onChange={(e) => setEditForm({ ...editForm, first_name: e.target.value })} disabled={!editMode} className="h-10 rounded-lg border-[var(--theme-border)]" />
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-cf-text mb-1.5 block">Last Name</Label>
-                      <Input value={editForm.last_name} onChange={(e) => setEditForm({ ...editForm, last_name: e.target.value })} disabled={!editMode} className="h-10 rounded-lg border-[#E4E7EC]" />
+                      <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">Last Name</Label>
+                      <Input value={editForm.last_name} onChange={(e) => setEditForm({ ...editForm, last_name: e.target.value })} disabled={!editMode} className="h-10 rounded-lg border-[var(--theme-border)]" />
                     </div>
                   </div>
                   <div>
-                    <Label className="text-sm font-medium text-cf-text mb-1.5 block">Mobile Number</Label>
-                    <Input value={customer.mobile} disabled className="h-10 rounded-lg bg-[#F5F7FA] border-[#E4E7EC]" />
+                    <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">Mobile Number</Label>
+                    <Input value={customer.mobile} disabled className="h-10 rounded-lg bg-[var(--theme-surface)] border-[var(--theme-border)]" />
                   </div>
                   <div>
-                    <Label className="text-sm font-medium text-cf-text mb-1.5 block">Address</Label>
-                    <Input value={editForm.address} onChange={(e) => setEditForm({ ...editForm, address: e.target.value })} disabled={!editMode} placeholder="Enter your address" className="h-10 rounded-lg border-[#E4E7EC]" />
+                    <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">Address</Label>
+                    <Input value={editForm.address} onChange={(e) => setEditForm({ ...editForm, address: e.target.value })} disabled={!editMode} placeholder="Enter your address" className="h-10 rounded-lg border-[var(--theme-border)]" />
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label className="text-sm font-medium text-cf-text mb-1.5 block">Pincode</Label>
-                      <Input value={editForm.pincode} onChange={(e) => setEditForm({ ...editForm, pincode: e.target.value.replace(/\D/g, '').slice(0, 6) })} disabled={!editMode} placeholder="6-digit pincode" className="h-10 rounded-lg border-[#E4E7EC]" maxLength={6} />
+                      <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">Pincode</Label>
+                      <Input value={editForm.pincode} onChange={(e) => setEditForm({ ...editForm, pincode: e.target.value.replace(/\D/g, '').slice(0, 6) })} disabled={!editMode} placeholder="6-digit pincode" className="h-10 rounded-lg border-[var(--theme-border)]" maxLength={6} />
                     </div>
                     <div>
-                      <Label className="text-sm font-medium text-cf-text mb-1.5 block">Nearby Landmark</Label>
-                      <Input value={editForm.nearby_area} onChange={(e) => setEditForm({ ...editForm, nearby_area: e.target.value })} disabled={!editMode} placeholder="Nearby area" className="h-10 rounded-lg border-[#E4E7EC]" />
+                      <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">Nearby Landmark</Label>
+                      <Input value={editForm.nearby_area} onChange={(e) => setEditForm({ ...editForm, nearby_area: e.target.value })} disabled={!editMode} placeholder="Nearby area" className="h-10 rounded-lg border-[var(--theme-border)]" />
                     </div>
                   </div>
                   {editMode && (
@@ -772,19 +772,19 @@ export default function ProfilePage() {
               </Card>
 
               {/* Change PIN */}
-              <Card className="border border-[#E4E7EC]">
+              <Card className="border border-[var(--theme-border)]">
                 <CardContent className="p-5">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-[#F5F7FA] flex items-center justify-center">
-                        <Shield className="size-5 text-[#5A6B7F]" />
+                      <div className="w-10 h-10 rounded-xl bg-[var(--theme-surface)] flex items-center justify-center">
+                        <Shield className="size-5 text-[var(--theme-text-muted)]" />
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-cf-text">Change PIN</p>
-                        <p className="text-xs text-[#5A6B7F]">Update your 6-digit login PIN</p>
+                        <p className="text-sm font-semibold text-[var(--theme-text)]">Change PIN</p>
+                        <p className="text-xs text-[var(--theme-text-muted)]">Update your 6-digit login PIN</p>
                       </div>
                     </div>
-                    <Button variant="outline" size="sm" className="rounded-lg text-sm border-[#E4E7EC]" onClick={() => setChangePinOpen(true)}>
+                    <Button variant="outline" size="sm" className="rounded-lg text-sm border-[var(--theme-border)]" onClick={() => setChangePinOpen(true)}>
                       Change
                     </Button>
                   </div>
@@ -796,33 +796,33 @@ export default function ProfilePage() {
            {/* Settings Tab */}
            {activeTab === 'settings' && (
              <div className="space-y-6">
-               <h2 className="text-xl font-bold text-cf-text">Settings</h2>
-               <Card className="border border-[#E4E7EC]">
+               <h2 className="text-xl font-bold text-[var(--theme-text)]">Settings</h2>
+               <Card className="border border-[var(--theme-border)]">
                  <CardContent className="p-5 space-y-4">
                    <div className="flex items-center justify-between py-2">
                      <div>
-                       <p className="text-sm font-semibold text-cf-text">Account</p>
-                       <p className="text-xs text-[#5A6B7F]">Manage your account settings</p>
+                       <p className="text-sm font-semibold text-[var(--theme-text)]">Account</p>
+                       <p className="text-xs text-[var(--theme-text-muted)]">Manage your account settings</p>
                      </div>
-                     <User className="size-5 text-[#5A6B7F]" />
+                     <User className="size-5 text-[var(--theme-text-muted)]" />
                    </div>
                    <div className="h-px bg-[#E4E7EC]" />
                    <div className="flex items-center justify-between py-2">
                      <div>
-                       <p className="text-sm font-semibold text-cf-text">Notifications</p>
-                       <p className="text-xs text-[#5A6B7F]">Notification preferences</p>
+                       <p className="text-sm font-semibold text-[var(--theme-text)]">Notifications</p>
+                       <p className="text-xs text-[var(--theme-text-muted)]">Notification preferences</p>
                      </div>
                    </div>
                    <div className="h-px bg-[#E4E7EC]" />
                    <div className="flex items-center justify-between py-2">
                      <div>
-                       <p className="text-sm font-semibold text-[#5A6B7F]">App Version</p>
-                       <p className="text-xs text-[#5A6B7F]/60">v1.0.0</p>
+                       <p className="text-sm font-semibold text-[var(--theme-text-muted)]">App Version</p>
+                       <p className="text-xs text-[var(--theme-text-muted)]/60">v1.0.0</p>
                      </div>
                    </div>
                    <div className="h-px bg-[#E4E7EC]" />
                    <div className="space-y-3">
-                     <p className="text-sm font-semibold text-cf-text mb-2">Theme</p>
+                     <p className="text-sm font-semibold text-[var(--theme-text)] mb-2">Theme</p>
                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
                        {THEMES.map((theme) => (
                          <button
@@ -870,16 +870,16 @@ export default function ProfilePage() {
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label className="text-sm font-medium text-cf-text mb-2 block">Reason for Return</Label>
+              <Label className="text-sm font-medium text-[var(--theme-text)] mb-2 block">Reason for Return</Label>
               <textarea
                 value={returnReason}
                 onChange={(e) => setReturnReason(e.target.value)}
                 placeholder="Describe the reason for your return..."
-                className="w-full min-h-[100px] p-3 text-sm rounded-lg border border-[#E4E7EC] bg-[#F5F7FA] focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)] focus:border-transparent resize-none"
+                className="w-full min-h-[100px] p-3 text-sm rounded-lg border border-[var(--theme-border)] bg-[var(--theme-surface)] focus:outline-none focus:ring-2 focus:ring-[var(--theme-primary)] focus:border-transparent resize-none"
               />
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setReturnDialogOpen(false)} className="flex-1 rounded-lg border-[#E4E7EC]">Cancel</Button>
+              <Button variant="outline" onClick={() => setReturnDialogOpen(false)} className="flex-1 rounded-lg border-[var(--theme-border)]">Cancel</Button>
               <Button onClick={handleReturn} disabled={saving} className="flex-1 bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)] text-white rounded-lg font-bold">
                 {saving ? <Loader2 className="size-4 animate-spin" /> : 'Submit Return'}
               </Button>
@@ -896,16 +896,16 @@ export default function ProfilePage() {
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label className="text-sm font-medium text-cf-text mb-1.5 block">Current PIN</Label>
-              <Input type="password" value={pinForm.oldPin} onChange={(e) => setPinForm({ ...pinForm, oldPin: e.target.value.replace(/\D/g, '').slice(0, 6) })} placeholder="Enter current PIN" className="h-10 rounded-lg border-[#E4E7EC]" maxLength={6} />
+              <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">Current PIN</Label>
+              <Input type="password" value={pinForm.oldPin} onChange={(e) => setPinForm({ ...pinForm, oldPin: e.target.value.replace(/\D/g, '').slice(0, 6) })} placeholder="Enter current PIN" className="h-10 rounded-lg border-[var(--theme-border)]" maxLength={6} />
             </div>
             <div>
-              <Label className="text-sm font-medium text-cf-text mb-1.5 block">New PIN</Label>
-              <Input type="password" value={pinForm.newPin} onChange={(e) => setPinForm({ ...pinForm, newPin: e.target.value.replace(/\D/g, '').slice(0, 6) })} placeholder="Enter new 6-digit PIN" className="h-10 rounded-lg border-[#E4E7EC]" maxLength={6} />
+              <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">New PIN</Label>
+              <Input type="password" value={pinForm.newPin} onChange={(e) => setPinForm({ ...pinForm, newPin: e.target.value.replace(/\D/g, '').slice(0, 6) })} placeholder="Enter new 6-digit PIN" className="h-10 rounded-lg border-[var(--theme-border)]" maxLength={6} />
             </div>
             <div>
-              <Label className="text-sm font-medium text-cf-text mb-1.5 block">Confirm New PIN</Label>
-              <Input type="password" value={pinForm.confirmPin} onChange={(e) => setPinForm({ ...pinForm, confirmPin: e.target.value.replace(/\D/g, '').slice(0, 6) })} placeholder="Confirm new PIN" className="h-10 rounded-lg border-[#E4E7EC]" maxLength={6} />
+              <Label className="text-sm font-medium text-[var(--theme-text)] mb-1.5 block">Confirm New PIN</Label>
+              <Input type="password" value={pinForm.confirmPin} onChange={(e) => setPinForm({ ...pinForm, confirmPin: e.target.value.replace(/\D/g, '').slice(0, 6) })} placeholder="Confirm new PIN" className="h-10 rounded-lg border-[var(--theme-border)]" maxLength={6} />
             </div>
             <Button onClick={handleChangePin} disabled={saving} className="w-full bg-[var(--theme-primary)] hover:bg-[var(--theme-primary)] text-white rounded-lg font-bold">
               {saving ? <Loader2 className="size-4 animate-spin" /> : 'Change PIN'}

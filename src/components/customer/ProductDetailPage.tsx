@@ -186,8 +186,8 @@ export default function ProductDetailPage() {
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 text-center">
-        <h2 className="text-xl font-bold text-cf-text mb-2">Product not found</h2>
-        <p className="text-[#5A6B7F] mb-4">The product you&apos;re looking for doesn&apos;t exist.</p>
+        <h2 className="text-xl font-bold text-[var(--theme-text)] mb-2">Product not found</h2>
+        <p className="text-[var(--theme-text-muted)] mb-4">The product you&apos;re looking for doesn&apos;t exist.</p>
         <Button onClick={() => goBack()}>Go Back</Button>
       </div>
     );
@@ -198,17 +198,17 @@ export default function ProductDetailPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-24 md:pb-8">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-[#5A6B7F] mb-6 flex-wrap">
-        <button onClick={() => navigate('home')} className="hover:text-cf-text transition-colors">Home</button>
+      <nav className="flex items-center gap-2 text-sm text-[var(--theme-text-muted)] mb-6 flex-wrap">
+        <button onClick={() => navigate('home')} className="hover:text-[var(--theme-text)] transition-colors">Home</button>
         <span>/</span>
         <button
           onClick={() => navigate('shop', { category: product.category_slug || '' })}
-          className="hover:text-cf-text transition-colors"
+          className="hover:text-[var(--theme-text)] transition-colors"
         >
           {product.category_name || 'Category'}
         </button>
         <span>/</span>
-        <span className="text-cf-text font-medium truncate max-w-[200px]">{product.name}</span>
+        <span className="text-[var(--theme-text)] font-medium truncate max-w-[200px]">{product.name}</span>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
@@ -216,7 +216,7 @@ export default function ProductDetailPage() {
         <div className="space-y-4">
           {/* Main image */}
           <div
-            className="aspect-square rounded-xl overflow-hidden bg-gray-100 cursor-zoom-in relative"
+            className="aspect-square rounded-xl overflow-hidden bg-[var(--theme-surface)] cursor-zoom-in relative"
             onClick={() => setLightboxOpen(true)}
           >
             <img
@@ -237,7 +237,7 @@ export default function ProductDetailPage() {
                   key={i}
                   onClick={() => setSelectedImage(i)}
                   className={`shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
-                    selectedImage === i ? 'border-[var(--theme-primary)] ring-2 ring-[var(--theme-primary)]/20' : 'border-[#E4E7EC]'
+                    selectedImage === i ? 'border-[var(--theme-primary)] ring-2 ring-[var(--theme-primary)]/20' : 'border-[var(--theme-border)]'
                   }`}
                 >
                   <img src={img} alt="" className="w-full h-full object-cover" />
@@ -247,7 +247,7 @@ export default function ProductDetailPage() {
           )}
 
           {/* Share button */}
-          <button onClick={handleShare} className="flex items-center gap-2 text-sm text-[#5A6B7F] hover:text-cf-text transition-colors">
+          <button onClick={handleShare} className="flex items-center gap-2 text-sm text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] transition-colors">
             <Share2 className="size-4" />
             Share this product
           </button>
@@ -256,7 +256,7 @@ export default function ProductDetailPage() {
         {/* Right column - Details */}
         <div className="space-y-5">
           {/* Product name */}
-          <h1 className="text-2xl lg:text-3xl font-bold text-cf-text leading-tight">
+          <h1 className="text-2xl lg:text-3xl font-bold text-[var(--theme-text)] leading-tight">
             {product.name}
           </h1>
 
@@ -265,25 +265,25 @@ export default function ProductDetailPage() {
             <div className="flex items-center gap-1 bg-[#28A745] text-white px-2.5 py-0.5 rounded-md text-sm font-semibold">
               4.2 <Star className="size-3.5 fill-white" />
             </div>
-            <span className="text-sm text-[#5A6B7F]">1,234 ratings</span>
+            <span className="text-sm text-[var(--theme-text-muted)]">1,234 ratings</span>
             <span className="text-sm text-[#28A745] font-medium">5K+ sold</span>
           </div>
 
           {/* Price */}
           <div className="flex items-end gap-3 flex-wrap">
-            <span className="text-3xl font-bold text-cf-text">
+            <span className="text-3xl font-bold text-[var(--theme-text)]">
               ₹{product.price.toLocaleString('en-IN')}
             </span>
             {product.wholesale_price && product.wholesale_price > product.price && (
               <>
-                <span className="text-lg text-[#5A6B7F] line-through">
+                <span className="text-lg text-[var(--theme-text-muted)] line-through">
                   ₹{product.wholesale_price.toLocaleString('en-IN')}
                 </span>
                 <span className="discount-tag text-sm px-3 py-1">{discount}% off</span>
               </>
             )}
           </div>
-          <p className="text-xs text-[#5A6B7F]">Inclusive of all taxes</p>
+          <p className="text-xs text-[var(--theme-text-muted)]">Inclusive of all taxes</p>
 
           <Separator />
 
@@ -291,7 +291,7 @@ export default function ProductDetailPage() {
           {product.sizes.length > 0 && (
             <div>
               <div className="flex items-center justify-between mb-3">
-                <Label className="text-sm font-bold text-cf-text">Select Size</Label>
+                <Label className="text-sm font-bold text-[var(--theme-text)]">Select Size</Label>
                 <button className="text-sm text-[var(--theme-primary)] font-medium hover:underline">Size Chart</button>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -302,7 +302,7 @@ export default function ProductDetailPage() {
                     className={`min-w-[52px] h-10 px-4 rounded-lg text-sm font-medium border-2 transition-all ${
                       selectedSize === size
                         ? 'bg-[var(--theme-primary)] text-white border-[var(--theme-primary)]'
-                        : 'bg-white text-cf-text border-[#E4E7EC] hover:border-[#5A6B7F]'
+                        : 'bg-[var(--theme-card)] text-[var(--theme-text)] border-[var(--theme-border)] hover:border-[var(--theme-border)]'
                     }`}
                   >
                     {size}
@@ -315,7 +315,7 @@ export default function ProductDetailPage() {
           {/* Colour selector */}
           {product.colors.length > 0 && (
             <div>
-              <Label className="text-sm font-bold text-cf-text mb-3 block">Select Colour</Label>
+              <Label className="text-sm font-bold text-[var(--theme-text)] mb-3 block">Select Colour</Label>
               <div className="flex flex-wrap gap-3 items-center">
                 {product.colors.map((color) => (
                   <div key={color} className="flex flex-col items-center gap-1.5">
@@ -325,13 +325,13 @@ export default function ProductDetailPage() {
                       className={`w-10 h-10 rounded-full border-2 transition-all flex items-center justify-center ${
                         selectedColor === color
                           ? 'ring-2 ring-[var(--theme-primary)] ring-offset-2 border-[var(--theme-primary)]'
-                          : 'border-[#E4E7EC] hover:border-[#5A6B7F]'
+                          : 'border-[var(--theme-border)] hover:border-[var(--theme-border)]'
                       } ${color.toLowerCase() === 'white' ? 'shadow-sm' : ''}`}
                       style={{ backgroundColor: colorMap[color.toLowerCase()] || color }}
                     >
                       {selectedColor === color && <div className="w-2.5 h-2.5 rounded-full bg-white/80" />}
                     </button>
-                    <span className="text-[10px] text-[#5A6B7F] max-w-[50px] truncate">{color}</span>
+                    <span className="text-[10px] text-[var(--theme-text-muted)] max-w-[50px] truncate">{color}</span>
                   </div>
                 ))}
               </div>
@@ -340,19 +340,19 @@ export default function ProductDetailPage() {
 
           {/* Quantity */}
           <div>
-            <Label className="text-sm font-bold text-cf-text mb-3 block">Quantity</Label>
+            <Label className="text-sm font-bold text-[var(--theme-text)] mb-3 block">Quantity</Label>
             <div className="flex items-center gap-3">
-              <div className="flex items-center border border-[#E4E7EC] rounded-lg overflow-hidden">
+              <div className="flex items-center border border-[var(--theme-border)] rounded-lg overflow-hidden">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 transition-colors text-cf-text"
+                  className="w-10 h-10 flex items-center justify-center hover:bg-[var(--theme-surface)] transition-colors text-[var(--theme-text)]"
                 >
                   <Minus className="size-4" />
                 </button>
                 <span className="text-sm font-semibold w-12 text-center">{quantity}</span>
                 <button
                   onClick={() => setQuantity(Math.min(10, quantity + 1))}
-                  className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 transition-colors text-cf-text"
+                  className="w-10 h-10 flex items-center justify-center hover:bg-[var(--theme-surface)] transition-colors text-[var(--theme-text)]"
                 >
                   <Plus className="size-4" />
                 </button>
@@ -366,8 +366,8 @@ export default function ProductDetailPage() {
           <Separator />
 
           {/* Bank Offers */}
-          <div className="bg-[#FFF8F5] rounded-xl p-4 border border-[#FFE0D6]">
-            <h4 className="flex items-center gap-2 text-sm font-bold text-cf-text mb-3">
+          <div className="bg-[var(--theme-surface)] rounded-xl p-4 border border-[var(--theme-border)]">
+            <h4 className="flex items-center gap-2 text-sm font-bold text-[var(--theme-text)] mb-3">
               <Tag className="size-4 text-[var(--theme-primary)]" />
               Bank Offers
             </h4>
@@ -375,7 +375,7 @@ export default function ProductDetailPage() {
               {BANK_OFFERS.map((offer, i) => (
                 <div key={i} className="flex items-start gap-2">
                   <Tag className="size-3.5 text-[#28A745] shrink-0 mt-0.5" />
-                  <p className="text-xs text-[#5A6B7F] leading-relaxed">{offer}</p>
+                  <p className="text-xs text-[var(--theme-text-muted)] leading-relaxed">{offer}</p>
                 </div>
               ))}
             </div>
@@ -401,7 +401,7 @@ export default function ProductDetailPage() {
             </Button>
             <button
               onClick={toggleWishlist}
-              className="flex items-center justify-center gap-2 text-sm text-[#5A6B7F] hover:text-[var(--theme-primary)] transition-colors py-2"
+              className="flex items-center justify-center gap-2 text-sm text-[var(--theme-text-muted)] hover:text-[var(--theme-primary)] transition-colors py-2"
             >
               <Heart className={`size-4 ${isWishlisted ? 'fill-[#DC3545] text-[#DC3545]' : ''}`} />
               {isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}
@@ -409,10 +409,10 @@ export default function ProductDetailPage() {
           </div>
 
           {/* Delivery check */}
-          <div className="bg-white rounded-xl p-4 border border-[#E4E7EC]">
+          <div className="bg-[var(--theme-card)] rounded-xl p-4 border border-[var(--theme-border)]">
             <div className="flex items-center gap-2 mb-3">
               <MapPin className="size-4 text-[var(--theme-primary)]" />
-              <span className="text-sm font-bold text-cf-text">Delivery Check</span>
+              <span className="text-sm font-bold text-[var(--theme-text)]">Delivery Check</span>
             </div>
             <div className="flex gap-2">
               <Input
@@ -437,17 +437,17 @@ export default function ProductDetailPage() {
 
           {/* Benefits row */}
           <div className="grid grid-cols-3 gap-3">
-            <div className="text-center p-3 rounded-lg bg-[#F5F7FA]">
+            <div className="text-center p-3 rounded-lg bg-[var(--theme-surface)]">
               <Truck className="size-5 mx-auto text-[var(--theme-primary)] mb-1.5" />
-              <p className="text-[11px] text-[#5A6B7F] font-medium">Free Shipping</p>
+              <p className="text-[11px] text-[var(--theme-text-muted)] font-medium">Free Shipping</p>
             </div>
-            <div className="text-center p-3 rounded-lg bg-[#F5F7FA]">
+            <div className="text-center p-3 rounded-lg bg-[var(--theme-surface)]">
               <RotateCcw className="size-5 mx-auto text-[var(--theme-primary)] mb-1.5" />
-              <p className="text-[11px] text-[#5A6B7F] font-medium">Easy Returns</p>
+              <p className="text-[11px] text-[var(--theme-text-muted)] font-medium">Easy Returns</p>
             </div>
-            <div className="text-center p-3 rounded-lg bg-[#F5F7FA]">
+            <div className="text-center p-3 rounded-lg bg-[var(--theme-surface)]">
               <ShieldCheck className="size-5 mx-auto text-[var(--theme-primary)] mb-1.5" />
-              <p className="text-[11px] text-[#5A6B7F] font-medium">Secure Pay</p>
+              <p className="text-[11px] text-[var(--theme-text-muted)] font-medium">Secure Pay</p>
             </div>
           </div>
         </div>
@@ -456,57 +456,57 @@ export default function ProductDetailPage() {
       {/* Tabs */}
       <div className="mt-8">
         <Tabs defaultValue="details">
-          <TabsList className="w-full justify-start border-b border-[#E4E7EC] bg-transparent rounded-none h-auto p-0">
+          <TabsList className="w-full justify-start border-b border-[var(--theme-border)] bg-transparent rounded-none h-auto p-0">
             <TabsTrigger
               value="details"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-[var(--theme-primary)] data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3 text-sm font-semibold text-[#5A6B7F] data-[state=active]:text-[var(--theme-primary)]"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-[var(--theme-primary)] data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3 text-sm font-semibold text-[var(--theme-text-muted)] data-[state=active]:text-[var(--theme-primary)]"
             >
               Product Details
             </TabsTrigger>
             <TabsTrigger
               value="sizechart"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-[var(--theme-primary)] data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3 text-sm font-semibold text-[#5A6B7F] data-[state=active]:text-[var(--theme-primary)]"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-[var(--theme-primary)] data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3 text-sm font-semibold text-[var(--theme-text-muted)] data-[state=active]:text-[var(--theme-primary)]"
             >
               Size Chart
             </TabsTrigger>
             <TabsTrigger
               value="returns"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-[var(--theme-primary)] data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3 text-sm font-semibold text-[#5A6B7F] data-[state=active]:text-[var(--theme-primary)]"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-[var(--theme-primary)] data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3 text-sm font-semibold text-[var(--theme-text-muted)] data-[state=active]:text-[var(--theme-primary)]"
             >
               Return Policy
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="details" className="mt-6">
-            <div className="bg-white rounded-xl border border-[#E4E7EC] p-6">
-              <h3 className="font-bold text-cf-text mb-3">Product Description</h3>
-              <p className="text-sm text-[#5A6B7F] leading-relaxed whitespace-pre-line">
+            <div className="bg-[var(--theme-card)] rounded-xl border border-[var(--theme-border)] p-6">
+              <h3 className="font-bold text-[var(--theme-text)] mb-3">Product Description</h3>
+              <p className="text-sm text-[var(--theme-text-muted)] leading-relaxed whitespace-pre-line">
                 {product.description || 'This premium quality product from ClothFasion is crafted with the finest materials for comfort and style. Perfect for everyday wear, this versatile piece can be dressed up or down for any occasion.\n\nKey Features:\n• Premium fabric quality\n• Comfortable fit\n• Durable stitching\n• Machine washable\n• Available in multiple sizes and colors'}
               </p>
             </div>
           </TabsContent>
 
           <TabsContent value="sizechart" className="mt-6">
-            <div className="bg-white rounded-xl border border-[#E4E7EC] p-6 overflow-x-auto">
-              <h3 className="font-bold text-cf-text mb-4">Size Chart (in inches)</h3>
+            <div className="bg-[var(--theme-card)] rounded-xl border border-[var(--theme-border)] p-6 overflow-x-auto">
+              <h3 className="font-bold text-[var(--theme-text)] mb-4">Size Chart (in inches)</h3>
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-[#E4E7EC]">
-                    <th className="text-left py-3 px-4 font-bold text-cf-text">Size</th>
-                    <th className="text-left py-3 px-4 font-bold text-cf-text">Chest</th>
-                    <th className="text-left py-3 px-4 font-bold text-cf-text">Waist</th>
-                    <th className="text-left py-3 px-4 font-bold text-cf-text">Length</th>
-                    <th className="text-left py-3 px-4 font-bold text-cf-text">Shoulder</th>
+                  <tr className="border-b border-[var(--theme-border)]">
+                    <th className="text-left py-3 px-4 font-bold text-[var(--theme-text)]">Size</th>
+                    <th className="text-left py-3 px-4 font-bold text-[var(--theme-text)]">Chest</th>
+                    <th className="text-left py-3 px-4 font-bold text-[var(--theme-text)]">Waist</th>
+                    <th className="text-left py-3 px-4 font-bold text-[var(--theme-text)]">Length</th>
+                    <th className="text-left py-3 px-4 font-bold text-[var(--theme-text)]">Shoulder</th>
                   </tr>
                 </thead>
                 <tbody>
                   {SIZE_CHART.map((row) => (
-                    <tr key={row.size} className="border-b border-[#E4E7EC] last:border-0 hover:bg-[#F5F7FA]">
-                      <td className="py-3 px-4 font-semibold text-cf-text">{row.size}</td>
-                      <td className="py-3 px-4 text-[#5A6B7F]">{row.chest}&quot;</td>
-                      <td className="py-3 px-4 text-[#5A6B7F]">{row.waist}&quot;</td>
-                      <td className="py-3 px-4 text-[#5A6B7F]">{row.length}&quot;</td>
-                      <td className="py-3 px-4 text-[#5A6B7F]">{row.shoulder}&quot;</td>
+                    <tr key={row.size} className="border-b border-[var(--theme-border)] last:border-0 hover:bg-[var(--theme-surface)]">
+                      <td className="py-3 px-4 font-semibold text-[var(--theme-text)]">{row.size}</td>
+                      <td className="py-3 px-4 text-[var(--theme-text-muted)]">{row.chest}&quot;</td>
+                      <td className="py-3 px-4 text-[var(--theme-text-muted)]">{row.waist}&quot;</td>
+                      <td className="py-3 px-4 text-[var(--theme-text-muted)]">{row.length}&quot;</td>
+                      <td className="py-3 px-4 text-[var(--theme-text-muted)]">{row.shoulder}&quot;</td>
                     </tr>
                   ))}
                 </tbody>
@@ -515,12 +515,12 @@ export default function ProductDetailPage() {
           </TabsContent>
 
           <TabsContent value="returns" className="mt-6">
-            <div className="bg-white rounded-xl border border-[#E4E7EC] p-6">
+            <div className="bg-[var(--theme-card)] rounded-xl border border-[var(--theme-border)] p-6">
               <div className="flex items-start gap-3 mb-4">
                 <RotateCcw className="size-5 text-[#28A745] shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="font-bold text-cf-text mb-1">7 Days Easy Return Policy</h3>
-                  <p className="text-sm text-[#5A6B7F] leading-relaxed">
+                  <h3 className="font-bold text-[var(--theme-text)] mb-1">7 Days Easy Return Policy</h3>
+                  <p className="text-sm text-[var(--theme-text-muted)] leading-relaxed">
                     You can return this product within 7 days of delivery if it is defective, damaged, or different from what was ordered.
                   </p>
                 </div>
@@ -528,19 +528,19 @@ export default function ProductDetailPage() {
               <div className="space-y-3 ml-8">
                 <div className="flex items-start gap-2">
                   <CheckCircle className="size-4 text-[#28A745] shrink-0 mt-0.5" />
-                  <p className="text-sm text-[#5A6B7F]">Easy return process through ClothFasion app or website</p>
+                  <p className="text-sm text-[var(--theme-text-muted)]">Easy return process through ClothFasion app or website</p>
                 </div>
                 <div className="flex items-start gap-2">
                   <CheckCircle className="size-4 text-[#28A745] shrink-0 mt-0.5" />
-                  <p className="text-sm text-[#5A6B7F]">Pickup available from your doorstep</p>
+                  <p className="text-sm text-[var(--theme-text-muted)]">Pickup available from your doorstep</p>
                 </div>
                 <div className="flex items-start gap-2">
                   <CheckCircle className="size-4 text-[#28A745] shrink-0 mt-0.5" />
-                  <p className="text-sm text-[#5A6B7F]">Refund processed within 5-7 business days</p>
+                  <p className="text-sm text-[var(--theme-text-muted)]">Refund processed within 5-7 business days</p>
                 </div>
                 <div className="flex items-start gap-2">
                   <CheckCircle className="size-4 text-[#28A745] shrink-0 mt-0.5" />
-                  <p className="text-sm text-[#5A6B7F]">Items must be unused with original tags intact</p>
+                  <p className="text-sm text-[var(--theme-text-muted)]">Items must be unused with original tags intact</p>
                 </div>
               </div>
             </div>

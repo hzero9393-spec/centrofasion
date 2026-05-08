@@ -49,7 +49,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-black">
+    <div className="min-h-screen flex flex-col bg-[var(--theme-bg)]">
       <Header />
       <main className="flex-1 pb-16 md:pb-0">
         {renderCustomerPage()}

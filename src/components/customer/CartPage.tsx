@@ -40,11 +40,11 @@ export default function CartPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24 text-center">
         <div className="max-w-sm mx-auto">
-          <div className="w-28 h-28 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-6">
-            <ShoppingBag className="size-14 text-white/30" />
+          <div className="w-28 h-28 rounded-full bg-[var(--theme-surface)] flex items-center justify-center mx-auto mb-6">
+            <ShoppingBag className="size-14 text-[var(--theme-text-muted)]" />
           </div>
-          <h2 className="text-xl font-bold text-cf-text mb-2">Your cart is empty</h2>
-          <p className="text-sm text-white/50 mb-6">
+          <h2 className="text-xl font-bold text-[var(--theme-text)] mb-2">Your cart is empty</h2>
+          <p className="text-sm text-[var(--theme-text-muted)] mb-6">
             Looks like you haven&apos;t added anything to your cart yet. Browse our collection and find something you love!
           </p>
           <Button
@@ -63,9 +63,9 @@ export default function CartPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-24 md:pb-8">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-xl md:text-2xl font-bold text-cf-text">
+        <h1 className="text-xl md:text-2xl font-bold text-[var(--theme-text)]">
           Shopping Cart
-          <span className="text-sm font-normal text-white/50 ml-2">
+          <span className="text-sm font-normal text-[var(--theme-text-muted)] ml-2">
             ({items.reduce((s, i) => s + i.quantity, 0)} items)
           </span>
         </h1>
@@ -79,10 +79,10 @@ export default function CartPage() {
       </div>
 
       {/* Deliver to */}
-      <div className="flex items-center gap-3 mb-6 bg-[var(--theme-card)] rounded-xl border border-white/5 p-3 px-4">
-        <MapPin className="size-4 text-white/50" />
-        <span className="text-sm text-white/50">
-          Deliver to: <span className="font-semibold text-cf-text">{pincodeInput || 'Enter Pincode'}</span>
+      <div className="flex items-center gap-3 mb-6 bg-[var(--theme-card)] rounded-xl border border-[var(--theme-border)] p-3 px-4">
+        <MapPin className="size-4 text-[var(--theme-text-muted)]" />
+        <span className="text-sm text-[var(--theme-text-muted)]">
+          Deliver to: <span className="font-semibold text-[var(--theme-text)]">{pincodeInput || 'Enter Pincode'}</span>
         </span>
         <Button
           variant="ghost"
@@ -101,13 +101,13 @@ export default function CartPage() {
             return (
               <div
                 key={item.id}
-                className="bg-[var(--theme-card)] rounded-xl border border-white/5 p-4 shadow-sm hover:border-white/10 transition-colors"
+                className="bg-[var(--theme-card)] rounded-xl border border-[var(--theme-border)] p-4 shadow-sm hover:border-[var(--theme-border-subtle)] transition-colors"
               >
                 <div className="flex gap-4">
                   {/* Image */}
                   <button
                     onClick={() => navigate('product', { id: item.product_id })}
-                    className="shrink-0 w-28 h-28 rounded-lg overflow-hidden bg-white/5"
+                    className="shrink-0 w-28 h-28 rounded-lg overflow-hidden bg-[var(--theme-surface)]"
                   >
                     <img
                       src={item.image || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=200&h=200&fit=crop'}
@@ -120,17 +120,17 @@ export default function CartPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0 flex-1">
-                        <h3 className="text-sm font-semibold text-cf-text line-clamp-2 leading-snug">
+                        <h3 className="text-sm font-semibold text-[var(--theme-text)] line-clamp-2 leading-snug">
                           {item.name}
                         </h3>
                         <div className="flex items-center gap-2 mt-1.5">
                           {item.size && (
-                            <Badge variant="secondary" className="text-[10px] h-5 px-2 rounded font-medium bg-white/5 border border-white/10 text-white">
+                            <Badge variant="secondary" className="text-[10px] h-5 px-2 rounded font-medium bg-[var(--theme-surface)] border border-[var(--theme-border-subtle)] text-[var(--theme-text)]">
                               Size: {item.size}
                             </Badge>
                           )}
                           {item.color && (
-                            <Badge variant="secondary" className="text-[10px] h-5 px-2 rounded font-medium bg-white/5 border border-white/10 text-white">
+                            <Badge variant="secondary" className="text-[10px] h-5 px-2 rounded font-medium bg-[var(--theme-surface)] border border-[var(--theme-border-subtle)] text-[var(--theme-text)]">
                               {item.color}
                             </Badge>
                           )}
@@ -138,7 +138,7 @@ export default function CartPage() {
                       </div>
                       <button
                         onClick={() => { removeItem(item.id); toast.success('Item removed from cart'); }}
-                        className="p-1.5 text-white/50 hover:text-[#DC3545] transition-colors shrink-0 hover:bg-white/5 rounded-lg"
+                        className="p-1.5 text-[var(--theme-text-muted)] hover:text-[#DC3545] transition-colors shrink-0 hover:bg-[var(--theme-surface)] rounded-lg"
                       >
                         <Trash2 className="size-4" />
                       </button>
@@ -147,12 +147,12 @@ export default function CartPage() {
                     <div className="flex items-end justify-between mt-3">
                       {/* Price */}
                       <div>
-                        <span className="text-base font-bold text-cf-text">
+                        <span className="text-base font-bold text-[var(--theme-text)]">
                           ₹{(item.price * item.quantity).toLocaleString('en-IN')}
                         </span>
                         {item.quantity > 1 && (
                           <div className="flex items-center gap-1.5 mt-0.5">
-                            <span className="text-xs text-white/50 line-through">₹{estimatedOriginal.toLocaleString('en-IN')}</span>
+                            <span className="text-xs text-[var(--theme-text-muted)] line-through">₹{estimatedOriginal.toLocaleString('en-IN')}</span>
                             <span className="text-xs text-[#28A745] font-medium">
                               {Math.round(((estimatedOriginal - item.price) / estimatedOriginal) * 100)}% off
                             </span>
@@ -161,19 +161,19 @@ export default function CartPage() {
                       </div>
 
                       {/* Quantity stepper */}
-                      <div className="flex items-center border border-white/10 rounded-lg overflow-hidden">
+                      <div className="flex items-center border border-[var(--theme-border-subtle)] rounded-lg overflow-hidden">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          className="w-8 h-8 flex items-center justify-center hover:bg-white/5 transition-colors text-white/50"
+                          className="w-8 h-8 flex items-center justify-center hover:bg-[var(--theme-surface)] transition-colors text-[var(--theme-text-muted)]"
                         >
                           <Minus className="size-3.5" />
                         </button>
-                        <span className="text-sm font-semibold w-10 text-center text-cf-text border-x border-white/10">
+                        <span className="text-sm font-semibold w-10 text-center text-[var(--theme-text)] border-x border-[var(--theme-border-subtle)]">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => updateQuantity(item.id, Math.min(10, item.quantity + 1))}
-                          className="w-8 h-8 flex items-center justify-center hover:bg-white/5 transition-colors text-white/50"
+                          className="w-8 h-8 flex items-center justify-center hover:bg-[var(--theme-surface)] transition-colors text-[var(--theme-text-muted)]"
                         >
                           <Plus className="size-3.5" />
                         </button>
@@ -193,8 +193,8 @@ export default function CartPage() {
 
         {/* Price Details - 35% sticky */}
         <div className="lg:w-[380px] shrink-0">
-          <div className="sticky top-24 bg-[var(--theme-card)] rounded-xl border border-white/5 shadow-sm p-6">
-            <h3 className="text-sm font-bold text-cf-text uppercase tracking-wider mb-5">
+          <div className="sticky top-24 bg-[var(--theme-card)] rounded-xl border border-[var(--theme-border)] shadow-sm p-6">
+            <h3 className="text-sm font-bold text-[var(--theme-text)] uppercase tracking-wider mb-5">
               Price Details
             </h3>
 
@@ -202,8 +202,8 @@ export default function CartPage() {
               {/* Price breakdown for each item */}
               {items.map((item) => (
                 <div key={item.id} className="flex items-center justify-between">
-                  <span className="text-white/50 truncate max-w-[200px]">{item.name} x {item.quantity}</span>
-                  <span className="font-medium text-cf-text shrink-0 ml-2">
+                  <span className="text-[var(--theme-text-muted)] truncate max-w-[200px]">{item.name} x {item.quantity}</span>
+                  <span className="font-medium text-[var(--theme-text)] shrink-0 ml-2">
                     ₹{(item.price * item.quantity).toLocaleString('en-IN')}
                   </span>
                 </div>
@@ -212,16 +212,16 @@ export default function CartPage() {
               <Separator className="my-2" />
 
               <div className="flex items-center justify-between">
-                <span className="text-white/50">Price ({items.reduce((s, i) => s + i.quantity, 0)} items)</span>
-                <span className="font-medium text-cf-text">₹{Math.round(subtotal + discount).toLocaleString('en-IN')}</span>
+                <span className="text-[var(--theme-text-muted)]">Price ({items.reduce((s, i) => s + i.quantity, 0)} items)</span>
+                <span className="font-medium text-[var(--theme-text)]">₹{Math.round(subtotal + discount).toLocaleString('en-IN')}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-[#28A745] font-medium">Discount</span>
                 <span className="text-[#28A745] font-medium">−₹{discount.toLocaleString('en-IN')}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-white/50">Delivery Fee</span>
-                <span className={`font-medium ${deliveryFee === 0 ? 'text-[#28A745]' : 'text-cf-text'}`}>
+                <span className="text-[var(--theme-text-muted)]">Delivery Fee</span>
+                <span className={`font-medium ${deliveryFee === 0 ? 'text-[#28A745]' : 'text-[var(--theme-text)]'}`}>
                   {deliveryFee === 0 ? 'FREE' : `₹${deliveryFee}`}
                 </span>
               </div>
@@ -235,8 +235,8 @@ export default function CartPage() {
             <Separator className="my-4" />
 
             <div className="flex items-center justify-between mb-6">
-              <span className="text-base font-bold text-cf-text">Total Amount</span>
-              <span className="text-xl font-bold text-cf-text">₹{Math.max(0, total).toLocaleString('en-IN')}</span>
+              <span className="text-base font-bold text-[var(--theme-text)]">Total Amount</span>
+              <span className="text-xl font-bold text-[var(--theme-text)]">₹{Math.max(0, total).toLocaleString('en-IN')}</span>
             </div>
 
             <p className="text-xs text-[#28A745] font-medium mb-4">
@@ -251,7 +251,7 @@ export default function CartPage() {
               Place Order
             </Button>
 
-            <div className="flex items-center justify-center gap-2 mt-4 text-xs text-white/50">
+            <div className="flex items-center justify-center gap-2 mt-4 text-xs text-[var(--theme-text-muted)]">
               <ShieldCheck className="size-4 text-[#28A745]" />
               Safe and Secure Payments
             </div>

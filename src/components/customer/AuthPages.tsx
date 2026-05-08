@@ -151,7 +151,7 @@ export function AuthModal({ open, onOpenChange }: AuthPagesProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[440px] p-0 overflow-hidden glass rounded-2xl border-[rgba(255,255,255,0.1)] bg-[var(--theme-card)]/95 backdrop-blur-xl">
+      <DialogContent className="max-w-[440px] p-0 overflow-hidden glass rounded-2xl border-[var(--theme-border)] bg-[var(--theme-card)]/95 backdrop-blur-xl">
         <DialogHeader className="sr-only">
           <DialogTitle>{tab === 'login' ? 'Login' : 'Create Account'}</DialogTitle>
         </DialogHeader>
@@ -159,7 +159,7 @@ export function AuthModal({ open, onOpenChange }: AuthPagesProps) {
         {/* Close button */}
         <button
           onClick={() => onOpenChange(false)}
-          className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-[rgba(255,255,255,0.1)] flex items-center justify-center text-[var(--theme-text-muted)] hover:bg-[rgba(255,255,255,0.15)] hover:text-[var(--theme-text)] transition-all duration-200"
+          className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-[var(--theme-surface)] flex items-center justify-center text-[var(--theme-text-muted)] hover:bg-[var(--theme-surface-hover)] hover:text-[var(--theme-text)] transition-all duration-200"
         >
           <X className="size-4" />
         </button>
@@ -178,7 +178,7 @@ export function AuthModal({ open, onOpenChange }: AuthPagesProps) {
           </div>
 
           {/* Tabs */}
-          <div className="flex bg-[rgba(255,255,255,0.06)] rounded-xl p-1 mb-6">
+          <div className="flex bg-[var(--theme-surface)] rounded-xl p-1 mb-6">
             <button
               type="button"
               onClick={() => setTab('login')}
@@ -215,7 +215,7 @@ export function AuthModal({ open, onOpenChange }: AuthPagesProps) {
                     placeholder="Enter 10-digit mobile number"
                     value={loginMobile}
                     onChange={(e) => setLoginMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                    className="pl-10 h-12 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
+                    className="pl-10 h-12 rounded-xl bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
                     maxLength={10}
                     autoFocus
                   />
@@ -231,7 +231,7 @@ export function AuthModal({ open, onOpenChange }: AuthPagesProps) {
                     placeholder="Enter your password"
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
-                    className="pl-10 pr-10 h-12 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
+                    className="pl-10 pr-10 h-12 rounded-xl bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
                     autoComplete="current-password"
                   />
                   <button
@@ -282,7 +282,7 @@ export function AuthModal({ open, onOpenChange }: AuthPagesProps) {
                     <Input
                       value={signFirstName}
                       onChange={(e) => setSignFirstName(e.target.value)}
-                      className="pl-10 h-11 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
+                      className="pl-10 h-11 rounded-xl bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
                       placeholder="First name"
                       autoFocus
                     />
@@ -293,7 +293,7 @@ export function AuthModal({ open, onOpenChange }: AuthPagesProps) {
                   <Input
                     value={signLastName}
                     onChange={(e) => setSignLastName(e.target.value)}
-                    className="h-11 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
+                    className="h-11 rounded-xl bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
                     placeholder="Last name"
                   />
                 </div>
@@ -308,7 +308,7 @@ export function AuthModal({ open, onOpenChange }: AuthPagesProps) {
                     type="tel"
                     value={signMobile}
                     onChange={(e) => setSignMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                    className="pl-10 h-11 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
+                    className="pl-10 h-11 rounded-xl bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
                     placeholder="Enter 10-digit mobile number"
                     maxLength={10}
                   />
@@ -324,13 +324,13 @@ export function AuthModal({ open, onOpenChange }: AuthPagesProps) {
                     type="email"
                     value={signEmail}
                     onChange={(e) => setSignEmail(e.target.value)}
-                    className="pl-10 h-11 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
+                    className="pl-10 h-11 rounded-xl bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
                     placeholder="your@email.com"
                   />
                 </div>
               </div>
 
-              <Separator className="bg-[rgba(255,255,255,0.08)]" />
+              <Separator className="bg-[var(--theme-border)]" />
 
               {/* Password */}
               <div>
@@ -341,7 +341,7 @@ export function AuthModal({ open, onOpenChange }: AuthPagesProps) {
                     type={showSignPassword ? 'text' : 'password'}
                     value={signPassword}
                     onChange={(e) => setSignPassword(e.target.value)}
-                    className="pl-10 pr-10 h-11 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
+                    className="pl-10 pr-10 h-11 rounded-xl bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
                     placeholder="Min 4 characters"
                     autoComplete="new-password"
                   />
@@ -364,7 +364,7 @@ export function AuthModal({ open, onOpenChange }: AuthPagesProps) {
                     type={showSignConfirm ? 'text' : 'password'}
                     value={signConfirmPassword}
                     onChange={(e) => setSignConfirmPassword(e.target.value)}
-                    className="pl-10 pr-10 h-11 rounded-xl bg-[rgba(255,255,255,0.06)] border-[rgba(255,255,255,0.1)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
+                    className="pl-10 pr-10 h-11 rounded-xl bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] text-sm focus:ring-[var(--theme-primary)] focus:border-[var(--theme-primary)] transition-all duration-200"
                     placeholder="Re-enter your password"
                     autoComplete="new-password"
                   />
