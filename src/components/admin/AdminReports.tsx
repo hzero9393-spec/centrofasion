@@ -92,7 +92,7 @@ interface CustomTooltipProps {
 function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload) return null;
   return (
-    <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-xl px-4 py-3 shadow-xl">
+    <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-xl px-4 py-3 shadow-xl">
       <p className="text-[var(--theme-text-muted)] text-xs mb-2">{label}</p>
       {payload.map((entry, index) => (
         <div key={index} className="flex items-center gap-2 text-sm">
@@ -147,7 +147,7 @@ export default function AdminReports() {
               className={`bg-[var(--theme-card)] rounded-2xl transition-all duration-200 ${
                 isActive
                   ? 'border-[var(--theme-primary)]/40 shadow-lg shadow-[var(--theme-primary)]/5'
-                  : 'border border-white/[0.08] hover:border-white/[0.12]'
+                  : 'border border-[var(--theme-border)] hover:border-[var(--theme-border)]'
               }`}
             >
               <CardContent className="p-5">
@@ -159,14 +159,14 @@ export default function AdminReports() {
                     <h3 className="font-semibold text-[var(--theme-text)]">{report.title}</h3>
                     <div className="mt-3 flex flex-wrap items-center gap-2">
                       <Select value={dateRange} onValueChange={setDateRange}>
-                        <SelectTrigger className="h-8 w-[130px] text-xs bg-white/5 border-white/10 text-[var(--theme-text)] focus:ring-[var(--theme-primary)]">
+                        <SelectTrigger className="h-8 w-[130px] text-xs bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] focus:ring-[var(--theme-primary)]">
                           <SelectValue />
                         </SelectTrigger>
-                        <SelectContent className="bg-[var(--theme-card)] border-white/[0.08]">
-                          <SelectItem value="7days" className="text-[var(--theme-text)] focus:bg-white/5 focus:text-[var(--theme-text)]">Last 7 days</SelectItem>
-                          <SelectItem value="30days" className="text-[var(--theme-text)] focus:bg-white/5 focus:text-[var(--theme-text)]">Last 30 days</SelectItem>
-                          <SelectItem value="90days" className="text-[var(--theme-text)] focus:bg-white/5 focus:text-[var(--theme-text)]">Last 90 days</SelectItem>
-                          <SelectItem value="year" className="text-[var(--theme-text)] focus:bg-white/5 focus:text-[var(--theme-text)]">This Year</SelectItem>
+                        <SelectContent className="bg-[var(--theme-card)] border-[var(--theme-border)]">
+                          <SelectItem value="7days" className="text-[var(--theme-text)] focus:bg-[var(--theme-surface)] focus:text-[var(--theme-text)]">Last 7 days</SelectItem>
+                          <SelectItem value="30days" className="text-[var(--theme-text)] focus:bg-[var(--theme-surface)] focus:text-[var(--theme-text)]">Last 30 days</SelectItem>
+                          <SelectItem value="90days" className="text-[var(--theme-text)] focus:bg-[var(--theme-surface)] focus:text-[var(--theme-text)]">Last 90 days</SelectItem>
+                          <SelectItem value="year" className="text-[var(--theme-text)] focus:bg-[var(--theme-surface)] focus:text-[var(--theme-text)]">This Year</SelectItem>
                         </SelectContent>
                       </Select>
                       <Button
@@ -174,7 +174,7 @@ export default function AdminReports() {
                         className={`text-xs gap-1.5 transition-all ${
                           isActive
                             ? 'bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] text-white'
-                            : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'
+                            : 'bg-[var(--theme-surface)] hover:bg-[var(--theme-surface-hover)] text-[var(--theme-text)] border border-[var(--theme-border)]'
                         }`}
                         onClick={() => handleGenerate(report.id)}
                       >
@@ -191,7 +191,7 @@ export default function AdminReports() {
 
       {/* Report Preview */}
       {activeReport && (
-        <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl" id="report-preview">
+        <Card className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl" id="report-preview">
           <CardContent className="p-6 space-y-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -203,17 +203,17 @@ export default function AdminReports() {
                   {REPORT_TYPES.find((r) => r.id === activeReport)?.title}
                 </h3>
               </div>
-              <Button variant="outline" size="sm" className="gap-2 print:hidden bg-white/5 border-white/10 text-white hover:bg-white/10 hover:text-white" onClick={handleDownload}>
+              <Button variant="outline" size="sm" className="gap-2 print:hidden bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] hover:bg-[var(--theme-surface-hover)] hover:text-[var(--theme-text)]" onClick={handleDownload}>
                 <Download className="h-4 w-4" /> Download PDF
               </Button>
             </div>
 
             {loading ? (
               <div className="space-y-4">
-                <Skeleton className="h-72 w-full bg-white/5 rounded-xl" />
+                <Skeleton className="h-72 w-full bg-[var(--theme-surface)] rounded-xl" />
                 <div className="grid grid-cols-3 gap-4">
                   {[1, 2, 3].map((i) => (
-                    <Skeleton key={i} className="h-20 bg-white/5 rounded-xl" />
+                    <Skeleton key={i} className="h-20 bg-[var(--theme-surface)] rounded-xl" />
                   ))}
                 </div>
               </div>
@@ -279,7 +279,7 @@ export default function AdminReports() {
                 {/* Summary */}
                 <div className="grid grid-cols-3 gap-4">
                   {Object.entries(reportData.summary).map(([key, value]) => (
-                    <div key={key} className="bg-white/[0.03] rounded-xl p-4 text-center border border-white/[0.05]">
+                    <div key={key} className="bg-[var(--theme-surface)] rounded-xl p-4 text-center border border-[var(--theme-border)]">
                       <p className="text-[10px] uppercase tracking-widest text-[var(--theme-text-muted)]">{key.replace(/([A-Z])/g, ' $1')}</p>
                       <p className="text-lg font-bold text-[var(--theme-text)] mt-1.5">{value}</p>
                     </div>

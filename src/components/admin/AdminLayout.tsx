@@ -3,10 +3,12 @@
 import React, { useState } from 'react';
 import { useAdminNavigation, AdminPage } from '@/stores/adminNavigation';
 import { useAuth } from '@/stores/auth';
+import { useThemeStore } from '@/stores/theme';
 import {
   LayoutDashboard, Package, Grid3X3, Users, ShoppingBag,
   RotateCcw, BarChart3, FileText, UserCog, Settings,
-  ChevronsLeft, ChevronsRight, Bell, Menu, LogOut, User as UserIcon
+  ChevronsLeft, ChevronsRight, Bell, Menu, LogOut, User as UserIcon,
+  Sun, Moon
 } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
@@ -24,13 +26,13 @@ const navItems: {
 }[] = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'products', label: 'Products', icon: Package },
-  { id: 'categories', label: 'Category', icon: Grid3X3 },
-  { id: 'customers', label: 'Customer', icon: Users },
+  { id: 'categories', label: 'Categories', icon: Grid3X3 },
   { id: 'orders', label: 'Orders', icon: ShoppingBag },
-  { id: 'returns', label: 'Return Orders', icon: RotateCcw },
+  { id: 'customers', label: 'Customers', icon: Users },
+  { id: 'returns', label: 'Returns', icon: RotateCcw },
   { id: 'reports', label: 'Reports', icon: BarChart3 },
   { id: 'invoice', label: 'Invoice', icon: FileText },
-  { id: 'profile', label: 'My Profile', icon: UserCog },
+  { id: 'profile', label: 'Profile', icon: UserCog },
   { id: 'settings', label: 'Settings', icon: Settings },
 ];
 
@@ -42,7 +44,7 @@ const pageTitles: Record<string, string> = {
   'customer-detail': 'Customer Details',
   orders: 'Orders',
   'order-detail': 'Order Details',
-  returns: 'Return Orders',
+  returns: 'Returns',
   reports: 'Reports',
   invoice: 'Invoice',
   profile: 'My Profile',
@@ -70,14 +72,14 @@ function SidebarNav({
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group relative ${
               isActive
                 ? 'text-[var(--theme-text)]'
-                : 'text-white/40 hover:text-white/80 hover:bg-white/5'
+                : 'text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)]'
             }`}
           >
             {isActive && (
               <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full bg-gradient-to-b from-[var(--theme-primary)] to-[var(--theme-secondary)]" />
             )}
             {isActive && (
-              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-[var(--theme-primary)]/10 to-[var(--theme-secondary)]/5 pointer-events-none" />
+              <div className="absolute inset-0 rounded-lg bg-[var(--theme-primary)]/10 pointer-events-none" />
             )}
             <Icon
               className={`h-5 w-5 flex-shrink-0 relative z-10 ${
@@ -95,6 +97,7 @@ function SidebarNav({
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { currentPage, navigate } = useAdminNavigation();
   const { admin, logoutAdmin } = useAuth();
+  const { darkMode, toggleDarkMode } = useThemeStore();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -114,15 +117,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     : 'AD';
 
   return (
-    <div className="min-h-screen flex bg-[#000000]">
+    <div className="min-h-screen flex bg-[var(--theme-bg)]">
       {/* Desktop Sidebar */}
       <aside
-        className={`hidden lg:flex flex-col bg-[var(--theme-card)] fixed top-0 left-0 h-full z-40 transition-all duration-300 border-r border-white/[0.06] ${
+        className={`hidden lg:flex flex-col bg-[var(--theme-card)] fixed top-0 left-0 h-full z-40 transition-all duration-300 border-r border-[var(--theme-border)] ${
           collapsed ? 'w-[72px]' : 'w-[260px]'
         }`}
       >
         {/* Logo */}
-        <div className="flex items-center gap-3 px-4 h-16 border-b border-white/[0.06] flex-shrink-0">
+        <div className="flex items-center gap-3 px-4 h-16 border-b border-[var(--theme-border)] flex-shrink-0">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)]">
             <span className="text-white font-bold text-sm">CF</span>
           </div>
@@ -142,11 +145,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           currentPage={currentPage}
         />
 
-        {/* Collapse Toggle */}
-        <div className="p-3 border-t border-white/[0.06] flex-shrink-0">
+        {/* Bottom section: Dark mode toggle + Collapse */}
+        <div className="p-3 border-t border-[var(--theme-border)] flex-shrink-0 space-y-1">
+          {/* Dark Mode Toggle */}
+          <button
+            onClick={toggleDarkMode}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] transition-colors text-sm"
+          >
+            {darkMode ? <Sun className="h-5 w-5 flex-shrink-0" /> : <Moon className="h-5 w-5 flex-shrink-0" />}
+            {!collapsed && <span>{darkMode ? 'Light Mode' : 'Dark Mode'}</span>}
+          </button>
+
+          {/* Collapse Toggle */}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-white/40 hover:bg-white/5 hover:text-white/80 transition-colors text-sm"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-[var(--theme-text-muted)] hover:bg-[var(--theme-surface)] hover:text-[var(--theme-text)] transition-colors text-sm"
           >
             {collapsed ? (
               <ChevronsRight className="h-5 w-5" />
@@ -161,15 +174,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Mobile Sidebar */}
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
         <SheetTrigger asChild>
-          <button className="lg:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-[var(--theme-card)] border border-white/[0.08] rounded-xl flex items-center justify-center text-[var(--theme-text)] shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+          <button className="lg:hidden fixed top-4 left-4 z-50 w-10 h-10 bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-xl flex items-center justify-center text-[var(--theme-text)] shadow-lg">
             <Menu className="h-5 w-5" />
           </button>
         </SheetTrigger>
         <SheetContent
           side="left"
-          className="w-[280px] p-0 bg-[var(--theme-card)] border-white/[0.08]"
+          className="w-[280px] p-0 bg-[var(--theme-card)] border-[var(--theme-border)]"
         >
-          <div className="flex items-center gap-3 px-4 h-16 border-b border-white/[0.06]">
+          <div className="flex items-center gap-3 px-4 h-16 border-b border-[var(--theme-border)]">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)]">
               <span className="text-white font-bold text-sm">CF</span>
             </div>
@@ -180,10 +193,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             onNavigate={handleNavigate}
             currentPage={currentPage}
           />
-          <div className="p-3 border-t border-white/[0.06]">
+          <div className="p-3 border-t border-[var(--theme-border)] space-y-1">
+            <button
+              onClick={() => { toggleDarkMode(); setMobileOpen(false); }}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] transition-colors text-sm"
+            >
+              {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              <span>{darkMode ? 'Light Mode' : 'Dark Mode'}</span>
+            </button>
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/40 hover:bg-white/5 hover:text-white/80 transition-colors text-sm"
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-[var(--theme-text-muted)] hover:text-[var(--destructive)] hover:bg-[var(--destructive)]/10 transition-colors text-sm"
             >
               <LogOut className="h-5 w-5" />
               <span>Logout</span>
@@ -199,22 +219,35 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         }`}
       >
         {/* Top Bar */}
-        <header className="h-16 bg-[var(--theme-card)]/80 backdrop-blur-xl border-b border-white/[0.06] flex items-center justify-between px-4 lg:px-6 sticky top-0 z-30">
+        <header className="h-16 bg-[var(--theme-card)]/80 backdrop-blur-xl border-b border-[var(--theme-border)] flex items-center justify-between px-4 lg:px-6 sticky top-0 z-30">
           <div className="flex items-center gap-3 pl-12 lg:pl-0">
             <h2 className="text-lg font-semibold text-[var(--theme-text)]">{title}</h2>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            {/* Dark Mode Toggle (desktop top bar) */}
+            <button
+              onClick={toggleDarkMode}
+              className="hidden lg:flex relative w-9 h-9 rounded-lg hover:bg-[var(--theme-surface)] items-center justify-center transition-colors"
+              aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {darkMode ? (
+                <Sun className="h-4 w-4 text-[var(--theme-text-muted)]" />
+              ) : (
+                <Moon className="h-4 w-4 text-[var(--theme-text-muted)]" />
+              )}
+            </button>
+
             {/* Notification Bell */}
-            <button className="relative w-9 h-9 rounded-lg hover:bg-white/5 flex items-center justify-center transition-colors">
+            <button className="relative w-9 h-9 rounded-lg hover:bg-[var(--theme-surface)] flex items-center justify-center transition-colors">
               <Bell className="h-5 w-5 text-[var(--theme-text-muted)]" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[var(--theme-secondary)] rounded-full" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[var(--theme-primary)] rounded-full" />
             </button>
 
             {/* Admin Avatar */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-lg hover:bg-white/5 transition-colors">
+                <button className="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-lg hover:bg-[var(--theme-surface)] transition-colors">
                   <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] flex items-center justify-center text-white text-xs font-semibold">
                     {initials}
                   </div>
@@ -230,19 +263,26 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="w-48 bg-[var(--theme-card)] border-white/[0.08] text-[var(--theme-text)]"
+                className="w-48 bg-[var(--theme-card)] border-[var(--theme-border)] text-[var(--theme-text)]"
               >
                 <DropdownMenuItem
                   onClick={() => handleNavigate('profile')}
-                  className="text-[var(--theme-text-muted)] focus:text-[var(--theme-text)] focus:bg-white/5"
+                  className="text-[var(--theme-text-muted)] focus:text-[var(--theme-text)] focus:bg-[var(--theme-surface)]"
                 >
                   <UserIcon className="mr-2 h-4 w-4" />
                   Profile
                 </DropdownMenuItem>
-                <DropdownMenuSeparator className="bg-white/[0.06]" />
+                <DropdownMenuItem
+                  onClick={() => handleNavigate('settings')}
+                  className="text-[var(--theme-text-muted)] focus:text-[var(--theme-text)] focus:bg-[var(--theme-surface)]"
+                >
+                  <Settings className="mr-2 h-4 w-4" />
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-[var(--theme-border)]" />
                 <DropdownMenuItem
                   onClick={handleLogout}
-                  className="text-[var(--theme-secondary)] focus:text-[var(--theme-secondary)] focus:bg-white/5"
+                  className="text-[var(--destructive)] focus:text-[var(--destructive)] focus:bg-[var(--destructive)]/10"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
                   Logout
@@ -253,7 +293,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 p-4 lg:p-6 bg-[#000000]">
+        <main className="flex-1 p-4 lg:p-6 bg-[var(--theme-bg)]">
           <div className="max-w-[1400px] mx-auto">{children}</div>
         </main>
       </div>

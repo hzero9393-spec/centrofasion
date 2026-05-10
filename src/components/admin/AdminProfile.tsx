@@ -96,15 +96,15 @@ export default function AdminProfile() {
     toast.success(`${themeName} theme applied!`);
   };
 
-  const inputClass = "bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[var(--theme-primary)] focus:ring-[var(--theme-primary)]/20";
+  const inputClass = "bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] focus:border-[var(--theme-primary)] focus:ring-[var(--theme-primary)]/20";
   const labelClass = "text-[var(--theme-text-muted)] text-xs";
 
   if (loading) {
     return (
       <div className="space-y-4">
-        <Skeleton className="h-8 w-40 bg-white/5 rounded-xl" />
-        <Skeleton className="h-64 w-full bg-white/5 rounded-2xl" />
-        <Skeleton className="h-48 w-full bg-white/5 rounded-2xl" />
+        <Skeleton className="h-8 w-40 bg-[var(--theme-surface)] rounded-xl" />
+        <Skeleton className="h-64 w-full bg-[var(--theme-surface)] rounded-2xl" />
+        <Skeleton className="h-48 w-full bg-[var(--theme-surface)] rounded-2xl" />
       </div>
     );
   }
@@ -117,24 +117,24 @@ export default function AdminProfile() {
       </div>
 
       <Tabs defaultValue="admin" className="space-y-6">
-        <TabsList className="bg-white/5 border border-white/[0.08] rounded-xl p-1">
-          <TabsTrigger value="admin" className="gap-2 rounded-lg text-[var(--theme-text-muted)] data-[state=active]:bg-white/10 data-[state=active]:text-[var(--theme-text)] data-[state=active]:shadow-sm">
+        <TabsList className="bg-[var(--theme-surface)] border border-[var(--theme-border)] rounded-xl p-1">
+          <TabsTrigger value="admin" className="gap-2 rounded-lg text-[var(--theme-text-muted)] data-[state=active]:bg-[var(--theme-surface-hover)] data-[state=active]:text-[var(--theme-text)] data-[state=active]:shadow-sm">
             <User className="h-4 w-4" /> Admin Info
           </TabsTrigger>
-          <TabsTrigger value="shop" className="gap-2 rounded-lg text-[var(--theme-text-muted)] data-[state=active]:bg-white/10 data-[state=active]:text-[var(--theme-text)] data-[state=active]:shadow-sm">
+          <TabsTrigger value="shop" className="gap-2 rounded-lg text-[var(--theme-text-muted)] data-[state=active]:bg-[var(--theme-surface-hover)] data-[state=active]:text-[var(--theme-text)] data-[state=active]:shadow-sm">
             <Store className="h-4 w-4" /> Shop Details
           </TabsTrigger>
-          <TabsTrigger value="security" className="gap-2 rounded-lg text-[var(--theme-text-muted)] data-[state=active]:bg-white/10 data-[state=active]:text-[var(--theme-text)] data-[state=active]:shadow-sm">
+          <TabsTrigger value="security" className="gap-2 rounded-lg text-[var(--theme-text-muted)] data-[state=active]:bg-[var(--theme-surface-hover)] data-[state=active]:text-[var(--theme-text)] data-[state=active]:shadow-sm">
             <Shield className="h-4 w-4" /> Security
           </TabsTrigger>
-          <TabsTrigger value="themes" className="gap-2 rounded-lg text-[var(--theme-text-muted)] data-[state=active]:bg-white/10 data-[state=active]:text-[var(--theme-text)] data-[state=active]:shadow-sm">
+          <TabsTrigger value="themes" className="gap-2 rounded-lg text-[var(--theme-text-muted)] data-[state=active]:bg-[var(--theme-surface-hover)] data-[state=active]:text-[var(--theme-text)] data-[state=active]:shadow-sm">
             <Palette className="h-4 w-4" /> Themes
           </TabsTrigger>
         </TabsList>
 
         {/* Admin Info */}
         <TabsContent value="admin">
-          <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl">
+          <Card className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl">
             <CardContent className="p-6 space-y-5">
               <div className="flex items-center gap-4 mb-2">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[var(--theme-primary)] to-[var(--theme-secondary)] flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-[var(--theme-primary)]/20">
@@ -142,13 +142,13 @@ export default function AdminProfile() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-[var(--theme-text)] text-lg">{admin?.name} {admin?.last_name || ''}</h3>
-                  <Badge variant="secondary" className="bg-white/5 text-[var(--theme-text-muted)] border border-white/10 mt-1">
+                  <Badge variant="secondary" className="bg-[var(--theme-surface)] text-[var(--theme-text-muted)] border border-[var(--theme-border)] mt-1">
                     {admin?.is_master === 1 ? 'Master Admin' : 'Admin'}
                   </Badge>
                 </div>
               </div>
 
-              <Separator className="bg-white/[0.05]" />
+              <Separator className="bg-[var(--theme-border)]" />
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="grid gap-2">
@@ -189,7 +189,7 @@ export default function AdminProfile() {
                     <p className="text-xs text-[var(--theme-text-muted)]">Create and manage admin accounts</p>
                   </div>
                 </div>
-                <Separator className="bg-white/[0.05]" />
+                <Separator className="bg-[var(--theme-border)]" />
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="grid gap-2">
                     <Label className={labelClass}>User ID</Label>
@@ -214,10 +214,10 @@ export default function AdminProfile() {
 
         {/* Shop Details */}
         <TabsContent value="shop">
-          <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl">
+          <Card className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl">
             <CardContent className="p-6 space-y-5">
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-[var(--theme-surface)] flex items-center justify-center">
                   <Store className="h-5 w-5 text-[var(--theme-text-muted)]" />
                 </div>
                 <div>
@@ -226,7 +226,7 @@ export default function AdminProfile() {
                 </div>
               </div>
 
-              <Separator className="bg-white/[0.05]" />
+              <Separator className="bg-[var(--theme-border)]" />
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="grid gap-2">
@@ -264,10 +264,10 @@ export default function AdminProfile() {
 
         {/* Security */}
         <TabsContent value="security">
-          <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl">
+          <Card className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl">
             <CardContent className="p-6 space-y-5">
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-[var(--theme-surface)] flex items-center justify-center">
                   <Shield className="h-5 w-5 text-[var(--theme-text-muted)]" />
                 </div>
                 <div>
@@ -276,14 +276,14 @@ export default function AdminProfile() {
                 </div>
               </div>
 
-              <Separator className="bg-white/[0.05]" />
+              <Separator className="bg-[var(--theme-border)]" />
 
               <div className="grid gap-2">
                 <Label className={labelClass}>User ID (read-only)</Label>
-                <Input value={admin?.user_id || ''} disabled className="bg-white/[0.03] border-white/[0.05] text-[var(--theme-text-muted)] cursor-not-allowed" />
+                <Input value={admin?.user_id || ''} disabled className="bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text-muted)] cursor-not-allowed" />
               </div>
 
-              <Separator className="bg-white/[0.05]" />
+              <Separator className="bg-[var(--theme-border)]" />
 
               <h3 className="font-medium text-[var(--theme-text)]">Change Password</h3>
               <div className="grid gap-4 max-w-sm">
@@ -318,7 +318,7 @@ export default function AdminProfile() {
               return (
                 <Card
                   key={theme.id}
-                  className={`bg-[var(--theme-card)] rounded-2xl transition-all duration-300 group cursor-pointer hover:shadow-lg ${isActive ? 'border-2 shadow-lg' : 'border border-white/[0.08] hover:border-white/[0.15]'}`}
+                  className={`bg-[var(--theme-card)] rounded-2xl transition-all duration-300 group cursor-pointer hover:shadow-lg ${isActive ? 'border-2 shadow-lg' : 'border border-[var(--theme-border)] hover:border-[var(--theme-border)]'}`}
                   style={isActive ? { borderColor: theme.colors.primary, boxShadow: `0 8px 32px ${theme.colors.primary}30` } : { '--glow-color': theme.colors.primary } as React.CSSProperties}
                   onMouseEnter={(e) => {
                     if (!isActive) (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 32px ${theme.colors.primary}15, 0 0 0 1px ${theme.colors.primary}20`;
@@ -338,7 +338,7 @@ export default function AdminProfile() {
                       ))}
                     </div>
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-medium text-[var(--theme-text)] group-hover:text-white transition-colors">{theme.name}</p>
+                      <p className="text-sm font-medium text-[var(--theme-text)] group-hover:text-[var(--theme-text)] transition-colors">{theme.name}</p>
                       {isActive && (
                         <div className="w-5 h-5 rounded-full bg-[#28A745] flex items-center justify-center">
                           <Check className="size-3 text-white" />
@@ -351,7 +351,7 @@ export default function AdminProfile() {
                       size="sm"
                       className={`mt-3 w-full text-xs transition-all ${isActive
                         ? 'text-white border-transparent'
-                        : 'bg-white/5 border-white/10 text-[var(--theme-text-muted)] hover:bg-white/10 hover:text-white hover:border-white/20'
+                        : 'bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text-muted)] hover:bg-[var(--theme-surface-hover)] hover:text-[var(--theme-text)] hover:border-[var(--theme-border)]'
                       }`}
                       style={isActive ? { backgroundColor: theme.colors.primary, borderColor: theme.colors.primary } : {}}
                     >

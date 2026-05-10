@@ -18,7 +18,7 @@ interface Customer {
 const valueBadge = (spent: number) => {
   if (spent > 10000) return { label: 'Platinum', class: 'bg-[#E8F5E9]/10 text-[#4ADE80] border border-[#4ADE80]/20' };
   if (spent > 5000) return { label: 'Gold', class: 'bg-[#FFF8E1]/10 text-[#FBBF24] border border-[#FBBF24]/20' };
-  return { label: 'Silver', class: 'bg-[#F5F7FA]/10 text-[var(--theme-text-muted)] border border-white/10' };
+  return { label: 'Silver', class: 'bg-[#F5F7FA]/10 text-[var(--theme-text-muted)] border border-[var(--theme-border)]' };
 };
 
 const initials = (first: string, last: string) =>
@@ -52,7 +52,7 @@ export default function AdminCustomers() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-3">
           <h1 className="text-2xl font-semibold text-[var(--theme-text)] tracking-tight">Customers</h1>
-          <span className="inline-flex items-center justify-center h-6 min-w-[24px] px-2 rounded-full bg-white/5 text-xs font-medium text-[var(--theme-text-muted)] border border-white/[0.08]">
+          <span className="inline-flex items-center justify-center h-6 min-w-[24px] px-2 rounded-full bg-[var(--theme-surface)] text-xs font-medium text-[var(--theme-text-muted)] border border-[var(--theme-border)]">
             {filtered.length}
           </span>
         </div>
@@ -62,17 +62,17 @@ export default function AdminCustomers() {
             placeholder="Search customers..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 bg-white/5 border-white/10 text-[var(--theme-text)] placeholder:text-white/30 rounded-xl h-10 focus-visible:ring-white/20"
+            className="pl-9 bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] rounded-xl h-10 focus-visible:ring-[var(--theme-border)]"
           />
         </div>
       </div>
 
       {/* Table */}
-      <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl overflow-hidden">
+      <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="hover:bg-transparent border-b border-white/[0.08]">
+              <TableRow className="hover:bg-transparent border-b border-[var(--theme-border)]">
                 <TableHead className="font-medium text-[var(--theme-text-muted)] text-xs uppercase tracking-wider">Customer</TableHead>
                 <TableHead className="font-medium text-[var(--theme-text-muted)] text-xs uppercase tracking-wider hidden md:table-cell">Mobile</TableHead>
                 <TableHead className="font-medium text-[var(--theme-text-muted)] text-xs uppercase tracking-wider text-right hidden sm:table-cell">Orders</TableHead>
@@ -86,14 +86,14 @@ export default function AdminCustomers() {
                 [...Array(5)].map((_, i) => (
                   <TableRow key={i} className="border-b border-white/[0.04]">
                     <TableCell colSpan={6}>
-                      <Skeleton className="h-14 w-full bg-white/5 rounded-xl" />
+                      <Skeleton className="h-14 w-full bg-[var(--theme-surface)] rounded-xl" />
                     </TableCell>
                   </TableRow>
                 ))
               ) : filtered.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={6} className="text-center py-16">
-                    <Users className="h-10 w-10 mx-auto mb-3 text-white/20" />
+                    <Users className="h-10 w-10 mx-auto mb-3 text-[var(--theme-text-muted)]" />
                     <p className="text-[var(--theme-text-muted)] text-sm">No customers found</p>
                   </TableCell>
                 </TableRow>
@@ -103,7 +103,7 @@ export default function AdminCustomers() {
                   return (
                     <TableRow
                       key={c.id}
-                      className={`cursor-pointer border-b border-white/[0.04] hover:bg-white/5 transition-colors ${i % 2 === 1 ? 'bg-white/[0.02]' : ''}`}
+                      className={`cursor-pointer border-b border-white/[0.04] hover:bg-[var(--theme-surface)] transition-colors ${i % 2 === 1 ? 'bg-white/[0.02]' : ''}`}
                       onClick={() => navigate('customer-detail', { id: c.id })}
                     >
                       <TableCell>
@@ -128,7 +128,7 @@ export default function AdminCustomers() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-white/40 hover:text-[var(--theme-text)] hover:bg-white/10 transition-colors"
+                          className="h-8 w-8 text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] transition-colors"
                           onClick={(e) => { e.stopPropagation(); navigate('customer-detail', { id: c.id }); }}
                         >
                           <Eye className="h-4 w-4" />

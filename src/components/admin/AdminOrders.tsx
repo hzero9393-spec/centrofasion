@@ -106,10 +106,10 @@ export default function AdminOrders() {
       </div>
 
       {/* Filters */}
-      <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-4">
+      <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-4">
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Period Buttons */}
-          <div className="flex gap-1 bg-white/5 rounded-xl p-1 border border-white/[0.06]">
+          <div className="flex gap-1 bg-[var(--theme-surface)] rounded-xl p-1 border border-[var(--theme-border)]">
             {PERIODS.map((p) => (
               <Button
                 key={p.value}
@@ -119,7 +119,7 @@ export default function AdminOrders() {
                 className={
                   period === p.value
                     ? 'bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] hover:opacity-90 text-white h-8 text-xs rounded-lg shadow-sm'
-                    : 'h-8 text-xs text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] hover:bg-white/10 rounded-lg'
+                    : 'h-8 text-xs text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] rounded-lg'
                 }
               >
                 {p.label}
@@ -129,13 +129,13 @@ export default function AdminOrders() {
 
           {/* Status Filter */}
           <Select value={statusFilter} onValueChange={(v) => { setStatusFilter(v); setPage(1); }}>
-            <SelectTrigger className="w-full sm:w-[180px] bg-white/5 border-white/10 text-[var(--theme-text)] rounded-xl h-10 focus:ring-white/20">
+            <SelectTrigger className="w-full sm:w-[180px] bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] rounded-xl h-10 focus:ring-[var(--theme-border)]">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
-            <SelectContent className="bg-[var(--theme-card)] border border-white/10 rounded-xl">
-              <SelectItem value="all" className="text-[var(--theme-text)] focus:bg-white/10 focus:text-[var(--theme-text)]">All Status</SelectItem>
+            <SelectContent className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-xl">
+              <SelectItem value="all" className="text-[var(--theme-text)] focus:bg-[var(--theme-surface)] focus:text-[var(--theme-text)]">All Status</SelectItem>
               {STATUS_OPTIONS.map((s) => (
-                <SelectItem key={s} value={s} className="text-[var(--theme-text)] focus:bg-white/10 focus:text-[var(--theme-text)]">{s}</SelectItem>
+                <SelectItem key={s} value={s} className="text-[var(--theme-text)] focus:bg-[var(--theme-surface)] focus:text-[var(--theme-text)]">{s}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -143,11 +143,11 @@ export default function AdminOrders() {
       </div>
 
       {/* Table */}
-      <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl overflow-hidden">
+      <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="hover:bg-transparent border-b border-white/[0.08]">
+              <TableRow className="hover:bg-transparent border-b border-[var(--theme-border)]">
                 <TableHead className="font-medium text-[var(--theme-text-muted)] text-xs uppercase tracking-wider">Order ID</TableHead>
                 <TableHead className="font-medium text-[var(--theme-text-muted)] text-xs uppercase tracking-wider hidden md:table-cell">Customer</TableHead>
                 <TableHead className="font-medium text-[var(--theme-text-muted)] text-xs uppercase tracking-wider hidden sm:table-cell">Date</TableHead>
@@ -160,16 +160,16 @@ export default function AdminOrders() {
             <TableBody>
               {loading ? (
                 [...Array(5)].map((_, i) => (
-                  <TableRow key={i} className="border-b border-white/[0.04]">
+                  <TableRow key={i} className="border-b border-[var(--theme-border)]">
                     <TableCell colSpan={7}>
-                      <Skeleton className="h-14 w-full bg-white/5 rounded-xl" />
+                      <Skeleton className="h-14 w-full bg-[var(--theme-surface)] rounded-xl" />
                     </TableCell>
                   </TableRow>
                 ))
               ) : orders.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={7} className="text-center py-16">
-                    <ShoppingBag className="h-10 w-10 mx-auto mb-3 text-white/20" />
+                    <ShoppingBag className="h-10 w-10 mx-auto mb-3 text-[var(--theme-text-muted)]" />
                     <p className="text-[var(--theme-text-muted)] text-sm">No orders found</p>
                   </TableCell>
                 </TableRow>
@@ -177,7 +177,7 @@ export default function AdminOrders() {
                 orders.map((o, i) => (
                   <TableRow
                     key={o.id}
-                    className={`cursor-pointer border-b border-white/[0.04] hover:bg-white/5 transition-colors ${i % 2 === 1 ? 'bg-white/[0.02]' : ''}`}
+                    className={`cursor-pointer border-b border-[var(--theme-border)] hover:bg-[var(--theme-surface)] transition-colors ${i % 2 === 1 ? 'bg-[var(--theme-surface)]' : ''}`}
                     onClick={() => navigate('order-detail', { id: o.id })}
                   >
                     <TableCell>
@@ -197,19 +197,19 @@ export default function AdminOrders() {
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-                          <Button variant="ghost" className="h-7 px-2 gap-1 hover:bg-white/10">
+                          <Button variant="ghost" className="h-7 px-2 gap-1 hover:bg-[var(--theme-surface)]">
                             <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${statusBadge(o.status)}`}>
                               {o.status || 'Pending'}
                             </span>
                             <ChevronDown className="h-3 w-3 text-[var(--theme-text-muted)]" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="bg-[var(--theme-card)] border border-white/10 rounded-xl p-1">
+                        <DropdownMenuContent className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-xl p-1">
                           {STATUS_OPTIONS.map((s) => (
                             <DropdownMenuItem
                               key={s}
                               onClick={(e) => { e.stopPropagation(); handleStatusChange(o.id, s); }}
-                              className="text-[var(--theme-text)] focus:bg-white/10 focus:text-[var(--theme-text)] rounded-lg text-sm cursor-pointer"
+                              className="text-[var(--theme-text)] focus:bg-[var(--theme-surface)] focus:text-[var(--theme-text)] rounded-lg text-sm cursor-pointer"
                             >
                               <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium border mr-2 ${statusBadge(s)}`}>
                                 {s}
@@ -235,7 +235,7 @@ export default function AdminOrders() {
           <Button
             variant="outline"
             size="icon"
-            className="h-8 w-8 bg-white/5 border-white/10 text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] hover:bg-white/10 rounded-lg"
+            className="h-8 w-8 bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] rounded-lg"
             disabled={page <= 1}
             onClick={() => setPage(page - 1)}
           >
@@ -245,7 +245,7 @@ export default function AdminOrders() {
           <Button
             variant="outline"
             size="icon"
-            className="h-8 w-8 bg-white/5 border-white/10 text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] hover:bg-white/10 rounded-lg"
+            className="h-8 w-8 bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] rounded-lg"
             disabled={page >= totalPages}
             onClick={() => setPage(page + 1)}
           >

@@ -76,7 +76,7 @@ export default function AdminReturns() {
       {/* Header */}
       <div className="flex items-center gap-3">
         <h1 className="text-2xl font-semibold text-[var(--theme-text)] tracking-tight">Return Orders</h1>
-        <Badge variant="secondary" className="bg-white/5 text-[var(--theme-text-muted)] border border-white/10 hover:bg-white/10">
+        <Badge variant="secondary" className="bg-[var(--theme-surface)] text-[var(--theme-text-muted)] border border-[var(--theme-border)] hover:bg-[var(--theme-surface)]">
           {returns.length} total
         </Badge>
       </div>
@@ -85,24 +85,24 @@ export default function AdminReturns() {
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-white/5 rounded-2xl border border-white/[0.08]">
+            <div key={i} className="bg-[var(--theme-surface)] rounded-2xl border border-[var(--theme-border)]">
               <div className="p-5 space-y-4">
-                <Skeleton className="h-5 w-48 bg-white/5 rounded-xl" />
-                <Skeleton className="h-16 w-full bg-white/5 rounded-xl" />
-                <Skeleton className="h-4 w-32 bg-white/5 rounded-xl" />
-                <Skeleton className="h-9 w-full bg-white/5 rounded-xl" />
+                <Skeleton className="h-5 w-48 bg-[var(--theme-surface)] rounded-xl" />
+                <Skeleton className="h-16 w-full bg-[var(--theme-surface)] rounded-xl" />
+                <Skeleton className="h-4 w-32 bg-[var(--theme-surface)] rounded-xl" />
+                <Skeleton className="h-9 w-full bg-[var(--theme-surface)] rounded-xl" />
               </div>
             </div>
           ))}
         </div>
       ) : returns.length === 0 ? (
-        <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl">
+        <Card className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl">
           <CardContent className="py-20 text-center">
-            <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mx-auto mb-4">
-              <RotateCcw className="h-8 w-8 text-white/20" />
+            <div className="w-16 h-16 rounded-2xl bg-[var(--theme-surface)] flex items-center justify-center mx-auto mb-4">
+              <RotateCcw className="h-8 w-8 text-[var(--theme-text-muted)]" />
             </div>
             <p className="text-[var(--theme-text-muted)] text-sm">No return requests at this time</p>
-            <p className="text-white/30 text-xs mt-1">Return requests will appear here when customers submit them</p>
+            <p className="text-[var(--theme-text-muted)] text-xs mt-1">Return requests will appear here when customers submit them</p>
           </CardContent>
         </Card>
       ) : (
@@ -110,7 +110,7 @@ export default function AdminReturns() {
           {returns.map((r) => {
             const status = getStatus(r.status);
             return (
-              <Card key={r.id} className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl hover:border-white/[0.12] transition-colors">
+              <Card key={r.id} className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl hover:border-white/[0.12] transition-colors">
                 <CardContent className="p-5 space-y-4">
                   {/* Top row */}
                   <div className="flex items-start justify-between">
@@ -125,13 +125,13 @@ export default function AdminReturns() {
                   </div>
 
                   {/* Reason */}
-                  <div className="bg-white/[0.03] rounded-xl p-3.5 border border-white/[0.05]">
+                  <div className="bg-white/[0.03] rounded-xl p-3.5 border border-[var(--theme-border)]">
                     <p className="text-[10px] uppercase tracking-widest text-[var(--theme-text-muted)] mb-1.5">Reason</p>
                     <p className="text-sm text-[var(--theme-text)]/80 leading-relaxed">{r.reason || 'No reason provided'}</p>
                   </div>
 
                   {/* Date */}
-                  <p className="text-xs text-white/30">
+                  <p className="text-xs text-[var(--theme-text-muted)]">
                     {r.created_at ? new Date(r.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }) : ''}
                   </p>
 
@@ -178,7 +178,7 @@ export default function AdminReturns() {
                       </Button>
                     )}
                     {(r.status === 'Rejected' || r.status === 'Completed') && (
-                      <p className="text-sm text-white/30 italic py-2">No further actions</p>
+                      <p className="text-sm text-[var(--theme-text-muted)] italic py-2">No further actions</p>
                     )}
                   </div>
                 </CardContent>

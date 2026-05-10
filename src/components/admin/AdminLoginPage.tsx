@@ -75,7 +75,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#000000] flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-[var(--theme-bg)] flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background gradient orbs */}
       <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[var(--theme-primary)]/[0.07] rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute bottom-[-100px] right-[-100px] w-[500px] h-[500px] bg-[var(--theme-secondary)]/[0.05] rounded-full blur-[140px] pointer-events-none" />
@@ -95,19 +95,19 @@ export default function AdminLoginPage() {
         </div>
 
         {/* Card */}
-        <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-8 shadow-[0_24px_80px_rgba(0,0,0,0.5)]">
+        <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-8 shadow-[0_24px_80px_rgba(0,0,0,0.5)]">
           <Tabs defaultValue="password">
-            <TabsList className="w-full grid grid-cols-2 mb-6 bg-white/5 border border-white/[0.06] rounded-xl h-11">
+            <TabsList className="w-full grid grid-cols-2 mb-6 bg-[var(--theme-surface)] border border-[var(--theme-border)] rounded-xl h-11">
               <TabsTrigger
                 value="password"
-                className="gap-2 rounded-lg data-[state=active]:bg-white/10 data-[state=active]:text-[var(--theme-text)] text-white/40 data-[state=active]:shadow-none transition-all"
+                className="gap-2 rounded-lg data-[state=active]:bg-[var(--theme-surface-hover)] data-[state=active]:text-[var(--theme-text)] text-[var(--theme-text-muted)] data-[state=active]:shadow-none transition-all"
               >
                 <Lock className="h-3.5 w-3.5" />
                 Password
               </TabsTrigger>
               <TabsTrigger
                 value="code"
-                className="gap-2 rounded-lg data-[state=active]:bg-white/10 data-[state=active]:text-[var(--theme-text)] text-white/40 data-[state=active]:shadow-none transition-all"
+                className="gap-2 rounded-lg data-[state=active]:bg-[var(--theme-surface-hover)] data-[state=active]:text-[var(--theme-text)] text-[var(--theme-text-muted)] data-[state=active]:shadow-none transition-all"
               >
                 <ShieldCheck className="h-3.5 w-3.5" />
                 6-Digit Code
@@ -124,7 +124,7 @@ export default function AdminLoginPage() {
                     placeholder="Enter your User ID or Name"
                     value={userId}
                     onChange={(e) => setUserId(e.target.value)}
-                    className="h-11 bg-white/5 border-white/10 text-[var(--theme-text)] placeholder:text-white/30 focus:border-[var(--theme-primary)] focus:ring-[var(--theme-primary)]/20 rounded-xl"
+                    className="h-11 bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] focus:border-[var(--theme-primary)] focus:ring-[var(--theme-primary)]/20 rounded-xl"
                   />
                 </div>
                 <div>
@@ -136,7 +136,7 @@ export default function AdminLoginPage() {
                     placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="h-11 bg-white/5 border-white/10 text-[var(--theme-text)] placeholder:text-white/30 focus:border-[var(--theme-primary)] focus:ring-[var(--theme-primary)]/20 rounded-xl"
+                    className="h-11 bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] focus:border-[var(--theme-primary)] focus:ring-[var(--theme-primary)]/20 rounded-xl"
                   />
                 </div>
                 <Button
@@ -160,27 +160,27 @@ export default function AdminLoginPage() {
                     <InputOTPGroup>
                       <InputOTPSlot
                         index={0}
-                        className="bg-white/5 border-white/10 text-[var(--theme-text)] rounded-lg h-12 w-12"
+                        className="bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] rounded-lg h-12 w-12"
                       />
                       <InputOTPSlot
                         index={1}
-                        className="bg-white/5 border-white/10 text-[var(--theme-text)] rounded-lg h-12 w-12"
+                        className="bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] rounded-lg h-12 w-12"
                       />
                       <InputOTPSlot
                         index={2}
-                        className="bg-white/5 border-white/10 text-[var(--theme-text)] rounded-lg h-12 w-12"
+                        className="bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] rounded-lg h-12 w-12"
                       />
                       <InputOTPSlot
                         index={3}
-                        className="bg-white/5 border-white/10 text-[var(--theme-text)] rounded-lg h-12 w-12"
+                        className="bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] rounded-lg h-12 w-12"
                       />
                       <InputOTPSlot
                         index={4}
-                        className="bg-white/5 border-white/10 text-[var(--theme-text)] rounded-lg h-12 w-12"
+                        className="bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] rounded-lg h-12 w-12"
                       />
                       <InputOTPSlot
                         index={5}
-                        className="bg-white/5 border-white/10 text-[var(--theme-text)] rounded-lg h-12 w-12"
+                        className="bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] rounded-lg h-12 w-12"
                       />
                     </InputOTPGroup>
                   </InputOTP>
@@ -198,7 +198,7 @@ export default function AdminLoginPage() {
           </Tabs>
 
           {/* Demo hint */}
-          <div className="mt-6 p-3 bg-white/5 border border-white/[0.06] rounded-xl">
+          <div className="mt-6 p-3 bg-[var(--theme-surface)] border border-[var(--theme-border)] rounded-xl">
             <p className="text-xs text-[var(--theme-text-muted)] text-center">
               Demo credentials:{' '}
               <span className="font-medium text-[var(--theme-text)]">admin</span> /{' '}

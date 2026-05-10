@@ -38,9 +38,9 @@ export default function AdminInvoice() {
       .catch(() => setLoading(false));
   }, [orderId]);
 
-  if (loading) return <div className="space-y-4"><Skeleton className="h-[600px] w-full max-w-3xl mx-auto bg-white/5 rounded-2xl" /></div>;
+  if (loading) return <div className="space-y-4"><Skeleton className="h-[600px] w-full max-w-3xl mx-auto bg-[var(--theme-surface)] rounded-2xl" /></div>;
   if (!data || !data.order) return (
-    <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl">
+    <Card className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl">
       <CardContent className="py-16 text-center text-[var(--theme-text-muted)]">Order not found</CardContent>
     </Card>
   );
@@ -60,7 +60,7 @@ export default function AdminInvoice() {
     <div className="space-y-4">
       {/* Back button - hidden in print */}
       <div className="print:hidden">
-        <Button variant="ghost" onClick={goBack} className="gap-2 text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] hover:bg-white/5">
+        <Button variant="ghost" onClick={goBack} className="gap-2 text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)]">
           <ArrowLeft className="h-4 w-4" /> Back
         </Button>
       </div>
@@ -73,7 +73,7 @@ export default function AdminInvoice() {
       </div>
 
       {/* Invoice Card - dark in display, white in print */}
-      <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl max-w-3xl mx-auto print:border-0 print:shadow-none print:bg-white print:rounded-none">
+      <Card className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl max-w-3xl mx-auto print:border-0 print:shadow-none print:bg-white print:rounded-none">
         <CardContent className="p-8 print:p-0">
           {/* Header */}
           <div className="flex justify-between items-start mb-8 print:text-black">
@@ -89,7 +89,7 @@ export default function AdminInvoice() {
             </div>
           </div>
 
-          <Separator className="mb-6 bg-white/[0.08] print:bg-gray-200" />
+          <Separator className="mb-6 bg-[var(--theme-border)] print:bg-gray-200" />
 
           {/* Invoice Details */}
           <div className="grid grid-cols-2 gap-6 mb-6 text-sm print:text-black">
@@ -108,7 +108,7 @@ export default function AdminInvoice() {
           {/* Bill To */}
           <div className="mb-6">
             <p className="text-[10px] uppercase tracking-widest text-[var(--theme-text-muted)] print:text-gray-500 mb-2">BILL TO</p>
-            <div className="bg-white/[0.03] rounded-xl p-4 border border-white/[0.05] print:bg-gray-50 print:border-gray-200">
+            <div className="bg-[var(--theme-surface)] rounded-xl p-4 border border-[var(--theme-border)] print:bg-gray-50 print:border-gray-200">
               <p className="font-semibold text-[var(--theme-text)] print:text-black">{c?.first_name} {c?.last_name || ''}</p>
               {c?.mobile && <p className="text-sm text-[var(--theme-text-muted)] print:text-gray-600">{c.mobile}</p>}
               <p className="text-sm text-[var(--theme-text-muted)] print:text-gray-600">{o.address || c?.address || '—'}</p>
@@ -116,13 +116,13 @@ export default function AdminInvoice() {
             </div>
           </div>
 
-          <Separator className="mb-6 bg-white/[0.08] print:bg-gray-200" />
+          <Separator className="mb-6 bg-[var(--theme-border)] print:bg-gray-200" />
 
           {/* Items Table */}
           <div className="overflow-x-auto mb-6">
             <table className="w-full text-sm print:text-black">
               <thead>
-                <tr className="border-b-2 border-white/[0.08] print:border-gray-300">
+                <tr className="border-b-2 border-[var(--theme-border)] print:border-gray-300">
                   <th className="text-left py-3 font-semibold text-[var(--theme-text-muted)] print:text-gray-600">Item</th>
                   <th className="text-center py-3 font-semibold text-[var(--theme-text-muted)] print:text-gray-600 hidden sm:table-cell">Size</th>
                   <th className="text-center py-3 font-semibold text-[var(--theme-text-muted)] print:text-gray-600">Qty</th>
@@ -134,14 +134,14 @@ export default function AdminInvoice() {
                 {items.map((item) => {
                   const lineTotal = Number(item.price) * Number(item.quantity);
                   return (
-                    <tr key={item.id} className="border-b border-white/[0.05] print:border-gray-200 hover:bg-white/[0.02] print:hover:bg-transparent transition-colors">
+                    <tr key={item.id} className="border-b border-[var(--theme-border)] print:border-gray-200 hover:bg-[var(--theme-surface)] print:hover:bg-transparent transition-colors">
                       <td className="py-3">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-white/5 print:bg-gray-100 overflow-hidden flex-shrink-0">
+                          <div className="w-10 h-10 rounded-lg bg-[var(--theme-surface)] print:bg-gray-100 overflow-hidden flex-shrink-0">
                             {item.product_image ? (
                               <img src={item.product_image} alt="" className="w-full h-full object-cover" />
                             ) : (
-                              <div className="w-full h-full flex items-center justify-center"><Package className="h-4 w-4 text-white/20 print:text-gray-400" /></div>
+                              <div className="w-full h-full flex items-center justify-center"><Package className="h-4 w-4 text-[var(--theme-text-muted)] print:text-gray-400" /></div>
                             )}
                           </div>
                           <span className="font-medium text-[var(--theme-text)] print:text-black">{item.product_name}</span>
@@ -173,7 +173,7 @@ export default function AdminInvoice() {
                 <span className="text-[var(--theme-text-muted)] print:text-gray-600">Tax (5%)</span>
                 <span className="text-[var(--theme-text)] print:text-black">₹{tax.toLocaleString('en-IN')}</span>
               </div>
-              <Separator className="bg-white/[0.08] print:bg-gray-200" />
+              <Separator className="bg-[var(--theme-border)] print:bg-gray-200" />
               <div className="flex justify-between text-lg font-bold pt-1">
                 <span className="text-[var(--theme-text)] print:text-black">Grand Total</span>
                 <span className="bg-gradient-to-r from-[var(--theme-primary)] to-[var(--theme-secondary)] bg-clip-text text-transparent print:text-[var(--theme-primary)]">₹{grandTotal.toLocaleString('en-IN')}</span>
@@ -181,7 +181,7 @@ export default function AdminInvoice() {
             </div>
           </div>
 
-          <Separator className="my-6 bg-white/[0.08] print:bg-gray-200" />
+          <Separator className="my-6 bg-[var(--theme-border)] print:bg-gray-200" />
 
           {/* Terms */}
           {s.terms && (
@@ -191,7 +191,7 @@ export default function AdminInvoice() {
             </div>
           )}
 
-          <div className="text-center mt-8 text-xs text-white/30 print:text-gray-400">
+          <div className="text-center mt-8 text-xs text-[var(--theme-text-muted)] print:text-gray-400">
             <p>Thank you for shopping with {s.shop_name || 'ClothFasion'}!</p>
           </div>
         </CardContent>

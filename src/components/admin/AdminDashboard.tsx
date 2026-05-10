@@ -23,7 +23,7 @@ const PIE_COLORS = ['#28A745', 'var(--theme-primary)', '#FFC107', '#DC3545', '#6
 const DarkTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ name: string; value: number; color?: string }>; label?: string }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-[var(--theme-card)] border border-white/10 rounded-xl px-4 py-3 shadow-xl">
+    <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-xl px-4 py-3 shadow-xl">
       {label && <p className="text-xs text-[var(--theme-text-muted)] mb-1.5">{label}</p>}
       {payload.map((item, i) => (
         <p key={i} className="text-sm text-[var(--theme-text)] font-medium">
@@ -71,7 +71,7 @@ const StatusPie = ({ data }: { data: { name: string; value: number; color: strin
 
 /* ---------- Skeleton ---------- */
 const DarkSkeleton = ({ className }: { className?: string }) => (
-  <div className={`animate-pulse bg-white/5 rounded-xl ${className ?? ''}`} />
+  <div className={`animate-pulse bg-[var(--theme-surface)] rounded-xl ${className ?? ''}`} />
 );
 
 /* ---------- Main Component ---------- */
@@ -117,14 +117,14 @@ export default function AdminDashboard() {
       <div className="space-y-6">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-5">
+            <div key={i} className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-5">
               <DarkSkeleton className="h-24 w-full" />
             </div>
           ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {[...Array(2)].map((_, i) => (
-            <div key={i} className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
+            <div key={i} className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-6">
               <DarkSkeleton className="h-72 w-full" />
             </div>
           ))}
@@ -143,7 +143,7 @@ export default function AdminDashboard() {
           return (
             <div
               key={kpi.label}
-              className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-5 hover:bg-white/[0.03] transition-colors"
+              className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-5 hover:bg-[var(--theme-surface)] transition-colors"
             >
               <div className="flex items-start justify-between">
                 <div className="space-y-2">
@@ -154,7 +154,7 @@ export default function AdminDashboard() {
                       : kpi.value.toLocaleString('en-IN')}
                   </p>
                 </div>
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/5">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-[var(--theme-surface)]">
                   <Icon className="h-5 w-5 text-[var(--theme-text-muted)]" />
                 </div>
               </div>
@@ -177,7 +177,7 @@ export default function AdminDashboard() {
       {/* ===== Charts Row ===== */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Revenue Trend */}
-        <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
+        <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-6">
           <h3 className="text-base font-semibold text-[var(--theme-text)] mb-5">Revenue Trend</h3>
           {revenueData.length > 0 ? (
             <ResponsiveContainer width="100%" height={260}>
@@ -221,7 +221,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Order Status Distribution */}
-        <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
+        <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-6">
           <h3 className="text-base font-semibold text-[var(--theme-text)] mb-5">Order Status</h3>
           <StatusPie data={orderStatusData} />
         </div>
@@ -230,12 +230,12 @@ export default function AdminDashboard() {
       {/* ===== Bottom Row ===== */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Top Selling Products */}
-        <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
+        <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-6">
           <h3 className="text-base font-semibold text-[var(--theme-text)] mb-4">Top Selling Products</h3>
           <div className="overflow-x-auto max-h-96 overflow-y-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-[var(--theme-text-muted)] border-b border-white/[0.06]">
+                <tr className="text-left text-[var(--theme-text-muted)] border-b border-[var(--theme-border)]">
                   <th className="pb-3 font-medium">#</th>
                   <th className="pb-3 font-medium">Product</th>
                   <th className="pb-3 font-medium text-right">Units</th>
@@ -246,9 +246,9 @@ export default function AdminDashboard() {
                 {data?.topProducts?.map((p, i) => (
                   <tr
                     key={i}
-                    className="border-b border-white/[0.04] last:border-0 hover:bg-white/5 transition-colors"
+                    className="border-b border-[var(--theme-border)] last:border-0 hover:bg-[var(--theme-surface)] transition-colors"
                   >
-                    <td className="py-3 text-white/40">{i + 1}</td>
+                    <td className="py-3 text-[var(--theme-text-muted)]">{i + 1}</td>
                     <td className="py-3 font-medium text-[var(--theme-text)] max-w-[160px] truncate">
                       {p.product_name}
                     </td>
@@ -266,7 +266,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Top Categories */}
-        <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
+        <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-6">
           <h3 className="text-base font-semibold text-[var(--theme-text)] mb-5">Top Categories</h3>
           {categoryData.length > 0 ? (
             <ResponsiveContainer width="100%" height={220}>
@@ -316,7 +316,7 @@ export default function AdminDashboard() {
               {lowStock.map((p, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between py-2.5 px-4 rounded-xl bg-white/[0.03] hover:bg-white/5 transition-colors"
+                  className="flex items-center justify-between py-2.5 px-4 rounded-xl bg-[var(--theme-surface)] hover:bg-[var(--theme-surface)] transition-colors"
                 >
                   <div className="flex items-center gap-2.5">
                     <div className="w-2 h-2 rounded-full bg-[#DC3545]" />

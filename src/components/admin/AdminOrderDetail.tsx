@@ -88,20 +88,20 @@ export default function AdminOrderDetail() {
   if (loading) {
     return (
       <div className="space-y-5">
-        <Skeleton className="h-10 w-40 bg-white/5 rounded-xl" />
-        <Skeleton className="h-28 w-full bg-white/5 rounded-2xl" />
+        <Skeleton className="h-10 w-40 bg-[var(--theme-surface)] rounded-xl" />
+        <Skeleton className="h-28 w-full bg-[var(--theme-surface)] rounded-2xl" />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <Skeleton className="h-48 bg-white/5 rounded-2xl" />
-          <Skeleton className="h-48 bg-white/5 rounded-2xl" />
+          <Skeleton className="h-48 bg-[var(--theme-surface)] rounded-2xl" />
+          <Skeleton className="h-48 bg-[var(--theme-surface)] rounded-2xl" />
         </div>
-        <Skeleton className="h-40 w-full bg-white/5 rounded-2xl" />
+        <Skeleton className="h-40 w-full bg-[var(--theme-surface)] rounded-2xl" />
       </div>
     );
   }
 
   if (!data) {
     return (
-      <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-16 text-center">
+      <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-16 text-center">
         <p className="text-[var(--theme-text-muted)]">Order not found</p>
       </div>
     );
@@ -117,12 +117,12 @@ export default function AdminOrderDetail() {
   return (
     <div className="space-y-5">
       {/* Back */}
-      <Button variant="ghost" onClick={goBack} className="gap-2 text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] hover:bg-white/10 transition-colors">
+      <Button variant="ghost" onClick={goBack} className="gap-2 text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surface)] transition-colors">
         <ArrowLeft className="h-4 w-4" /> Back to Orders
       </Button>
 
       {/* Order Info Bar */}
-      <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
+      <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <div className="flex items-center gap-2.5 flex-wrap">
@@ -135,7 +135,7 @@ export default function AdminOrderDetail() {
             </div>
             <div className="flex items-center gap-3 mt-2 text-sm text-[var(--theme-text-muted)]">
               <span>{o.created_at ? new Date(o.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }) : ''}</span>
-              <span className="text-white/20">•</span>
+              <span className="text-[var(--theme-text-muted)]">•</span>
               <span>{o.payment_method || 'COD'}</span>
             </div>
           </div>
@@ -145,7 +145,7 @@ export default function AdminOrderDetail() {
       {/* Two Columns */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Customer Info */}
-        <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
+        <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-6">
           <h3 className="text-xs font-medium text-[var(--theme-text-muted)] uppercase tracking-wider mb-4">Customer Information</h3>
           <div className="space-y-2.5">
             <p className="font-medium text-[var(--theme-text)] text-base">{c?.first_name} {c?.last_name || ''}</p>
@@ -156,12 +156,12 @@ export default function AdminOrderDetail() {
         </div>
 
         {/* Items */}
-        <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
+        <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-6">
           <h3 className="text-xs font-medium text-[var(--theme-text-muted)] uppercase tracking-wider mb-4">Order Items ({items.length})</h3>
           <div className="overflow-x-auto max-h-[320px] overflow-y-auto">
             <Table>
               <TableHeader>
-                <TableRow className="hover:bg-transparent border-b border-white/[0.08]">
+                <TableRow className="hover:bg-transparent border-b border-[var(--theme-border)]">
                   <TableHead className="font-medium text-[var(--theme-text-muted)] text-xs uppercase tracking-wider">Item</TableHead>
                   <TableHead className="font-medium text-[var(--theme-text-muted)] text-xs uppercase tracking-wider text-right">Qty</TableHead>
                   <TableHead className="font-medium text-[var(--theme-text-muted)] text-xs uppercase tracking-wider text-right">Total</TableHead>
@@ -169,15 +169,15 @@ export default function AdminOrderDetail() {
               </TableHeader>
               <TableBody>
                 {items.map((item) => (
-                  <TableRow key={item.id} className="border-b border-white/[0.04] hover:bg-white/5 transition-colors">
+                  <TableRow key={item.id} className="border-b border-white/[0.04] hover:bg-[var(--theme-surface)] transition-colors">
                     <TableCell>
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/[0.06] overflow-hidden flex-shrink-0">
+                        <div className="w-10 h-10 rounded-lg bg-[var(--theme-surface)] border border-[var(--theme-border)] overflow-hidden flex-shrink-0">
                           {item.product_image ? (
                             <img src={item.product_image} alt="" className="w-full h-full object-cover" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center">
-                              <Package className="h-4 w-4 text-white/20" />
+                              <Package className="h-4 w-4 text-[var(--theme-text-muted)]" />
                             </div>
                           )}
                         </div>
@@ -198,7 +198,7 @@ export default function AdminOrderDetail() {
       </div>
 
       {/* Total Breakdown */}
-      <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
+      <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-6">
         <div className="max-w-xs ml-auto space-y-3">
           <div className="flex justify-between text-sm">
             <span className="text-[var(--theme-text-muted)]">Subtotal</span>
@@ -223,15 +223,15 @@ export default function AdminOrderDetail() {
       </div>
 
       {/* Actions */}
-      <div className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
+      <div className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-6">
         <div className="flex flex-col sm:flex-row gap-3">
           <Select value={newStatus} onValueChange={setNewStatus}>
-            <SelectTrigger className="w-full sm:w-[200px] bg-white/5 border-white/10 text-[var(--theme-text)] rounded-xl h-10 focus:ring-white/20">
+            <SelectTrigger className="w-full sm:w-[200px] bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] rounded-xl h-10 focus:ring-[var(--theme-border)]">
               <SelectValue placeholder="Update Status" />
             </SelectTrigger>
-            <SelectContent className="bg-[var(--theme-card)] border border-white/10 rounded-xl">
+            <SelectContent className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-xl">
               {STATUS_OPTIONS.map((s) => (
-                <SelectItem key={s} value={s} className="text-[var(--theme-text)] focus:bg-white/10 focus:text-[var(--theme-text)]">{s}</SelectItem>
+                <SelectItem key={s} value={s} className="text-[var(--theme-text)] focus:bg-[var(--theme-surface-hover)] focus:text-[var(--theme-text)]">{s}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -244,7 +244,7 @@ export default function AdminOrderDetail() {
           </Button>
           <Button
             variant="outline"
-            className="gap-2 bg-white/5 border-white/10 text-[var(--theme-text)] hover:bg-white/10 rounded-xl"
+            className="gap-2 bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] hover:bg-[var(--theme-surface)] rounded-xl"
             onClick={() => navigate('invoice', { id: o.id })}
           >
             <Printer className="h-4 w-4" /> Print Invoice
@@ -263,7 +263,7 @@ export default function AdminOrderDetail() {
 
       {/* Cancel Dialog */}
       <Dialog open={cancelOpen} onOpenChange={setCancelOpen}>
-        <DialogContent className="max-w-md bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl p-6">
+        <DialogContent className="max-w-md bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl p-6">
           <DialogHeader>
             <DialogTitle className="text-[var(--theme-text)]">Cancel Order</DialogTitle>
           </DialogHeader>
@@ -274,14 +274,14 @@ export default function AdminOrderDetail() {
               onChange={(e) => setCancelReason(e.target.value)}
               placeholder="Reason for cancellation..."
               rows={3}
-              className="bg-white/5 border-white/10 text-[var(--theme-text)] placeholder:text-white/30 rounded-xl focus-visible:ring-white/20 resize-none"
+              className="bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] rounded-xl focus-visible:ring-[var(--theme-border)] resize-none"
             />
           </div>
           <DialogFooter className="gap-2 sm:gap-0">
             <Button
               variant="outline"
               onClick={() => setCancelOpen(false)}
-              className="bg-white/5 border-white/10 text-[var(--theme-text)] hover:bg-white/10 rounded-xl"
+              className="bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] hover:bg-[var(--theme-surface)] rounded-xl"
             >
               Keep Order
             </Button>

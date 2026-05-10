@@ -44,10 +44,10 @@ export default function AdminSettings() {
       </div>
 
       {/* General Settings */}
-      <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl overflow-hidden">
+      <Card className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl overflow-hidden">
         <CardContent className="p-0">
           <div className="flex items-center gap-3 px-6 py-5">
-            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-[var(--theme-surface)] flex items-center justify-center">
               <Settings className="h-5 w-5 text-[var(--theme-text-muted)]" />
             </div>
             <div>
@@ -56,14 +56,14 @@ export default function AdminSettings() {
             </div>
           </div>
 
-          <Separator className="bg-white/[0.05]" />
+          <Separator className="bg-[var(--theme-border)]" />
 
-          <div className="divide-y divide-white/[0.05]">
+          <div className="divide-y divide-[var(--theme-border)]">
             {settingItems.map((item, index) => (
               <div
                 key={index}
                 className={`flex items-center justify-between px-6 py-4 transition-colors ${
-                  item.disabled ? 'opacity-40 cursor-not-allowed' : 'hover:bg-white/[0.03] cursor-pointer'
+                  item.disabled ? 'opacity-40 cursor-not-allowed' : 'hover:bg-[var(--theme-surface)] cursor-pointer'
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -73,7 +73,7 @@ export default function AdminSettings() {
                     <p className="text-xs text-[var(--theme-text-muted)] mt-0.5">{item.description}</p>
                   </div>
                 </div>
-                <ChevronRight className="h-4 w-4 text-white/20" />
+                <ChevronRight className="h-4 w-4 text-[var(--theme-text-muted)]" />
               </div>
             ))}
           </div>
@@ -81,7 +81,7 @@ export default function AdminSettings() {
       </Card>
 
       {/* Account Settings */}
-      <Card className="bg-[var(--theme-card)] border border-white/[0.08] rounded-2xl overflow-hidden">
+      <Card className="bg-[var(--theme-card)] border border-[var(--theme-border)] rounded-2xl overflow-hidden">
         <CardContent className="p-0">
           <div className="flex items-center gap-3 px-6 py-5">
             <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
@@ -93,7 +93,7 @@ export default function AdminSettings() {
             </div>
           </div>
 
-          <Separator className="bg-white/[0.05]" />
+          <Separator className="bg-[var(--theme-border)]" />
 
           <div className="px-6 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
