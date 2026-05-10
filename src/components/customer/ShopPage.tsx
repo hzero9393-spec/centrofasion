@@ -315,7 +315,7 @@ export default function ShopPage() {
       {activeFilterCount > 0 && (
         <button
           onClick={clearFilters}
-          className="text-sm text-[#DC3545] font-medium hover:underline mt-2"
+          className="text-sm text-[var(--destructive)] font-medium hover:underline mt-2"
         >
           Clear All Filters
         </button>
@@ -439,7 +439,7 @@ export default function ShopPage() {
             <div className="flex items-center justify-between mb-5">
               <h3 className="font-bold text-lg text-[var(--theme-text)]">Filters</h3>
               {activeFilterCount > 0 && (
-                <button onClick={clearFilters} className="text-sm text-[#DC3545] font-medium hover:underline">
+                <button onClick={clearFilters} className="text-sm text-[var(--destructive)] font-medium hover:underline">
                   Clear All
                 </button>
               )}

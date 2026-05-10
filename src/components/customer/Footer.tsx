@@ -20,16 +20,16 @@ export default function Footer() {
   ];
 
   const supportLinks = [
-    { label: 'FAQ', action: () => {} },
-    { label: 'Returns & Exchange', action: () => {} },
-    { label: 'Contact Us', action: () => {} },
-    { label: 'Track Order', action: () => {} },
+    { label: 'FAQ', action: () => navigate('faq') },
+    { label: 'Returns & Exchange', action: () => navigate('returns') },
+    { label: 'Contact Us', action: () => navigate('contact') },
+    { label: 'Track Order', action: () => navigate('track-order') },
   ];
 
   const policyLinks = [
-    { label: 'Privacy Policy', action: () => {} },
-    { label: 'Terms of Service', action: () => {} },
-    { label: 'Shipping Policy', action: () => {} },
+    { label: 'Privacy Policy', action: () => navigate('privacy') },
+    { label: 'Terms of Service', action: () => navigate('terms') },
+    { label: 'Shipping Policy', action: () => navigate('shipping') },
   ];
 
   const handleApplyTheme = (themeId: string, themeName: string) => {

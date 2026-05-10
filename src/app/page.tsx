@@ -13,6 +13,7 @@ import CartPage from '@/components/customer/CartPage';
 import CheckoutPage from '@/components/customer/CheckoutPage';
 import { AuthModal } from '@/components/customer/AuthPages';
 import ProfilePage from '@/components/customer/ProfilePage';
+import { SupportPage, FAQPage, ReturnsPage, ContactPage, TrackOrderPage, PrivacyPage, TermsPage, ShippingPage } from '@/components/customer/InfoPages';
 
 export default function Home() {
   const { currentPage } = useNavigation();
@@ -40,6 +41,22 @@ export default function Home() {
         return <CheckoutPage />;
       case 'profile':
         return <ProfilePage />;
+      case 'support':
+        return <SupportPage />;
+      case 'faq':
+        return <FAQPage />;
+      case 'returns':
+        return <ReturnsPage />;
+      case 'contact':
+        return <ContactPage />;
+      case 'track-order':
+        return <TrackOrderPage />;
+      case 'privacy':
+        return <PrivacyPage />;
+      case 'terms':
+        return <TermsPage />;
+      case 'shipping':
+        return <ShippingPage />;
       case 'login':
       case 'signup':
         return <HomePage />;

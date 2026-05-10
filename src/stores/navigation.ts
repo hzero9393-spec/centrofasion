@@ -3,6 +3,7 @@ import { create } from 'zustand';
 export type Page = 
   | 'home' | 'shop' | 'product' | 'cart' | 'checkout' | 'login' | 'signup' | 'profile'
   | 'order-success'
+  | 'faq' | 'returns' | 'contact' | 'track-order' | 'privacy' | 'terms' | 'shipping' | 'support'
   | 'admin-login' | 'admin-dashboard' | 'admin-products' | 'admin-categories'
   | 'admin-customers' | 'admin-orders' | 'admin-returns' | 'admin-reports'
   | 'admin-invoice' | 'admin-profile' | 'admin-settings' | 'admin-customer-detail'
@@ -39,7 +40,8 @@ function getParamsFromURL(): Record<string, string> {
 function isValidPage(page: string): boolean {
   const validPages: string[] = [
     'home', 'shop', 'product', 'cart', 'checkout', 'login', 'signup', 'profile',
-    'order-success', 'admin-login', 'admin-dashboard', 'admin-products', 'admin-categories',
+    'order-success', 'faq', 'returns', 'contact', 'track-order', 'privacy', 'terms', 'shipping', 'support',
+    'admin-login', 'admin-dashboard', 'admin-products', 'admin-categories',
     'admin-customers', 'admin-orders', 'admin-returns', 'admin-reports',
     'admin-invoice', 'admin-profile', 'admin-settings', 'admin-customer-detail',
     'admin-order-detail',
