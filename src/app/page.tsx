@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useNavigation } from '@/stores/navigation';
-import { useAuth } from '@/stores/auth';
 import Header from '@/components/customer/Header';
 import MobileNav from '@/components/customer/MobileNav';
 import Footer from '@/components/customer/Footer';
@@ -11,19 +10,11 @@ import ShopPage from '@/components/customer/ShopPage';
 import ProductDetailPage from '@/components/customer/ProductDetailPage';
 import CartPage from '@/components/customer/CartPage';
 import CheckoutPage from '@/components/customer/CheckoutPage';
-import { AuthModal } from '@/components/customer/AuthPages';
 import ProfilePage from '@/components/customer/ProfilePage';
 import { SupportPage, FAQPage, ReturnsPage, ContactPage, TrackOrderPage, PrivacyPage, TermsPage, ShippingPage } from '@/components/customer/InfoPages';
 
 export default function Home() {
   const { currentPage } = useNavigation();
-  const { isCustomerLoggedIn } = useAuth();
-  const isAuthPage = currentPage === 'login' || currentPage === 'signup';
-  const authOpen = isAuthPage && !isCustomerLoggedIn();
-
-  const handleAuthClose = (_open: boolean) => {
-    // When modal closes, stay on current page
-  };
 
   const renderCustomerPage = () => {
     switch (currentPage) {
@@ -73,7 +64,6 @@ export default function Home() {
       </main>
       <Footer />
       <MobileNav />
-      <AuthModal open={authOpen} onOpenChange={handleAuthClose} />
     </div>
   );
 }
