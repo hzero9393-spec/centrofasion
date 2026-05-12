@@ -187,23 +187,15 @@ export function AuthModal({ open, onOpenChange }: AuthPagesProps) {
             <DialogTitle>{tab === 'login' ? 'Login' : 'Create Account'}</DialogTitle>
           </DialogHeader>
 
-          {/* Control buttons - minimize and close */}
-          <div className="absolute top-2 right-2 flex gap-2 z-[100]">
+          {/* Minimize button */}
+          <div className="absolute top-2 right-2 z-[100]">
             <button
               type="button"
               onClick={() => setMinimized(true)}
-              className="w-9 h-9 rounded-full bg-[var(--theme-surface)] hover:bg-[var(--theme-surface-hover)] text-[var(--theme-text-muted)] hover:text-[var(--theme-text)] border border-[var(--theme-border)] flex items-center justify-center transition-all hover:scale-110 cursor-pointer"
+              className="w-9 h-9 rounded-full bg-[var(--theme-primary)] hover:bg-[var(--theme-secondary)] text-white flex items-center justify-center transition-all hover:scale-110 cursor-pointer shadow-md"
               title="Minimize"
             >
               <Minimize2 className="size-4" strokeWidth={2.5} />
-            </button>
-            <button
-              type="button"
-              onClick={() => onOpenChange(false)}
-              className="w-9 h-9 rounded-full bg-[#F87171] hover:bg-[#EF4444] text-white border border-white flex items-center justify-center transition-all hover:scale-110 cursor-pointer shadow-md"
-              title="Close"
-            >
-              <X className="size-4" strokeWidth={2.5} />
             </button>
           </div>
 
