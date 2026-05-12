@@ -50,5 +50,11 @@ test
 prompt
 
 server.log
+
+# Uploaded images (keep directory, ignore files)
+public/uploads/*
+!public/uploads/.gitkeep
+!public/uploads/README.md
+
 # Skills directory
 /skills/

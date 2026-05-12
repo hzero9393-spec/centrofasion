@@ -23,7 +23,7 @@ import {
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow
 } from '@/components/ui/table';
-import { Plus, Search, Pencil, Trash2, ChevronLeft, ChevronRight, Package } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, ChevronLeft, ChevronRight, Package, Upload, X, Image as ImageIcon } from 'lucide-react';
 
 const ALL_SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'Free'];
 
@@ -53,6 +53,8 @@ export default function AdminProducts() {
   const [editId, setEditId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [form, setForm] = useState(emptyProduct);
 
   const fetchProducts = useCallback(async () => {
@@ -104,6 +106,7 @@ export default function AdminProducts() {
   const openAdd = () => {
     setEditId(null);
     setForm(emptyProduct);
+    setSelectedImages([]);
     setDialogOpen(true);
   };
 
@@ -115,7 +118,49 @@ export default function AdminProducts() {
       sizes: p.sizes || [], colors: (p.colors || []).join(', '), images: (p.images || []).join(', '),
       category_id: p.category_id || '', featured: p.featured,
     });
+    setSelectedImages(p.images || []);
     setDialogOpen(true);
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    if (selectedImages.length + files.length > 4) {
+      toast.error('Maximum 4 images allowed');
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
+      }
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Upload failed');
+      }
+
+      setSelectedImages([...selectedImages, ...data.urls]);
+      toast.success('Images uploaded successfully');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to upload images');
+    }
+    setUploading(false);
+    // Reset file input
+    e.target.value = '';
+  };
+
+  const removeImage = (index: number) => {
+    setSelectedImages(selectedImages.filter((_, i) => i !== index));
   };
 
   const handleSave = async () => {
@@ -124,7 +169,7 @@ export default function AdminProducts() {
     try {
       const sizesArr = form.sizes;
       const colorsArr = form.colors.split(',').map((c) => c.trim()).filter(Boolean);
-      const imagesArr = form.images.split(',').map((c) => c.trim()).filter(Boolean);
+      const imagesArr = selectedImages.length > 0 ? selectedImages : [];
       const body = {
         name: form.name, description: form.description, price: Number(form.price),
         wholesale_price: Number(form.wholesale_price) || null, stock: Number(form.stock),
@@ -400,13 +445,84 @@ export default function AdminProducts() {
               />
             </div>
             <div className="grid gap-2">
-              <Label className="text-[var(--theme-text-muted)]">Images (comma-separated URLs)</Label>
-              <Input
-                value={form.images}
-                onChange={(e) => setForm({ ...form, images: e.target.value })}
-                placeholder="https://example.com/img1.jpg, https://..."
-                className="bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] focus:border-[var(--theme-primary)] rounded-xl"
-              />
+              <Label className="text-[var(--theme-text-muted)]">Product Images (Maximum 4)</Label>
+
+              {/* Upload Button */}
+              <div className="flex items-center gap-3">
+                <label className="flex-1">
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+                    onChange={handleImageUpload}
+                    disabled={uploading || selectedImages.length >= 4}
+                    className="hidden"
+                  />
+                  <div className="flex items-center justify-center gap-2 px-4 py-3 bg-[var(--theme-surface)] border-2 border-dashed border-[var(--theme-border)] rounded-xl cursor-pointer hover:border-[var(--theme-primary)] hover:bg-[var(--theme-surface-hover)] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                    <Upload className="h-4 w-4 text-[var(--theme-text-muted)]" />
+                    <span className="text-sm text-[var(--theme-text-muted)]">
+                      {uploading ? 'Uploading...' : selectedImages.length >= 4 ? 'Maximum 4 images' : 'Click to upload images'}
+                    </span>
+                  </div>
+                </label>
+                {selectedImages.length > 0 && (
+                  <span className="text-xs text-[var(--theme-text-muted)]">{selectedImages.length}/4 uploaded</span>
+                )}
+              </div>
+
+              {/* Image Previews */}
+              {selectedImages.length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-2">
+                  {selectedImages.map((url, index) => (
+                    <div key={index} className="relative group aspect-square">
+                      <img
+                        src={url}
+                        alt={`Product image ${index + 1}`}
+                        className="w-full h-full object-cover rounded-xl border border-[var(--theme-border)]"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="absolute top-1 right-1 p-1.5 bg-[#F87171] hover:bg-[#EF4444] text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                      <span className="absolute bottom-1 left-1 px-1.5 py-0.5 bg-black/60 text-white text-[10px] rounded">
+                        {index + 1}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Empty State */}
+              {selectedImages.length === 0 && (
+                <div className="flex items-center justify-center py-6 border border-dashed border-[var(--theme-border)] rounded-xl">
+                  <div className="text-center">
+                    <ImageIcon className="h-8 w-8 mx-auto text-[var(--theme-text-muted)] mb-2" />
+                    <p className="text-sm text-[var(--theme-text-muted)]">No images uploaded yet</p>
+                    <p className="text-xs text-[var(--theme-text-muted)] mt-1">Upload up to 4 images (JPG, PNG, WebP)</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Or Manual URL Entry */}
+              <div className="mt-3 pt-3 border-t border-[var(--theme-border)]">
+                <label className="text-xs text-[var(--theme-text-muted)] mb-1.5 block">Or paste image URLs (comma-separated):</label>
+                <Input
+                  value={form.images}
+                  onChange={(e) => {
+                    setForm({ ...form, images: e.target.value });
+                    // Parse URLs and add to selected images
+                    const urls = e.target.value.split(',').map(u => u.trim()).filter(Boolean);
+                    if (urls.length > 0) {
+                      setSelectedImages([...new Set([...selectedImages, ...urls])].slice(0, 4));
+                    }
+                  }}
+                  placeholder="https://example.com/img1.jpg, https://..."
+                  className="bg-[var(--theme-surface)] border-[var(--theme-border)] text-[var(--theme-text)] placeholder:text-[var(--theme-text-muted)] focus:border-[var(--theme-primary)] rounded-xl text-sm"
+                />
+              </div>
             </div>
             <div>
               <Label className="text-[var(--theme-text-muted)] mb-2 block">Sizes</Label>
